@@ -1,0 +1,2620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>566</width>
+    <height>540</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>551</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-859</y>
+      <width>532</width>
+      <height>2518</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QWidget" name="widget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>2500</height>
+        </size>
+       </property>
+       <widget class="QLineEdit" name="ValueCodCaixa">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>40</y>
+          <width>91</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCodCaixa">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>20</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código da caixa</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelLimpeza">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>20</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sequencia de Limpeza</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueLimpeza">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>40</y>
+          <width>91</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelData">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>20</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Data</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="RespValue">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>90</y>
+          <width>331</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="RespLabel">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>80</y>
+          <width>141</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Resonsável pela caixa </string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="EquipeAbertValue">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>130</y>
+          <width>331</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EquipeAbertLabel">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>130</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Equipe Envolvida na aberura</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="EquipeLimpValue">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>170</y>
+          <width>331</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EquipeLimpLabel">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>170</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Equipe envolvida na limpeza</string>
+        </property>
+       </widget>
+       <widget class="QDateEdit" name="ValueData_13">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>40</y>
+          <width>110</width>
+          <height>22</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>200</y>
+          <width>511</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MatLimpLabel">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>230</y>
+          <width>161</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Material e Limpeza&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CorCabeloLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>270</y>
+          <width>91</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Cor do cabelo</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCabeloCor">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>270</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CompCabeloLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>300</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Comprimentor do cabelo</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCompCabelo">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>300</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueRoupaMatLimp">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>330</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="RoupaLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>330</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Roupa</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueOutrosMatLimp">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>360</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MatLimpOutrosLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>360</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outros</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton">
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>430</y>
+          <width>82</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Com água</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_2">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>430</y>
+          <width>82</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>À seco</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="TipoLimpLabe">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>410</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Tipo de limpeza</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>460</y>
+          <width>511</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EstPreservOssosLabel">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>480</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Estado de preservação dos ossos&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AvaliacaoLabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>510</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Avaliação</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_7">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>530</y>
+          <width>82</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Regular</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_8">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>530</y>
+          <width>82</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Bom</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="radioButton_9">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>530</y>
+          <width>82</width>
+          <height>17</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ruim</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFungos">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>590</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUmidade">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>560</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UmidadeLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>560</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Umidade</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FungosLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>590</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Fungos Visíveis</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValuePIO">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>620</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PIOLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>620</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Pupas/Insetos/Outros</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueOPL">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>650</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="OPLLabel">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>650</y>
+          <width>131</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ossos previamente Limpos</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EstPreservOssosLabel_2">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>710</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Estado de preservação dos ossos&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_10">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>680</y>
+          <width>501</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SLHLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>750</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco Para Lixo 
+     Hospitalar</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSLH">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>760</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSA">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>810</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SALabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>800</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco de Algodão</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSTNT">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>860</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="STNTLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>850</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco de TNT</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSASFM">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>760</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="STPLabel">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>850</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco transparente
+         pequeno</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SPLLabel">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>800</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco Plástico de
+           Lixo</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSTP">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>860</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SASFMLabel">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>750</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Saco Azul do SFM</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSPL">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>810</y>
+          <width>131</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueObsEPO">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>940</y>
+          <width>321</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EPOObsLabel">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>940</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Observações</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EPOOutrosLabel">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>910</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outros</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEPOOutros">
+        <property name="geometry">
+         <rect>
+          <x>131</x>
+          <y>910</y>
+          <width>321</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MatIDLabel">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1010</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Material para identificação&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_14">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>980</y>
+          <width>511</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueQtdeAM">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>1100</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AMQtde">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCodAM">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>1100</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AMCod">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>1090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AMLabel">
+        <property name="geometry">
+         <rect>
+          <x>-80</x>
+          <y>1070</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Argolas de metal&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueLocAM">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>1100</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AMEst">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>1090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Estado</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AMLoc">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEstAM">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>1100</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueQtdeSFM">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>1180</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SFMcod">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>1170</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SFMLabel">
+        <property name="geometry">
+         <rect>
+          <x>-80</x>
+          <y>1150</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Etiquetas do SFM&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SFMQtde">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1170</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEstSFM">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>1180</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueLocSFM">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>1180</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SFMLoc">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1170</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCodSFM">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>1180</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SFMEst">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>1170</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Estado</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UNICAMPLocLabel">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1250</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCodUNICAMP">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>1260</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEstUNICAMP">
+        <property name="geometry">
+         <rect>
+          <x>440</x>
+          <y>1260</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UNICAMPCod">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>1250</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UNICAMPEst">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>1250</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Estado</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UNICAMPQtde">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1250</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueQtdeUNICAMP">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>1260</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UNICAMPLabel">
+        <property name="geometry">
+         <rect>
+          <x>-60</x>
+          <y>1230</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Etiquetas da UNICAMP&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueLocUNICAMP">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>1260</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MatIDOutrosLabel">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>1310</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Outros</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueMatIDOutros">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>1310</y>
+          <width>321</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNRD">
+        <property name="geometry">
+         <rect>
+          <x>150</x>
+          <y>1350</y>
+          <width>321</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NRDLabel">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>1340</y>
+          <width>161</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Numerações riscadas e/ou 
+  discordantes em sacos</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ContOsseoLabel">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1400</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Conteúdo Ósseo&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_27">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1370</y>
+          <width>511</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueER">
+        <property name="geometry">
+         <rect>
+          <x>324</x>
+          <y>1440</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNMI">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>1440</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NMILabel">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>1430</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>NMI</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ERLabel">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1430</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Elementos 
+ repetidos</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioQtde">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1530</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="COCranCodLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>1520</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioLabel">
+        <property name="geometry">
+         <rect>
+          <x>-60</x>
+          <y>1500</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Crânio&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioQtdeLabel">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>1520</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioLoc">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1530</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioLocLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1520</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioCod">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1530</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MandCodLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>1590</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MandLocLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1590</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueMandQtde">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1600</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueMandLoc">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1600</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueMandCod">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1600</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MandQtdeLabel">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>1590</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="MandLabel">
+        <property name="geometry">
+         <rect>
+          <x>-50</x>
+          <y>1570</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Mandíbula&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="HioideCodLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>1670</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="HioideLocLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1670</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueHioideQtde">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1680</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueHioideLoc">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1680</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueHioideCod">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1680</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="HioideQtdeLabel">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>1670</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="HioideLabel">
+        <property name="geometry">
+         <rect>
+          <x>-60</x>
+          <y>1650</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Hióide&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CodEsternoLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>1750</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LocEsternoLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1750</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEsternoQtde">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1760</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEsternoLoc">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1760</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEsternoCod">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1760</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="QtdeEsternoLabel">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>1750</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="EsternoLabel">
+        <property name="geometry">
+         <rect>
+          <x>-60</x>
+          <y>1730</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Esterno&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SacroLocLabel">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1820</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Localização</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SacroCodLabel">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>1820</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSacroCod">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1830</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSacroQtde">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1830</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SacroQtdeLabel">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>1820</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Quantidade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSacroLoc">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1830</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="SacroLabel">
+        <property name="geometry">
+         <rect>
+          <x>-60</x>
+          <y>1800</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Sacro&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_28">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1860</y>
+          <width>511</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioLabel_2">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>1920</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Crânio&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>1890</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>1920</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1890</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>1920</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCranioI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1920</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CranioELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>1890</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ClavDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>1940</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueClavE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>1970</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ClavILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1940</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueClavD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>1970</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ClavLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>1960</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Clavícula&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueClavI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1970</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ClavELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>1940</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UmeroDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>1990</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUmeroE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2020</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UmeroILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>1990</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUmeroD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2020</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UmeroLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2020</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Úmero&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUmeroI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2020</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UmeroELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>1990</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UlnaDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2040</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUlnaE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2070</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UlnaILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2040</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUlnaD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2070</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UlnaLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2070</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Ulna&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueUlnaI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2070</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="UlnaELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2040</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FemurDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFemurE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2120</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FemurILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFemurD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2120</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FemurLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2120</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Fêmur&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFemurI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2120</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FemurELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2090</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="TibiaDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2140</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueTibiaE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2170</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="TibiaILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2140</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueTibiaD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2170</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="TibiaLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2170</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Tíbia&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueTibiaI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2170</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="TibiaELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2140</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FibulaDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2190</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFibulaE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2220</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FibulaILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2190</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFibulaD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2220</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FibulaLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2220</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Fíbula&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFibulaI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2220</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="FibulaELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2190</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CoxalDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2240</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCoxalE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2270</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CoxalILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2240</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCoxalD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2270</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CoxalLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2260</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Coxal&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCoxalI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2270</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="CoxalELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2240</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PatelaDLabel">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2290</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>D</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValuePatelaE">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2320</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PatelaILabel">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2290</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>I</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValuePatelaD">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>2320</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PatelaLabel">
+        <property name="geometry">
+         <rect>
+          <x>-100</x>
+          <y>2310</y>
+          <width>281</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Patela&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValuePatelaI">
+        <property name="geometry">
+         <rect>
+          <x>250</x>
+          <y>2320</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="PatelaELabel">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>2290</y>
+          <width>61</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>E</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_29">
+        <property name="geometry">
+         <rect>
+          <x>320</x>
+          <y>1880</y>
+          <width>21</width>
+          <height>461</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NumDentesMaxilaLabel">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>1890</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Número de dentes 
+ presos na maxila</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNumDentesMaxila">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>1910</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NumDentesMandLabel">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>1940</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Número de dentes 
+presos na mandíbula</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNumDentesMand">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>1960</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="DentesSoltosLabel">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>2000</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Nº de dentes soltos
+</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueDentesSoltos">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2010</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNumOssicOuv">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2060</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="OssicOuvidLabel">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>2050</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Nº de ossículos de 
+          ouvido</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNumVertFrag">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2120</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NumVertFragLabel">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>2110</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>              Nº de 
+vértebras/fragmento</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueNumCostFrag">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2190</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="NumCostFragLabel">
+        <property name="geometry">
+         <rect>
+          <x>340</x>
+          <y>2180</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>              Nº de 
+costelas/fragmento</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="OssosMaoLabel">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>2230</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ossos da mão</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueOssosMao">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2250</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueOssosPe">
+        <property name="geometry">
+         <rect>
+          <x>450</x>
+          <y>2300</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QLabel" name="OssosPeLabel">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>2280</y>
+          <width>101</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ossos do pé</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ObsGeraisFinalLabel">
+        <property name="geometry">
+         <rect>
+          <x>-30</x>
+          <y>2360</y>
+          <width>601</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Observações gerais&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="textEdit">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>2400</y>
+          <width>481</width>
+          <height>71</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>510</y>
+     <width>131</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enviar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
