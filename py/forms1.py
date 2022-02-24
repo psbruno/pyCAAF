@@ -9,12 +9,11 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mysql.connector as connector
+from datetime import datetime
 
 
 class Ui_Dialog(object):
-    def inputsDB(self):
-        print(self.ValueCodCaixa.text())
-        return 0
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -702,7 +701,7 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.inputsDB)
+        self.pushButton.clicked.connect(self.send_data)
 
 
         self.retranslateUi(Dialog)
@@ -842,7 +841,40 @@ class Ui_Dialog(object):
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
 
+    def send_data(self):
+        db = connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            db="CAAF"
+        )
+        cursor = db.cursor()
 
+        idcaixa = 123
+        seq_limpeza = self.ValueLimpeza.text()
+        data = self.ValueData_13.text()
+        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
+        cod_caixa = self.ValueCodCaixa.text()
+        fk_limpeza = 1
+        avaliacao_preservacao_ossos = "sim"
+
+        cursor.execute(
+            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
+            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
+        )
+
+        cabelo_comprimento = self.ValueCompCabelo.text()
+        cabelo_cor = self.ValueCabeloCor.text()
+        roupa = self.ValueRoupaMatLimp.text()
+        outros = self.ValueOutrosMatLimp.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
+            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
+        )
+
+        db.commit()
+        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
 
 
 if __name__ == "__main__":
