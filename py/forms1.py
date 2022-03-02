@@ -13,6 +13,19 @@ import mysql.connector as connector
 from datetime import datetime
 
 
+def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+    cursor.execute(
+        "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
+        "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
+    )
+
+def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros):
+    cursor.execute(
+        "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros) " +
+        "VALUES ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
+                                                              localizacao, estado, NRD, outros)
+    )
+
 class Ui_Dialog(object):
 
     def setupUi(self, Dialog):
@@ -850,7 +863,7 @@ class Ui_Dialog(object):
         )
         cursor = db.cursor()
 
-        idcaixa = 123
+        idcaixa = 1234
         seq_limpeza = self.ValueLimpeza.text()
         data = self.ValueData_13.text()
         data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
@@ -872,6 +885,39 @@ class Ui_Dialog(object):
             "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
             "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
         )
+
+        local_est_preserv = 'Umidade: ' + self.ValueUmidade.text() +\
+                            ' Fungos: ' + self.ValueFungos.text() +\
+                            ' P.I.O ' + self.ValuePIO.text()
+        ossos_prev_limpos = self.ValueOPL.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_est_preserv(id_caixa,local_est_preserv,Ossos_prev_limpos) " +
+            "VALUES ({}, '{}', '{}');".format(idcaixa, local_est_preserv, ossos_prev_limpos)
+        )
+
+        outros = self.ValueEPOOutros.text()
+        obs = self.ValueObsEPO.text()
+
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
+
+        nrd = self.ValueNRD.text()
+        outros = self.ValueMatIDOutros.text()
+
+        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
+                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
+                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
+                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
+
 
         db.commit()
         QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
