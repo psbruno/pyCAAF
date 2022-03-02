@@ -714,7 +714,7 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.send_data)
+        self.pushButton.clicked.connect(self.insert_data_into_database)
 
 
         self.retranslateUi(Dialog)
@@ -854,7 +854,7 @@ class Ui_Dialog(object):
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
 
-    def send_data(self):
+    def insert_data_into_database(self):
         db = connector.connect(
             host="localhost",
             user="root",
@@ -863,7 +863,7 @@ class Ui_Dialog(object):
         )
         cursor = db.cursor()
 
-        idcaixa = 1234
+        idcaixa = 133333
         seq_limpeza = self.ValueLimpeza.text()
         data = self.ValueData_13.text()
         data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
@@ -918,6 +918,34 @@ class Ui_Dialog(object):
         insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
                                       self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
 
+        num_dentes_maxila = self.ValueNumDentesMaxila.text()
+        num_dentes_mandibula = self.ValueNumDentesMand.text()
+        ossic_ouvido = self.ValueNumOssicOuv.text()
+        num_dentes_soltos = self.ValueDentesSoltos.text()
+        num_vertebras_frag = self.ValueNumVertFrag.text()
+        num_costelas_frag = self.ValueNumCostFrag.text()
+        osso_mao = self.ValueOssosMao.text()
+        osso_pe = self.ValueOssosPe.text()
+        caixa_cod_caixa = cod_caixa
+        obsGerais = "Missing property"
+        # TODO - Include caixa_pessoa_cod_pessoa
+
+        cursor.execute(
+            "INSERT INTO conteudo_osso_info(idcaixa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
+            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
+            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
+                                                                              num_dentes_maxila,
+                                                                              num_dentes_mandibula,
+                                                                              ossic_ouvido,
+                                                                              num_dentes_soltos,
+                                                                              num_vertebras_frag,
+                                                                              num_costelas_frag,
+                                                                              osso_mao,
+                                                                              osso_pe,
+                                                                              caixa_cod_caixa,
+                                                                              obsGerais
+                                                                              )
+        )
 
         db.commit()
         QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
