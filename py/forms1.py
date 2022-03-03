@@ -28,8 +28,106 @@ def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qt
 
 class Ui_Dialog(object):
 
+
+    def insert_data_into_database(self):
+        db = connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            db="CAAF"
+        )
+        cursor = db.cursor()
+
+        idcaixa = 1323333
+        seq_limpeza = self.ValueLimpeza.text()
+        data = self.ValueData_13.text()
+        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
+        cod_caixa = self.ValueCodCaixa.text()
+        fk_limpeza = 1
+        avaliacao_preservacao_ossos = "sim"
+
+        cursor.execute(
+            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
+            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
+        )
+
+        cabelo_comprimento = self.ValueCompCabelo.text()
+        cabelo_cor = self.ValueCabeloCor.text()
+        roupa = self.ValueRoupaMatLimp.text()
+        outros = self.ValueOutrosMatLimp.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
+            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
+        )
+
+        local_est_preserv = 'Umidade: ' + self.ValueUmidade.text() +\
+                            ' Fungos: ' + self.ValueFungos.text() +\
+                            ' P.I.O ' + self.ValuePIO.text()
+        ossos_prev_limpos = self.ValueOPL.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_est_preserv(id_caixa,local_est_preserv,Ossos_prev_limpos) " +
+            "VALUES ({}, '{}', '{}');".format(idcaixa, local_est_preserv, ossos_prev_limpos)
+        )
+
+        outros = self.ValueEPOOutros.text()
+        obs = self.ValueObsEPO.text()
+
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
+
+        nrd = self.ValueNRD.text()
+        outros = self.ValueMatIDOutros.text()
+
+        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
+                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
+                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
+                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
+
+        num_dentes_maxila = self.ValueNumDentesMaxila.text()
+        num_dentes_mandibula = self.ValueNumDentesMand.text()
+        ossic_ouvido = self.ValueNumOssicOuv.text()
+        num_dentes_soltos = self.ValueDentesSoltos.text()
+        num_vertebras_frag = self.ValueNumVertFrag.text()
+        num_costelas_frag = self.ValueNumCostFrag.text()
+        osso_mao = self.ValueOssosMao.text()
+        osso_pe = self.ValueOssosPe.text()
+        caixa_cod_caixa = cod_caixa
+        obs_gerais = self.textEdit.toPlainText()
+
+        cursor.execute(
+            "INSERT INTO conteudo_osso_info(idcaixa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
+            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
+            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
+                                                                                  idcaixa,
+                                                                                  num_dentes_maxila,
+                                                                                  num_dentes_mandibula,
+                                                                                  ossic_ouvido,
+                                                                                  num_dentes_soltos,
+                                                                                  num_vertebras_frag,
+                                                                                  num_costelas_frag,
+                                                                                  osso_mao,
+                                                                                  osso_pe,
+                                                                                  caixa_cod_caixa,
+                                                                                  obs_gerais
+                                                                                  )
+        )
+
+        db.commit()
+        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
+
+
     def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
+        Dialog.setObjectName("Forms1")
         Dialog.resize(566, 540)
         self.scrollArea = QtWidgets.QScrollArea(Dialog)
         self.scrollArea.setGeometry(QtCore.QRect(10, 20, 551, 481))
@@ -113,15 +211,19 @@ class Ui_Dialog(object):
         self.MatLimpOutrosLabel = QtWidgets.QLabel(self.widget)
         self.MatLimpOutrosLabel.setGeometry(QtCore.QRect(100, 360, 121, 16))
         self.MatLimpOutrosLabel.setObjectName("MatLimpOutrosLabel")
+        self.gb = QtWidgets.QGroupBox('G1')      
         self.radioButton = QtWidgets.QRadioButton(self.widget)
         self.radioButton.setGeometry(QtCore.QRect(160, 430, 82, 17))
         self.radioButton.setObjectName("radioButton")
         self.radioButton_2 = QtWidgets.QRadioButton(self.widget)
         self.radioButton_2.setGeometry(QtCore.QRect(280, 430, 82, 17))
         self.radioButton_2.setObjectName("radioButton_2")
-        self.TipoLimpLabe = QtWidgets.QLabel(self.widget)
-        self.TipoLimpLabe.setGeometry(QtCore.QRect(210, 410, 131, 16))
-        self.TipoLimpLabe.setObjectName("TipoLimpLabe")
+        self.group = QtWidgets.QButtonGroup(self.gb)
+        self.group.addButton(self.radioButton)
+        self.group.addButton(self.radioButton_2)        
+        self.TipoLimpLabel = QtWidgets.QLabel(self.widget)
+        self.TipoLimpLabel.setGeometry(QtCore.QRect(210, 410, 131, 16))
+        self.TipoLimpLabel.setObjectName("TipoLimpLabel")
         self.line_3 = QtWidgets.QFrame(self.widget)
         self.line_3.setGeometry(QtCore.QRect(0, 460, 511, 41))
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
@@ -142,6 +244,11 @@ class Ui_Dialog(object):
         self.radioButton_9 = QtWidgets.QRadioButton(self.widget)
         self.radioButton_9.setGeometry(QtCore.QRect(360, 530, 82, 17))
         self.radioButton_9.setObjectName("radioButton_9")
+        self.group2 = QtWidgets.QButtonGroup(self.gb)
+        self.group.addButton(self.radioButton_7)
+        self.group.addButton(self.radioButton_8)   
+        self.group.addButton(self.radioButton_9)   
+
         self.ValueFungos = QtWidgets.QLineEdit(self.widget)
         self.ValueFungos.setGeometry(QtCore.QRect(240, 590, 201, 20))
         self.ValueFungos.setText("")
@@ -736,8 +843,8 @@ class Ui_Dialog(object):
         self.MatLimpOutrosLabel.setText(_translate("Dialog", "Outros"))
         self.radioButton.setText(_translate("Dialog", "Com água"))
         self.radioButton_2.setText(_translate("Dialog", "À seco"))
-        self.TipoLimpLabe.setText(_translate("Dialog", "Tipo de limpeza"))
-        self.EstPreservOssosLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Estado de preservação dos ossos</span></p><p align=\"center\"><br/></p></body></html>"))
+        self.TipoLimpLabel.setText(_translate("Dialog", "Tipo de limpeza"))
+        self.EstPreservOssosLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Material para acondicionamento</span></p><p align=\"center\"><br/></p></body></html>"))
         self.AvaliacaoLabel.setText(_translate("Dialog", "Avaliação"))
         self.radioButton_7.setText(_translate("Dialog", "Regular"))
         self.radioButton_8.setText(_translate("Dialog", "Bom"))
@@ -853,103 +960,6 @@ class Ui_Dialog(object):
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
-
-    def insert_data_into_database(self):
-        db = connector.connect(
-            host="localhost",
-            user="root",
-            password="root",
-            db="CAAF"
-        )
-        cursor = db.cursor()
-
-        idcaixa = 133333
-        seq_limpeza = self.ValueLimpeza.text()
-        data = self.ValueData_13.text()
-        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
-        cod_caixa = self.ValueCodCaixa.text()
-        fk_limpeza = 1
-        avaliacao_preservacao_ossos = "sim"
-
-        cursor.execute(
-            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
-            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
-        )
-
-        cabelo_comprimento = self.ValueCompCabelo.text()
-        cabelo_cor = self.ValueCabeloCor.text()
-        roupa = self.ValueRoupaMatLimp.text()
-        outros = self.ValueOutrosMatLimp.text()
-
-        cursor.execute(
-            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
-            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
-        )
-
-        local_est_preserv = 'Umidade: ' + self.ValueUmidade.text() +\
-                            ' Fungos: ' + self.ValueFungos.text() +\
-                            ' P.I.O ' + self.ValuePIO.text()
-        ossos_prev_limpos = self.ValueOPL.text()
-
-        cursor.execute(
-            "INSERT INTO caixa_est_preserv(id_caixa,local_est_preserv,Ossos_prev_limpos) " +
-            "VALUES ({}, '{}', '{}');".format(idcaixa, local_est_preserv, ossos_prev_limpos)
-        )
-
-        outros = self.ValueEPOOutros.text()
-        obs = self.ValueObsEPO.text()
-
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
-
-        nrd = self.ValueNRD.text()
-        outros = self.ValueMatIDOutros.text()
-
-        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
-                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
-
-        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
-                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
-
-        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
-                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
-
-        num_dentes_maxila = self.ValueNumDentesMaxila.text()
-        num_dentes_mandibula = self.ValueNumDentesMand.text()
-        ossic_ouvido = self.ValueNumOssicOuv.text()
-        num_dentes_soltos = self.ValueDentesSoltos.text()
-        num_vertebras_frag = self.ValueNumVertFrag.text()
-        num_costelas_frag = self.ValueNumCostFrag.text()
-        osso_mao = self.ValueOssosMao.text()
-        osso_pe = self.ValueOssosPe.text()
-        caixa_cod_caixa = cod_caixa
-        obsGerais = "Missing property"
-        # TODO - Include caixa_pessoa_cod_pessoa
-
-        cursor.execute(
-            "INSERT INTO conteudo_osso_info(idcaixa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
-            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
-            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
-                                                                              num_dentes_maxila,
-                                                                              num_dentes_mandibula,
-                                                                              ossic_ouvido,
-                                                                              num_dentes_soltos,
-                                                                              num_vertebras_frag,
-                                                                              num_costelas_frag,
-                                                                              osso_mao,
-                                                                              osso_pe,
-                                                                              caixa_cod_caixa,
-                                                                              obsGerais
-                                                                              )
-        )
-
-        db.commit()
-        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
-
 
 if __name__ == "__main__":
     import sys
