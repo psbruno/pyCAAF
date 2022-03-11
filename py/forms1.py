@@ -9,12 +9,186 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mysql.connector as connector
+import json
+from datetime import datetime
 
+
+def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+    cursor.execute(
+        "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
+        "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
+    )
+
+
+def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros):
+    cursor.execute(
+        "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros) " +
+        "VALUES ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
+                                                              localizacao, estado, NRD, outros)
+    )
+
+
+def build_conjunto_dados_json(nmi, elementos_repetidos, cranio_integro, cranio_fragmentado, cranio_ausente,
+                              mandibula_integro, mandibula_fragmentado, mandibula_ausente,
+                              hiloide_integro, hiloide_fragmentado, hiloide_ausente,
+                              esterno_integro, esterno_fragmentado, esterno_ausente,
+                              sancro_integro, sancro_fragmentado, sancro_ausente,
+                              escapula_direito, escapula_esquerdo, escapula_indefinido,
+                              clavicula_direito, clavicula_esquerdo, clavicula_indefinido,
+                              umero_direito, umero_esquerdo, umero_indefinido,
+                              radio_direito, radio_esquerdo, radio_indefinido,
+                              femur_direito, femur_esquerdo, femur_indefinido,
+                              tibia_direito, tibia_esquerdo, tibia_indefinido,
+                              fibula_direito, fibula_esquerdo, fibula_indefinido,
+                              coxal_direito, coxal_esquerdo, coxal_indefinido,
+                              patela_direito, patela_esquerdo, patela_indefinido
+                              ):
+
+    conjunto_dados = {
+        'NMI': nmi, 'Elementos Repetidos': elementos_repetidos,
+        'Crânio Íntegro': cranio_integro, 'Crânio Fragmentado': cranio_fragmentado, 'Crânio Ausente': cranio_ausente,
+        'Mandíbula Íntegro': mandibula_integro, 'Mandíbula Fragmentado': mandibula_fragmentado, 'Mandíbula Ausente': mandibula_ausente,
+        'Hióide Íntegro': hiloide_integro, 'Hióide Fragmentado': hiloide_fragmentado, 'Hióide Ausente': hiloide_ausente,
+        'Esterno Íntegro': esterno_integro, 'Esterno Fragmentado': esterno_fragmentado, 'Esterno Ausente': esterno_ausente,
+        'Sacro Íntegro': sancro_integro, 'Sacro Fragmentado': sancro_fragmentado, 'Sacro Ausente': sancro_ausente,
+        'Escápula Direito': escapula_direito, 'Escápula Esquerdo': escapula_esquerdo, 'Escápula ?': escapula_indefinido,
+        'Clavícula Direito': clavicula_direito, 'Clavícula Esquerdo': clavicula_esquerdo, 'Clavícula ?': clavicula_indefinido,
+        'Úmero Direito': umero_direito, 'Úmero Esquerdo': umero_esquerdo, 'Úmero ?': umero_indefinido,
+        'Rádio Direito': radio_direito, 'Rádio Esquerdo': radio_esquerdo, 'Rádio ?': radio_indefinido,
+        'Fêmur Direito': femur_direito, 'Fêmur Esquerdo': femur_esquerdo, 'Fêmur ?': femur_indefinido,
+        'Tíbia Direito': tibia_direito, 'Tíbia Esquerdo': tibia_esquerdo, 'Tíbia ?': tibia_indefinido,
+        'Fíbula Direito': fibula_direito, 'Fíbula Esquerdo': fibula_esquerdo, 'Fíbula ?': fibula_indefinido,
+        'Coxal Direito': coxal_direito, 'Coxal Esquerdo': coxal_esquerdo, 'Coxal ?': coxal_indefinido,
+        'Patela Direito': patela_direito, 'Patela Esquerdo': patela_esquerdo, 'Patela ?': patela_indefinido,
+    }
+
+    return json.dumps(conjunto_dados)
+
+
+def get_all_idcaixa(cursor):
+    cursor.execute("SELECT idcaixa FROM caixa")
+    return cursor.fetchall()
+
+
+def generate_idcaixa(cursor):
+    all_idcaixa = get_all_idcaixa(cursor)
+    if len(all_idcaixa) == 0:
+        return 1
+    else:
+        return all_idcaixa[-1] + 1
 
 class Ui_Dialog(object):
-    def inputsDB(self):
-        print(self.ValueCodCaixa.text())
-        return 0
+    def insert_data_into_database(self):
+        db = connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            db="caaf"
+        )
+        cursor = db.cursor()
+
+        """
+        Para averiguar conjunto_dados
+        
+        print(
+            self.ValueNMI.text(), self.ValueER.text(),
+            self.ValueCranioD.text(), self.ValueCranioI.text(), self.ValueCranioE.text(),
+        )
+
+        """
+
+        return
+        idcaixa = generate_idcaixa(cursor)
+        seq_limpeza = self.ValueLimpeza.text()
+        data = self.ValueData_13.text()
+        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
+        cod_caixa = self.ValueCodCaixa.text()
+        fk_limpeza = 1 #1 ou 2, é pego pelo radio
+        avaliacao_preservacao_ossos = "sim"
+
+        cursor.execute(
+            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
+            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
+        )
+
+        cabelo_comprimento = self.ValueCompCabelo.text()
+        cabelo_cor = self.ValueCabeloCor.text()
+        roupa = self.ValueRoupaMatLimp.text()
+        outros = self.ValueOutrosMatLimp.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
+            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
+        )
+
+        local_est_preserv = 'Umidade: ' + self.ValueUmidade.text() +\
+                            ' Fungos: ' + self.ValueFungos.text() +\
+                            ' P.I.O ' + self.ValuePIO.text()
+        ossos_prev_limpos = self.ValueOPL.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_est_preserv(id_caixa,local_est_preserv,Ossos_prev_limpos) " +
+            "VALUES ({}, '{}', '{}');".format(idcaixa, local_est_preserv, ossos_prev_limpos)
+        )
+
+        outros = self.ValueEPOOutros.text()
+        obs = self.ValueObsEPO.text()
+
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
+        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
+
+        nrd = self.ValueNRD.text()
+        outros = self.ValueMatIDOutros.text()
+
+        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
+                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
+                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
+
+        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
+                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
+
+        num_dentes_maxila = self.ValueNumDentesMaxila.text()
+        num_dentes_mandibula = self.ValueNumDentesMand.text()
+        ossic_ouvido = self.ValueNumOssicOuv.text()
+        num_dentes_soltos = self.ValueDentesSoltos.text()
+        num_vertebras_frag = self.ValueNumVertFrag.text()
+        num_costelas_frag = self.ValueNumCostFrag.text()
+        osso_mao = self.ValueOssosMao.text()
+        osso_pe = self.ValueOssosPe.text()
+        caixa_cod_caixa = cod_caixa
+        obs_gerais = self.textEdit.toPlainText()
+
+        cursor.execute(
+            "INSERT INTO conteudo_osso_info(idcaixa, caixa_pessoa_cod_pessoa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
+            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
+            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
+                                                                                  idcaixa,
+                                                                                  num_dentes_maxila,
+                                                                                  num_dentes_mandibula,
+                                                                                  ossic_ouvido,
+                                                                                  num_dentes_soltos,
+                                                                                  num_vertebras_frag,
+                                                                                  num_costelas_frag,
+                                                                                  osso_mao,
+                                                                                  osso_pe,
+                                                                                  caixa_cod_caixa,
+                                                                                  obs_gerais
+                                                                                  )
+        )
+
+        cursor.execute(
+            "INSERT INTO conjunto_dados() VALUES ({}, {}, {})"
+        )
+
+        db.commit()
+        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -806,7 +980,7 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.inputsDB)
+        self.pushButton.clicked.connect(self.insert_data_into_database)
 
 
         self.retranslateUi(Dialog)
@@ -954,9 +1128,6 @@ class Ui_Dialog(object):
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
-
-
-
 
 if __name__ == "__main__":
     import sys
