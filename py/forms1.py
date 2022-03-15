@@ -9,12 +9,303 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mysql.connector as connector
+import json
+from datetime import datetime
+
+
+def insert_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+    cursor.execute(
+        "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
+        "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
+    )
+
+
+def insert_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros):
+    cursor.execute(
+        "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros) " +
+        "VALUES ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
+                                                              localizacao, estado, NRD, outros)
+    )
+
+
+def insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa):
+    for pessoa in equipe_abertura:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-abre` (caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+def get_cod_pessoa_by_nome(cursor, nome):
+    cursor.execute(
+        "SELECT cod_pessoa, nome_pessoa FROM pessoa "
+        "WHERE nome_pessoa = '{}'".format(nome)
+    )
+    return cursor.fetchone()
+
+
+def insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa):
+    for pessoa in equipe_limpeza:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-limpa`(caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+
+def insert_pessoa(cursor, distinct_pessoas):
+    pessoas_from_db = get_all_pessoa(cursor)
+    for pessoa in distinct_pessoas:
+        cursor.execute(
+            "INSERT INTO pessoa (cod_pessoa, nome_pessoa)"
+            "VALUES ({}, '{}')".format(
+                generate_cod_pessoa(pessoas_from_db),
+                pessoa
+            )
+        )
+
+
+def build_distinct_pessoas(all_pessoas):
+    distinct_list = []
+
+    for pessoa in all_pessoas:
+        if pessoa not in distinct_list:
+            distinct_list.append(pessoa)
+
+    return distinct_list
+
+
+def build_conjunto_dados(nmi, elementos_repetidos,
+                         cranio_integro, cranio_fragmentado, cranio_ausente,
+                         mandibula_integro, mandibula_fragmentado, mandibula_ausente,
+                         hiloide_integro, hiloide_fragmentado, hiloide_ausente,
+                         esterno_integro, esterno_fragmentado, esterno_ausente,
+                         sancro_integro, sancro_fragmentado, sancro_ausente,
+                         umero_direito, umero_esquerdo, umero_indefinido,
+                         femur_direito, femur_esquerdo, femur_indefinido,
+                         tibia_direito, tibia_esquerdo, tibia_indefinido,
+                         fibula_direito, fibula_esquerdo, fibula_indefinido,
+                         coxal_direito, coxal_esquerdo, coxal_indefinido,
+                         patela_direito, patela_esquerdo, patela_indefinido
+                         ):
+
+    conjunto_dados = {
+        'NMI': nmi, 'ElementosRepetidos': elementos_repetidos,
+        'CranioIntegro': cranio_integro, 'CranioFragmentado': cranio_fragmentado, 'CranioAusente': cranio_ausente,
+        'MandíbulaIntegro': mandibula_integro, 'MandibulaFragmentado': mandibula_fragmentado, 'MandibulaAusente': mandibula_ausente,
+        'HioideIntegro': hiloide_integro, 'HioideFragmentado': hiloide_fragmentado, 'HioideAusente': hiloide_ausente,
+        'EsternoIntegro': esterno_integro, 'EsternoFragmentado': esterno_fragmentado, 'EsternoAusente': esterno_ausente,
+        'SacroIntegro': sancro_integro, 'SacroFragmentado': sancro_fragmentado, 'SacroAusente': sancro_ausente,
+        'UmeroDireito': umero_direito, 'UmeroEsquerdo': umero_esquerdo, 'UmeroIndefinido': umero_indefinido,
+        'FemurDireito': femur_direito, 'FemurEsquerdo': femur_esquerdo, 'FemurIndefinido': femur_indefinido,
+        'Tibia Direito': tibia_direito, 'TibiaEsquerdo': tibia_esquerdo, 'TibiaIndefinido': tibia_indefinido,
+        'Fibula Direito': fibula_direito, 'FibulaEsquerdo': fibula_esquerdo, 'FibulaIndefinido': fibula_indefinido,
+        'CoxalDireito': coxal_direito, 'CoxalEsquerdo': coxal_esquerdo, 'CoxalIndefinido': coxal_indefinido,
+        'PatelaDireito': patela_direito, 'PatelaEsquerdo': patela_esquerdo, 'PatelaIndefinido': patela_indefinido,
+    }
+
+    return json.dumps(conjunto_dados)
+
+
+# retorna 1 se 'Com água' estiver selecionado
+# retorna 2 se 'Á seco' estiver selecionado
+def get_tipo_de_limpeza(radio_agua, radio_seco):
+    if radio_agua.isChecked():
+        return 1
+    if radio_seco.isChecked():
+        return 2
+
+
+def get_all_idcaixa(cursor):
+    cursor.execute("SELECT idcaixa FROM caixa")
+    return cursor.fetchall()
+
+
+def get_all_pessoa(cursor):
+    cursor.execute("SELECT * FROM pessoa")
+    return cursor.fetchall()
+
+
+def get_all_pessoa_abertura(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-abre")
+    return cursor.fetchall()
+
+
+def get_all_caixa_pessoa_limpa(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-limpa")
+    return cursor.fetchall()
+
+
+def generate_primary_key(tuple):
+    if len(tuple) == 0:
+        return 1
+    else:
+        return tuple[-1][0] + 1
+
+
+def generate_idcaixa(cursor):
+    all_idcaixa = get_all_idcaixa(cursor)
+    if len(all_idcaixa) == 0:
+        return 1
+    else:
+        return all_idcaixa[-1][0] + 1
+
+
+def generate_cod_pessoa(pessoas):
+    if len(pessoas) == 0:
+        return 1
+    else:
+        return pessoas[-1][0] + 1
+
+
+def convert_names_to_list(names):
+    list_names = names.split(",")
+    return [name.strip() for name in list_names]
+
+
+def get_avaliacao_preservacao_ossos(radio_bom, radio_regular, radio_ruim):
+    if radio_bom.isChecked():
+        return "bom"
+    if radio_regular.isChecked():
+        return "regular"
+    if radio_ruim.isChecked():
+        return "ruim"
+    return ""
 
 
 class Ui_Dialog(object):
-    def inputsDB(self):
-        print(self.ValueCodCaixa.text())
-        return 0
+    def insert_data_into_database(self):
+        db = connector.connect(
+            host="localhost",
+            user="root",
+            password="root",
+            db="caaf"
+        )
+        cursor = db.cursor()
+
+        idcaixa = generate_idcaixa(cursor)
+        seq_limpeza = self.ValueLimpeza.text()
+        data = self.ValueData_13.text()
+        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
+        cod_caixa = self.ValueCodCaixa.text()
+        fk_limpeza = get_tipo_de_limpeza(self.radioButton, self.radioButton_2)
+        avaliacao_preservacao_ossos = get_avaliacao_preservacao_ossos(self.radioButton_8, self.radioButton_7, self.radioButton_9)
+
+        cursor.execute(
+            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
+            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza,
+                                                            avaliacao_preservacao_ossos)
+        )
+
+        cabelo_comprimento = self.ValueCompCabelo.text()
+        cabelo_cor = self.ValueCabeloCor.text()
+        roupa = self.ValueRoupaMatLimp.text()
+        outros = self.ValueOutrosMatLimp.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
+            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa,
+                                                            outros)
+        )
+
+        umidade = self.ValueUmidade.text()
+        fungos = self.ValueFungos.text()
+        pupas_insetos_outros = self.ValuePIO.text()
+        ossos_prev_limpos = self.ValueOPL.text()
+
+        cursor.execute(
+            "INSERT INTO caixa_est_preserv(id_caixa, insetos, fungos, pupas, Ossos_prev_limpos) " +
+            "VALUES ({}, '{}', '{}', '{}', '{}');".format(idcaixa, umidade, fungos, pupas_insetos_outros, ossos_prev_limpos)
+        )
+
+        outros = self.ValueEPOOutros.text()
+        obs = self.ValueObsEPO.text()
+
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
+
+        nrd = self.ValueNRD.text()
+        outros = self.ValueMatIDOutros.text()
+
+        insert_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
+                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
+
+        insert_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
+                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
+
+        insert_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
+                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
+
+        num_dentes_maxila = self.ValueNumDentesMaxila.text()
+        num_dentes_mandibula = self.ValueNumDentesMand.text()
+        ossic_ouvido = self.ValueNumOssicOuv.text()
+        num_dentes_soltos = self.ValueDentesSoltos.text()
+        num_vertebras_frag = self.ValueNumVertFrag.text()
+        num_costelas_frag = self.ValueNumCostFrag.text()
+        osso_mao = self.ValueOssosMao.text()
+        osso_pe = self.ValueOssosPe.text()
+        caixa_cod_caixa = cod_caixa
+        obs_gerais = self.textEdit.toPlainText()
+
+        cursor.execute(
+            "INSERT INTO conteudo_osso_info(idcaixa, caixa_pessoa_cod_pessoa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
+            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
+            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
+                                                                                  idcaixa,
+                                                                                  num_dentes_maxila,
+                                                                                  num_dentes_mandibula,
+                                                                                  ossic_ouvido,
+                                                                                  num_dentes_soltos,
+                                                                                  num_vertebras_frag,
+                                                                                  num_costelas_frag,
+                                                                                  osso_mao,
+                                                                                  osso_pe,
+                                                                                  caixa_cod_caixa,
+                                                                                  obs_gerais
+                                                                                  )
+        )
+
+        conjunto_dados = build_conjunto_dados(
+                self.ValueNMI.text(), self.ValueER.text(),
+                self.ValueCranioD.text(), self.ValueCranioI.text(), self.CheckBoxCranio.isChecked(),
+                self.ValueMandCod.text(), self.ValueMandLoc.text(), self.CheckBoxMand.isChecked(),
+                self.ValueHioideCod.text(), self.ValueHioideLoc.text(), self.CheckBoxHioide.isChecked(),
+                self.ValueEsternoCod.text(), self.ValueEsternoLoc.text(), self.CheckBoxEsterno.isChecked(),
+                self.ValueSacroCod.text(), self.ValueSacroLoc.text(), self.CheckBoxSacro.isChecked(),
+                self.ValueUmeroD.text(), self.ValueUmeroE.text(), self.ValueUmeroI.text(),
+                self.ValueFemurD.text(), self.ValueFemurE.text(), self.ValueFemurI.text(),
+                self.ValueTibiaD.text(), self.ValueTibiaE.text(), self.ValueTibiaI.text(),
+                self.ValueFibulaD.text(), self.ValueFibulaE.text(), self.ValueFibulaI.text(),
+                self.ValueCoxalD.text(), self.ValueCoxalE.text(), self.ValueCoxalI.text(),
+                self.ValuePatelaD.text(), self.ValuePatelaE.text(), self.ValuePatelaI.text()
+        )
+
+        cursor.execute(
+            "INSERT INTO conjunto_dados(id_conjunto, id_caixa, input) VALUES (0, {}, '{}')".format(idcaixa, conjunto_dados)
+        )
+
+        responsaveis_caso = convert_names_to_list(self.RespValue.text())
+        equipe_abertura = convert_names_to_list(self.EquipeAbertValue.text())
+        equipe_limpeza = convert_names_to_list(self.EquipeLimpValue.text())
+        pessoas = responsaveis_caso + equipe_limpeza + equipe_abertura
+
+        distinct_pessoas = build_distinct_pessoas(pessoas)
+        insert_pessoa(cursor, distinct_pessoas)
+
+        insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa)
+        insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa)
+
+        db.commit()
+        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -806,7 +1097,7 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.inputsDB)
+        self.pushButton.clicked.connect(self.insert_data_into_database)
 
 
         self.retranslateUi(Dialog)
@@ -954,9 +1245,6 @@ class Ui_Dialog(object):
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
-
-
-
 
 if __name__ == "__main__":
     import sys
