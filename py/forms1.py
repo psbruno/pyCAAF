@@ -14,19 +14,70 @@ import json
 from datetime import datetime
 
 
-def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+def insert_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
     cursor.execute(
         "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
         "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
     )
 
 
-def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros):
+def insert_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros):
     cursor.execute(
         "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros) " +
         "VALUES ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
                                                               localizacao, estado, NRD, outros)
     )
+
+
+def insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa):
+    for pessoa in equipe_abertura:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-abre` (caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+def get_cod_pessoa_by_nome(cursor, nome):
+    cursor.execute(
+        "SELECT cod_pessoa, nome_pessoa FROM pessoa "
+        "WHERE nome_pessoa = '{}'".format(nome)
+    )
+    return cursor.fetchone()
+
+
+def insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa):
+    for pessoa in equipe_limpeza:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-limpa`(caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+
+def insert_pessoa(cursor, distinct_pessoas):
+    pessoas_from_db = get_all_pessoa(cursor)
+    for pessoa in distinct_pessoas:
+        cursor.execute(
+            "INSERT INTO pessoa (cod_pessoa, nome_pessoa)"
+            "VALUES ({}, '{}')".format(
+                generate_cod_pessoa(pessoas_from_db),
+                pessoa
+            )
+        )
+
+
+def build_distinct_pessoas(all_pessoas):
+    distinct_list = []
+
+    for pessoa in all_pessoas:
+        if pessoa not in distinct_list:
+            distinct_list.append(pessoa)
+
+    return distinct_list
 
 
 def build_conjunto_dados(nmi, elementos_repetidos,
@@ -69,9 +120,32 @@ def get_tipo_de_limpeza(radio_agua, radio_seco):
     if radio_seco.isChecked():
         return 2
 
+
 def get_all_idcaixa(cursor):
     cursor.execute("SELECT idcaixa FROM caixa")
     return cursor.fetchall()
+
+
+def get_all_pessoa(cursor):
+    cursor.execute("SELECT * FROM pessoa")
+    return cursor.fetchall()
+
+
+def get_all_pessoa_abertura(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-abre")
+    return cursor.fetchall()
+
+
+def get_all_caixa_pessoa_limpa(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-limpa")
+    return cursor.fetchall()
+
+
+def generate_primary_key(tuple):
+    if len(tuple) == 0:
+        return 1
+    else:
+        return tuple[-1][0] + 1
 
 
 def generate_idcaixa(cursor):
@@ -80,6 +154,18 @@ def generate_idcaixa(cursor):
         return 1
     else:
         return all_idcaixa[-1][0] + 1
+
+
+def generate_cod_pessoa(pessoas):
+    if len(pessoas) == 0:
+        return 1
+    else:
+        return pessoas[-1][0] + 1
+
+
+def convert_names_to_list(names):
+    list_names = names.split(",")
+    return [name.strip() for name in list_names]
 
 
 def get_avaliacao_preservacao_ossos(radio_bom, radio_regular, radio_ruim):
@@ -140,23 +226,23 @@ class Ui_Dialog(object):
         outros = self.ValueEPOOutros.text()
         obs = self.ValueObsEPO.text()
 
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
+        insert_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
 
         nrd = self.ValueNRD.text()
         outros = self.ValueMatIDOutros.text()
 
-        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
+        insert_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
                                       self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros)
 
-        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
+        insert_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
                                       self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros)
 
-        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
+        insert_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
                                       self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros)
 
         num_dentes_maxila = self.ValueNumDentesMaxila.text()
@@ -206,6 +292,17 @@ class Ui_Dialog(object):
         cursor.execute(
             "INSERT INTO conjunto_dados(id_conjunto, id_caixa, input) VALUES (0, {}, '{}')".format(idcaixa, conjunto_dados)
         )
+
+        responsaveis_caso = convert_names_to_list(self.RespValue.text())
+        equipe_abertura = convert_names_to_list(self.EquipeAbertValue.text())
+        equipe_limpeza = convert_names_to_list(self.EquipeLimpValue.text())
+        pessoas = responsaveis_caso + equipe_limpeza + equipe_abertura
+
+        distinct_pessoas = build_distinct_pessoas(pessoas)
+        insert_pessoa(cursor, distinct_pessoas)
+
+        insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa)
+        insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa)
 
         db.commit()
         QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
