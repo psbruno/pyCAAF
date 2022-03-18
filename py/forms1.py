@@ -14,10 +14,12 @@ import json
 from datetime import datetime
 
 def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+
     cursor.execute(
         "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
         "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
     )
+
 
 
 def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros, nrd2):
@@ -66,47 +68,178 @@ def build_conjunto_dados_json(nmi, elementos_repetidos, cranio_integro, cranio_f
 
     return str('' + str(json.dumps(conjunto_dados, ensure_ascii=False)) + '')
 
+  
+# retorna 1 se 'Com água' estiver selecionado
+# retorna 2 se 'Á seco' estiver selecionado
+def get_tipo_de_limpeza(radio_agua, radio_seco):
+    if radio_agua.isChecked():
+        return 1
+    if radio_seco.isChecked():
+        return 2
+
 
 def get_all_idcaixa(cursor):
-    cursor.execute("SELECT MAX(idcaixa) FROM caixa")
+    cursor.execute("SELECT idcaixa FROM caixa")
     return cursor.fetchall()
 
+
+def get_all_pessoa(cursor):
+    cursor.execute("SELECT * FROM pessoa")
+    return cursor.fetchall()
+
+
+def get_all_pessoa_abertura(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-abre")
+    return cursor.fetchall()
+
+
+def get_all_caixa_pessoa_limpa(cursor):
+    cursor.execute("SELECT * FROM caixa-pessoa-limpa")
+    return cursor.fetchall()
+
+
+def generate_primary_key(tuple):
+    if len(tuple) == 0:
+        return 1
+    else:
+        return tuple[-1][0] + 1
+
+
+
+
+=======
+
+
+def insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa):
+    for pessoa in equipe_abertura:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-abre` (caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+def get_cod_pessoa_by_nome(cursor, nome):
+    cursor.execute(
+        "SELECT cod_pessoa, nome_pessoa FROM pessoa "
+        "WHERE nome_pessoa = '{}'".format(nome)
+    )
+    return cursor.fetchone()
+
+
+def insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa):
+    for pessoa in equipe_limpeza:
+        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
+
+        cursor.execute(
+            "INSERT INTO `caixa-pessoa-limpa`(caixa_id_caixa, pessoa_cod_pessoa) "
+            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
+        )
+
+
+
+def insert_pessoa(cursor, distinct_pessoas):
+    pessoas_from_db = get_all_pessoa(cursor)
+    for pessoa in distinct_pessoas:
+        cursor.execute(
+            "INSERT INTO pessoa (cod_pessoa, nome_pessoa)"
+            "VALUES ({}, '{}')".format(
+                generate_cod_pessoa(pessoas_from_db),
+                pessoa
+            )
+        )
+
+
+def build_distinct_pessoas(all_pessoas):
+    distinct_list = []
+
+    for pessoa in all_pessoas:
+        if pessoa not in distinct_list:
+            distinct_list.append(pessoa)
+
+    return distinct_list
+
+
+def build_conjunto_dados(nmi, elementos_repetidos,
+                         cranio_integro, cranio_fragmentado, cranio_ausente,
+                         mandibula_integro, mandibula_fragmentado, mandibula_ausente,
+                         hiloide_integro, hiloide_fragmentado, hiloide_ausente,
+                         esterno_integro, esterno_fragmentado, esterno_ausente,
+                         sancro_integro, sancro_fragmentado, sancro_ausente,
+                         umero_direito, umero_esquerdo, umero_indefinido,
+                         femur_direito, femur_esquerdo, femur_indefinido,
+                         tibia_direito, tibia_esquerdo, tibia_indefinido,
+                         fibula_direito, fibula_esquerdo, fibula_indefinido,
+                         coxal_direito, coxal_esquerdo, coxal_indefinido,
+                         patela_direito, patela_esquerdo, patela_indefinido
+                         ):
+
+    conjunto_dados = {
+        'NMI': nmi, 'ElementosRepetidos': elementos_repetidos,
+        'CranioIntegro': cranio_integro, 'CranioFragmentado': cranio_fragmentado, 'CranioAusente': cranio_ausente,
+        'MandíbulaIntegro': mandibula_integro, 'MandibulaFragmentado': mandibula_fragmentado, 'MandibulaAusente': mandibula_ausente,
+        'HioideIntegro': hiloide_integro, 'HioideFragmentado': hiloide_fragmentado, 'HioideAusente': hiloide_ausente,
+        'EsternoIntegro': esterno_integro, 'EsternoFragmentado': esterno_fragmentado, 'EsternoAusente': esterno_ausente,
+        'SacroIntegro': sancro_integro, 'SacroFragmentado': sancro_fragmentado, 'SacroAusente': sancro_ausente,
+        'UmeroDireito': umero_direito, 'UmeroEsquerdo': umero_esquerdo, 'UmeroIndefinido': umero_indefinido,
+        'FemurDireito': femur_direito, 'FemurEsquerdo': femur_esquerdo, 'FemurIndefinido': femur_indefinido,
+        'Tibia Direito': tibia_direito, 'TibiaEsquerdo': tibia_esquerdo, 'TibiaIndefinido': tibia_indefinido,
+        'Fibula Direito': fibula_direito, 'FibulaEsquerdo': fibula_esquerdo, 'FibulaIndefinido': fibula_indefinido,
+        'CoxalDireito': coxal_direito, 'CoxalEsquerdo': coxal_esquerdo, 'CoxalIndefinido': coxal_indefinido,
+        'PatelaDireito': patela_direito, 'PatelaEsquerdo': patela_esquerdo, 'PatelaIndefinido': patela_indefinido,
+    }
+
+    return json.dumps(conjunto_dados)
 
 def generate_idcaixa(cursor):
     all_idcaixa = get_all_idcaixa(cursor)
     if len(all_idcaixa) == 0:
         return 1
     else:
-        return all_idcaixa[0][0] + 1
 
+        return all_idcaixa[-1][0] + 1
+
+
+def generate_cod_pessoa(pessoas):
+    if len(pessoas) == 0:
+        return 1
+    else:
+        return pessoas[-1][0] + 1
+
+
+def convert_names_to_list(names):
+    list_names = names.split(",")
+    return [name.strip() for name in list_names]
+
+
+def get_avaliacao_preservacao_ossos(radio_bom, radio_regular, radio_ruim):
+    if radio_bom.isChecked():
+        return "bom"
+    if radio_regular.isChecked():
+        return "regular"
+    if radio_ruim.isChecked():
+        return "ruim"
+    return ""
 
 class Ui_Dialog(object):
     def insert_data_into_database(self):
         db = connector.connect(
             host="localhost",
             user="root",
+
             password="password",
             db="caaf"
         )
         cursor = db.cursor()
 
-  
 
-        """
-        Para averiguar conjunto_dados
-        
-        print(
-            self.ValueNMI.text(), self.ValueER.text(),
-            self.ValueCranioD.text(), self.ValueCranioI.text(), self.ValueCranioE.text(),
-        )
-        """
-
-        #return
         idcaixa = generate_idcaixa(cursor)
         seq_limpeza = self.ValueLimpeza.text()
         data = self.ValueData_13.text()
         data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
         cod_caixa = self.ValueCodCaixa.text()
+'''
         fk_limpeza = 1 #1 ou 2, é pego pelo radio
         avaliacao_preservacao_ossos = ""
         if self.radioButton.isChecked():
@@ -123,6 +256,15 @@ class Ui_Dialog(object):
         cursor.execute(
             "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
             "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
+'''
+        fk_limpeza = get_tipo_de_limpeza(self.radioButton, self.radioButton_2)
+        avaliacao_preservacao_ossos = get_avaliacao_preservacao_ossos(self.radioButton_8, self.radioButton_7, self.radioButton_9)
+
+        cursor.execute(
+            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
+            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza,
+                                                            avaliacao_preservacao_ossos)
+
         )
 
         cabelo_comprimento = self.ValueCompCabelo.text()
@@ -132,7 +274,7 @@ class Ui_Dialog(object):
 
         cursor.execute(
             "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
-            "VALUES ('{}', {}, {}, {}, '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
+            "VALUES ('{}', {}, {}, '{}', '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
         )
 
         responsavel = self.RespValue.text()
@@ -154,11 +296,11 @@ class Ui_Dialog(object):
             "INSERT INTO caixa_est_preserv(id_caixa,fungos,pupas,umidade,Ossos_prev_limpos) " +
             "VALUES ({},'{}','{}', '{}', '{}');".format(idcaixa, self.ValueFungos.text(),self.ValuePIO.text(),
                                                 self.ValueUmidade.text(), ossos_prev_limpos)
+
         )
 
         outros = self.ValueEPOOutros.text()
         obs = self.ValueObsEPO.text()
-
         insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
         insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
         insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
@@ -169,6 +311,7 @@ class Ui_Dialog(object):
         insere_material_acondicionamento(cursor, idcaixa, self.ValueEP.text(),12, cod_caixa, outros, obs)
         insere_material_acondicionamento(cursor, idcaixa, self.ValueSdI.text(), 13, cod_caixa, outros, obs)
         insere_material_acondicionamento(cursor, idcaixa, self.ValueSPT.text(), 14, cod_caixa, outros, obs)
+
 
         nrd = self.ValueNRD.text()
         outros = self.ValueMatIDOutros.text()
@@ -188,6 +331,7 @@ class Ui_Dialog(object):
         
         insere_material_identificacao(cursor, idcaixa, 11, cod_caixa, self.ValueQtdeEtiqueta.text(), self.ValueCodEtiqueta.text(),
                                       self.ValueLocEtiqueta.text(), self.ValueEstEtiqueta.text(), nrd, outros,self.ValueNRD2.text())
+
 
 
         num_dentes_maxila = self.ValueNumDentesMaxila.text()
@@ -218,7 +362,6 @@ class Ui_Dialog(object):
                                                                                   obs_gerais
                                                                                   )
         )
-        
 
         json = build_conjunto_dados_json(self.ValueNMI.text(),self.ValueER.text(),
             self.ValueCranioCod.text(), self.ValueCranioLoc.text(),'',
@@ -642,6 +785,7 @@ class Ui_Dialog(object):
 
         self.radioButton3 = QtWidgets.QRadioButton(self.widget)
         self.radioButton3.setGeometry(QtCore.QRect(160, 1430, 20, 17))
+
         self.radioButton3.setObjectName("radioButton3")
         self.radioButton4 = QtWidgets.QRadioButton(self.widget)
         self.radioButton4.setGeometry(QtCore.QRect(205, 1430, 20, 17))
@@ -706,6 +850,7 @@ class Ui_Dialog(object):
         self.CheckBoxCranio.setGeometry(QtCore.QRect(60, 1620, 281, 41))
         self.CheckBoxCranio.setObjectName("ValueCranioQtde")
         self.COCranCodLabel = QtWidgets.QLabel(self.widget)
+
         self.COCranCodLabel.setGeometry(QtCore.QRect(240, 1630, 61, 20))
         self.COCranCodLabel.setObjectName("COCranCodLabel")
         self.CranioLabel = QtWidgets.QLabel(self.widget)
@@ -713,11 +858,13 @@ class Ui_Dialog(object):
         self.CranioLabel.setObjectName("CranioLabel")
         self.CranioQtdeLabel = QtWidgets.QLabel(self.widget)
         self.CranioQtdeLabel.setGeometry(QtCore.QRect(200, 1630, 61, 20))
+
         self.CranioQtdeLabel.setObjectName("CranioQtdeLabel")
         self.ValueCranioLoc = QtWidgets.QLineEdit(self.widget)
         self.ValueCranioLoc.setGeometry(QtCore.QRect(370, 1630, 61, 20))
         self.ValueCranioLoc.setObjectName("ValueCranioLoc")
         self.CranioLocLabel = QtWidgets.QLabel(self.widget)
+
         self.CranioLocLabel.setGeometry(QtCore.QRect(320, 1630, 61, 20))
         self.CranioLocLabel.setObjectName("CranioLocLabel")
         self.ValueCranioCod = QtWidgets.QLineEdit(self.widget)
@@ -725,11 +872,13 @@ class Ui_Dialog(object):
         self.ValueCranioCod.setObjectName("ValueCranioCod")
         
         self.MandCodLabel = QtWidgets.QLabel(self.widget)
+
         self.MandCodLabel.setGeometry(QtCore.QRect(200, 1700, 61, 20))
         self.MandCodLabel.setObjectName("MandCodLabel")
         self.MandLocLabel = QtWidgets.QLabel(self.widget)
         self.MandLocLabel.setGeometry(QtCore.QRect(320, 1700, 61, 20))
         self.MandLocLabel.setObjectName("MandLocLabel")
+
         self.CheckBoxMand = QtWidgets.QCheckBox("Ausente",self.widget)
         self.CheckBoxMand.setGeometry(QtCore.QRect(60, 1690, 281, 41))
         self.CheckBoxMand.setObjectName("ValueCranioQtde")
@@ -740,6 +889,7 @@ class Ui_Dialog(object):
         self.ValueMandCod.setGeometry(QtCore.QRect(250, 1700, 61, 20))
         self.ValueMandCod.setObjectName("ValueMandCod")
         self.MandQtdeLabel = QtWidgets.QLabel(self.widget)
+
         self.MandQtdeLabel.setGeometry(QtCore.QRect(60, 1700, 61, 20))
         self.MandQtdeLabel.setObjectName("MandQtdeLabel")
         self.MandLabel = QtWidgets.QLabel(self.widget)
@@ -750,10 +900,12 @@ class Ui_Dialog(object):
         self.CheckBoxHioide.setGeometry(QtCore.QRect(60, 1770, 281, 41))
         self.CheckBoxHioide.setObjectName("ValueHioideQtde")
         self.HioideCodLabel = QtWidgets.QLabel(self.widget)
+
         self.HioideCodLabel.setGeometry(QtCore.QRect(200, 1780, 61, 20))
         self.HioideCodLabel.setObjectName("HioideCodLabel")
         self.HioideLocLabel = QtWidgets.QLabel(self.widget)
         self.HioideLocLabel.setGeometry(QtCore.QRect(320, 1780, 61, 20))
+
         self.HioideLocLabel.setObjectName("HioideLocLabel")
         self.ValueHioideLoc = QtWidgets.QLineEdit(self.widget)
         self.ValueHioideLoc.setGeometry(QtCore.QRect(370, 1780, 61, 20))
@@ -762,6 +914,7 @@ class Ui_Dialog(object):
         self.ValueHioideCod.setGeometry(QtCore.QRect(250, 1780, 61, 20))
         self.ValueHioideCod.setObjectName("ValueHioideCod")
         self.HioideQtdeLabel = QtWidgets.QLabel(self.widget)
+
         self.HioideQtdeLabel.setGeometry(QtCore.QRect(60, 1780, 61, 20))
         self.HioideQtdeLabel.setObjectName("HioideQtdeLabel")
         self.HioideLabel = QtWidgets.QLabel(self.widget)
@@ -773,6 +926,7 @@ class Ui_Dialog(object):
         self.CodEsternoLabel.setObjectName("CodEsternoLabel")
         self.LocEsternoLabel = QtWidgets.QLabel(self.widget)
         self.LocEsternoLabel.setGeometry(QtCore.QRect(320, 1860, 61, 20))
+
         self.LocEsternoLabel.setObjectName("LocEsternoLabel")
         self.CheckBoxEsterno = QtWidgets.QCheckBox("Ausente",self.widget)
         self.CheckBoxEsterno.setGeometry(QtCore.QRect(60, 1850, 281, 41))
@@ -784,6 +938,7 @@ class Ui_Dialog(object):
         self.ValueEsternoCod.setGeometry(QtCore.QRect(250, 1860, 61, 20))
         self.ValueEsternoCod.setObjectName("ValueEsternoCod")
         self.QtdeEsternoLabel = QtWidgets.QLabel(self.widget)
+
         self.QtdeEsternoLabel.setGeometry(QtCore.QRect(60, 1860, 61, 20))
         self.QtdeEsternoLabel.setObjectName("QtdeEsternoLabel")
         self.EsternoLabel = QtWidgets.QLabel(self.widget)
@@ -796,10 +951,12 @@ class Ui_Dialog(object):
         self.SacroCodLabel = QtWidgets.QLabel(self.widget)
         self.SacroCodLabel.setGeometry(QtCore.QRect(180, 1930, 61, 20))
         self.SacroCodLabel.setObjectName("SacroCodLabel")
+
         self.CheckBoxSacro = QtWidgets.QCheckBox("Ausente",self.widget)
         self.CheckBoxSacro.setGeometry(QtCore.QRect(60, 1920, 281, 41))
         self.CheckBoxSacro.setObjectName("ValueSacroQtde")
         self.SacroQtdeLabel = QtWidgets.QLabel(self.widget)
+
         self.SacroQtdeLabel.setGeometry(QtCore.QRect(60, 1930, 61, 20))
         self.SacroQtdeLabel.setObjectName("SacroQtdeLabel")
         self.ValueSacroLoc = QtWidgets.QLineEdit(self.widget)
@@ -810,6 +967,7 @@ class Ui_Dialog(object):
         self.ValueSacroCod.setObjectName("ValueSacroCod")
         self.SacroLabel = QtWidgets.QLabel(self.widget)
         self.SacroLabel.setGeometry(QtCore.QRect(-60, 1900, 281, 20))
+
         self.SacroLabel.setObjectName("SacroLabel")
         self.line_28 = QtWidgets.QFrame(self.widget)
         self.line_28.setGeometry(QtCore.QRect(0, 1960, 511, 41))
@@ -1029,6 +1187,7 @@ class Ui_Dialog(object):
         self.SacroELabel.setObjectName("SacroELabel")
         
         self.line_29 = QtWidgets.QFrame(self.widget)
+
         self.line_29.setGeometry(QtCore.QRect(320, 2030, 21, 461))
         self.line_29.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_29.setFrameShadow(QtWidgets.QFrame.Sunken)
@@ -1084,6 +1243,7 @@ class Ui_Dialog(object):
         self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2370, 101, 51))
         self.OssosPeLabel.setObjectName("OssosPeLabel")
         self.ObsGeraisFinalLabel = QtWidgets.QLabel(self.widget)
+
         self.ObsGeraisFinalLabel.setGeometry(QtCore.QRect(-30, 2490, 601, 41))
         self.ObsGeraisFinalLabel.setObjectName("ObsGeraisFinalLabel")
         self.textEdit = QtWidgets.QTextEdit(self.widget)
@@ -1175,6 +1335,7 @@ class Ui_Dialog(object):
         self.SacosNaoLabel.setText(_translate("Dialog", "Não"))
         self.SacosOndeLabel.setText(_translate("Dialog", "Onde"))
 
+
         self.EmbSimLabel.setText(_translate("Dialog", "Sim"))
         self.EmbNaoLabel.setText(_translate("Dialog", "Não"))
         self.EmbOndeLabel.setText(_translate("Dialog", "Onde"))
@@ -1182,7 +1343,6 @@ class Ui_Dialog(object):
 
         self.NRDLabel.setText(_translate("Dialog", "Numerações riscadas e/ou\ndiscordantes em sacos"))
         self.NRDLabel2.setText(_translate("Dialog", "Numerações riscadas e/ou\ndiscordantes em embalagens"))
-
 
         self.ContOsseoLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Conteúdo Ósseo</span></p><p align=\"center\"><br/></p></body></html>"))
         self.NMILabel.setText(_translate("Dialog", "NMI"))
@@ -1201,6 +1361,7 @@ class Ui_Dialog(object):
         self.CodEsternoLabel.setText(_translate("Dialog", "Íntegro"))
         self.LocEsternoLabel.setText(_translate("Dialog", "Frag."))
         self.EsternoLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Esterno</span></p><p align=\"center\"><br/></p></body></html>"))
+
         self.SacroLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Sacro</span></p><p align=\"center\"><br/></p></body></html>"))
         self.SacroLocLabel.setText(_translate("Dialog", "Frag."))
         self.SacroCodLabel.setText(_translate("Dialog", "Íntegro"))
@@ -1240,10 +1401,12 @@ class Ui_Dialog(object):
         self.PatelaDLabel.setText(_translate("Dialog", "D"))
         self.PatelaILabel.setText(_translate("Dialog", "I"))
         self.PatelaELabel.setText(_translate("Dialog", "E"))
+
         self.SacroDLabel.setText(_translate("Dialog", "D"))
         self.SacroILabel.setText(_translate("Dialog", "I"))
         self.SacroELabel.setText(_translate("Dialog", "E"))
         self.PatelaLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Patela</span></p></body></html>"))
+
         self.NumDentesMaxilaLabel.setText(_translate("Dialog", "Número de dentes \n presos na maxila"))
         self.NumDentesMandLabel.setText(_translate("Dialog", "Número de dentes \npresos na mandíbula"))
         self.DentesSoltosLabel.setText(_translate("Dialog", "Nº de dentes soltos\n"))
@@ -1254,9 +1417,6 @@ class Ui_Dialog(object):
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
-
-
-
 
 if __name__ == "__main__":
     import sys
