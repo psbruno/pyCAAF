@@ -10,382 +10,176 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 import mysql.connector as connector
-import json
-from datetime import datetime
-
-def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
-
-    cursor.execute(
-        "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
-        "VALUES ({}, {}, {}, {}, '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
-    )
-
-
-
-def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros, nrd2):
-    cursor.execute(
-        "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros,NRD2) " +
-        "VALUES ({}, {}, {}, {}, {}, '{}', '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
-                                                              localizacao, estado, NRD, outros, nrd2)
-    )
-
-
-def build_conjunto_dados_json(nmi, elementos_repetidos, cranio_integro, cranio_fragmentado, cranio_ausente,
-                              mandibula_integro, mandibula_fragmentado, mandibula_ausente,
-                              hiloide_integro, hiloide_fragmentado, hiloide_ausente,
-                              esterno_integro, esterno_fragmentado, esterno_ausente,
-                              sancro_integro, sancro_fragmentado, sancro_ausente,
-                              escapula_direito, escapula_esquerdo, escapula_indefinido,
-                              clavicula_direito, clavicula_esquerdo, clavicula_indefinido,
-                              umero_direito, umero_esquerdo, umero_indefinido,
-                              radio_direito, radio_esquerdo, radio_indefinido,
-                              femur_direito, femur_esquerdo, femur_indefinido,
-                              ulna_direito, ulna_esquerdo, ulna_indefinido,
-                              tibia_direito, tibia_esquerdo, tibia_indefinido,
-                              fibula_direito, fibula_esquerdo, fibula_indefinido,
-                              coxal_direito, coxal_esquerdo, coxal_indefinido,
-                              patela_direito, patela_esquerdo, patela_indefinido
-                              ):
-
-    conjunto_dados = {
-        'NMI': nmi, 'Elementos Repetidos': elementos_repetidos,
-        'Crânio Íntegro': cranio_integro, 'Crânio Fragmentado': cranio_fragmentado, 'Crânio Ausente': cranio_ausente,
-        'Mandíbula Íntegro': mandibula_integro, 'Mandíbula Fragmentado': mandibula_fragmentado, 'Mandíbula Ausente': mandibula_ausente,
-        'Hióide Íntegro': hiloide_integro, 'Hióide Fragmentado': hiloide_fragmentado, 'Hióide Ausente': hiloide_ausente,
-        'Esterno Íntegro': esterno_integro, 'Esterno Fragmentado': esterno_fragmentado, 'Esterno Ausente': esterno_ausente,
-        'Sacro Íntegro': sancro_integro, 'Sacro Fragmentado': sancro_fragmentado, 'Sacro Ausente': sancro_ausente,
-        'Escápula Direito': escapula_direito, 'Escápula Esquerdo': escapula_esquerdo, 'Escápula ?': escapula_indefinido,
-        'Clavícula Direito': clavicula_direito, 'Clavícula Esquerdo': clavicula_esquerdo, 'Clavícula ?': clavicula_indefinido,
-        'Úmero Direito': umero_direito, 'Úmero Esquerdo': umero_esquerdo, 'Úmero ?': umero_indefinido,
-        'Rádio Direito': radio_direito, 'Rádio Esquerdo': radio_esquerdo, 'Rádio ?': radio_indefinido,
-        'Fêmur Direito': femur_direito, 'Fêmur Esquerdo': femur_esquerdo, 'Fêmur ?': femur_indefinido,
-        'Ulna Direito': ulna_direito, 'Ulna Esquerdo': ulna_esquerdo, 'Ulna ?': ulna_indefinido,
-        'Tíbia Direito': tibia_direito, 'Tíbia Esquerdo': tibia_esquerdo, 'Tíbia ?': tibia_indefinido,
-        'Fíbula Direito': fibula_direito, 'Fíbula Esquerdo': fibula_esquerdo, 'Fíbula ?': fibula_indefinido,
-        'Coxal Direito': coxal_direito, 'Coxal Esquerdo': coxal_esquerdo, 'Coxal ?': coxal_indefinido,
-        'Patela Direito': patela_direito, 'Patela Esquerdo': patela_esquerdo, 'Patela ?': patela_indefinido,
-    }
-
-    return str('' + str(json.dumps(conjunto_dados, ensure_ascii=False)) + '')
-
-  
-# retorna 1 se 'Com água' estiver selecionado
-# retorna 2 se 'Á seco' estiver selecionado
-def get_tipo_de_limpeza(radio_agua, radio_seco):
-    if radio_agua.isChecked():
-        return 1
-    if radio_seco.isChecked():
-        return 2
-
-
-def get_all_idcaixa(cursor):
-    cursor.execute("SELECT idcaixa FROM caixa")
-    return cursor.fetchall()
-
-
-def get_all_pessoa(cursor):
-    cursor.execute("SELECT * FROM pessoa")
-    return cursor.fetchall()
-
-
-def get_all_pessoa_abertura(cursor):
-    cursor.execute("SELECT * FROM caixa-pessoa-abre")
-    return cursor.fetchall()
-
-
-def get_all_caixa_pessoa_limpa(cursor):
-    cursor.execute("SELECT * FROM caixa-pessoa-limpa")
-    return cursor.fetchall()
-
-
-def generate_primary_key(tuple):
-    if len(tuple) == 0:
-        return 1
-    else:
-        return tuple[-1][0] + 1
-
-
-
-
-=======
-
-
-def insert_caixa_pessoa_abre(cursor, equipe_abertura, idcaixa):
-    for pessoa in equipe_abertura:
-        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
-
-        cursor.execute(
-            "INSERT INTO `caixa-pessoa-abre` (caixa_id_caixa, pessoa_cod_pessoa) "
-            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
-        )
-
-
-def get_cod_pessoa_by_nome(cursor, nome):
-    cursor.execute(
-        "SELECT cod_pessoa, nome_pessoa FROM pessoa "
-        "WHERE nome_pessoa = '{}'".format(nome)
-    )
-    return cursor.fetchone()
-
-
-def insert_caixa_pessoa_limpa(cursor, equipe_limpeza, idcaixa):
-    for pessoa in equipe_limpeza:
-        pessoa_cod_pessoa = get_cod_pessoa_by_nome(cursor, pessoa)
-
-        cursor.execute(
-            "INSERT INTO `caixa-pessoa-limpa`(caixa_id_caixa, pessoa_cod_pessoa) "
-            "VALUES({}, {})".format(idcaixa, pessoa_cod_pessoa[0])
-        )
-
-
-
-def insert_pessoa(cursor, distinct_pessoas):
-    pessoas_from_db = get_all_pessoa(cursor)
-    for pessoa in distinct_pessoas:
-        cursor.execute(
-            "INSERT INTO pessoa (cod_pessoa, nome_pessoa)"
-            "VALUES ({}, '{}')".format(
-                generate_cod_pessoa(pessoas_from_db),
-                pessoa
-            )
-        )
-
-
-def build_distinct_pessoas(all_pessoas):
-    distinct_list = []
-
-    for pessoa in all_pessoas:
-        if pessoa not in distinct_list:
-            distinct_list.append(pessoa)
-
-    return distinct_list
-
-
-def build_conjunto_dados(nmi, elementos_repetidos,
-                         cranio_integro, cranio_fragmentado, cranio_ausente,
-                         mandibula_integro, mandibula_fragmentado, mandibula_ausente,
-                         hiloide_integro, hiloide_fragmentado, hiloide_ausente,
-                         esterno_integro, esterno_fragmentado, esterno_ausente,
-                         sancro_integro, sancro_fragmentado, sancro_ausente,
-                         umero_direito, umero_esquerdo, umero_indefinido,
-                         femur_direito, femur_esquerdo, femur_indefinido,
-                         tibia_direito, tibia_esquerdo, tibia_indefinido,
-                         fibula_direito, fibula_esquerdo, fibula_indefinido,
-                         coxal_direito, coxal_esquerdo, coxal_indefinido,
-                         patela_direito, patela_esquerdo, patela_indefinido
-                         ):
-
-    conjunto_dados = {
-        'NMI': nmi, 'ElementosRepetidos': elementos_repetidos,
-        'CranioIntegro': cranio_integro, 'CranioFragmentado': cranio_fragmentado, 'CranioAusente': cranio_ausente,
-        'MandíbulaIntegro': mandibula_integro, 'MandibulaFragmentado': mandibula_fragmentado, 'MandibulaAusente': mandibula_ausente,
-        'HioideIntegro': hiloide_integro, 'HioideFragmentado': hiloide_fragmentado, 'HioideAusente': hiloide_ausente,
-        'EsternoIntegro': esterno_integro, 'EsternoFragmentado': esterno_fragmentado, 'EsternoAusente': esterno_ausente,
-        'SacroIntegro': sancro_integro, 'SacroFragmentado': sancro_fragmentado, 'SacroAusente': sancro_ausente,
-        'UmeroDireito': umero_direito, 'UmeroEsquerdo': umero_esquerdo, 'UmeroIndefinido': umero_indefinido,
-        'FemurDireito': femur_direito, 'FemurEsquerdo': femur_esquerdo, 'FemurIndefinido': femur_indefinido,
-        'Tibia Direito': tibia_direito, 'TibiaEsquerdo': tibia_esquerdo, 'TibiaIndefinido': tibia_indefinido,
-        'Fibula Direito': fibula_direito, 'FibulaEsquerdo': fibula_esquerdo, 'FibulaIndefinido': fibula_indefinido,
-        'CoxalDireito': coxal_direito, 'CoxalEsquerdo': coxal_esquerdo, 'CoxalIndefinido': coxal_indefinido,
-        'PatelaDireito': patela_direito, 'PatelaEsquerdo': patela_esquerdo, 'PatelaIndefinido': patela_indefinido,
-    }
-
-    return json.dumps(conjunto_dados)
-
-def generate_idcaixa(cursor):
-    all_idcaixa = get_all_idcaixa(cursor)
-    if len(all_idcaixa) == 0:
-        return 1
-    else:
-
-        return all_idcaixa[-1][0] + 1
-
-
-def generate_cod_pessoa(pessoas):
-    if len(pessoas) == 0:
-        return 1
-    else:
-        return pessoas[-1][0] + 1
-
-
-def convert_names_to_list(names):
-    list_names = names.split(",")
-    return [name.strip() for name in list_names]
-
-
-def get_avaliacao_preservacao_ossos(radio_bom, radio_regular, radio_ruim):
-    if radio_bom.isChecked():
-        return "bom"
-    if radio_regular.isChecked():
-        return "regular"
-    if radio_ruim.isChecked():
-        return "ruim"
-    return ""
+import json 
 
 class Ui_Dialog(object):
-    def insert_data_into_database(self):
+    def get_data_into_database(self):
         db = connector.connect(
             host="localhost",
             user="root",
-
-            password="password",
-            db="caaf"
+            password="",
+            db="caaf",
+            charset = 'utf8'
         )
         cursor = db.cursor()
+        cursor.execute("SELECT * FROM caixa WHERE cod_caixa = " + self.ValueCodCaixa.text())
 
-
-        idcaixa = generate_idcaixa(cursor)
-        seq_limpeza = self.ValueLimpeza.text()
-        data = self.ValueData_13.text()
-        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
-        cod_caixa = self.ValueCodCaixa.text()
-'''
-        fk_limpeza = 1 #1 ou 2, é pego pelo radio
-        avaliacao_preservacao_ossos = ""
-        if self.radioButton.isChecked():
-            fk_limpeza = 1
-        else:
-            fk_limpeza = 2
-
-        if self.radioButton_7.isChecked():
-            avaliacao_preservacao_ossos = "Regular"
-        elif self.radioButton_7.isChecked():
-            avaliacao_preservacao_ossos = "Bom"
-        else:
-            avaliacao_preservacao_ossos = "Ruim"
-        cursor.execute(
-            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
-            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos)
-'''
-        fk_limpeza = get_tipo_de_limpeza(self.radioButton, self.radioButton_2)
-        avaliacao_preservacao_ossos = get_avaliacao_preservacao_ossos(self.radioButton_8, self.radioButton_7, self.radioButton_9)
-
-        cursor.execute(
-            "INSERT INTO caixa (idcaixa, seq_limpeza, data, cod_caixa, fk_limpeza, avaliacao_preservacao_ossos) " +
-            "VALUES ({}, {}, '{}', '{}', {}, '{}');".format(idcaixa, seq_limpeza, data_formatada, cod_caixa, fk_limpeza,
-                                                            avaliacao_preservacao_ossos)
-
-        )
-
-        cabelo_comprimento = self.ValueCompCabelo.text()
-        cabelo_cor = self.ValueCabeloCor.text()
-        roupa = self.ValueRoupaMatLimp.text()
-        outros = self.ValueOutrosMatLimp.text()
-
-        cursor.execute(
-            "INSERT INTO caixa_tipomaterial (cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros) " +
-            "VALUES ('{}', {}, {}, '{}', '{}', '{}');".format(cod_caixa, idcaixa, cabelo_comprimento, cabelo_cor, roupa, outros)
-        )
-
-        responsavel = self.RespValue.text()
-        EquipeAbre = self.EquipeAbertValue.text()
-        EquipeLimpa = self.EquipeLimpValue.text()
+        result = cursor.fetchall()
+        self.radioButton_7.setText(result[0][5])
         
-        cursor.execute(
-            "INSERT INTO `resp_caso`(caixa_id_caixa, responsavel) VALUES ({}, '{}');".format(idcaixa, responsavel)
-        )
-        cursor.execute(
-            "INSERT INTO `caixa-pessoa-abre`(caixa_id_caixa, input) VALUES ({}, '{}');".format(idcaixa, EquipeAbre)
-        )
-        cursor.execute(
-            "INSERT INTO `caixa-pessoa-limpa`(caixa_id_caixa, input) VALUES ({}, '{}');".format(idcaixa, EquipeLimpa)
-        )
-        ossos_prev_limpos = self.ValueOPL.text()
+        self.ValueLimpeza.setText(str(result[0][1]))
+        self.ValueData_13.setDate(result[0][2])
+        if result[0][4] == 1:
+                self.radioButton.setText("Com água")
+        else:
+                self.radioButton.setText("À seco")
 
-        cursor.execute(
-            "INSERT INTO caixa_est_preserv(id_caixa,fungos,pupas,umidade,Ossos_prev_limpos) " +
-            "VALUES ({},'{}','{}', '{}', '{}');".format(idcaixa, self.ValueFungos.text(),self.ValuePIO.text(),
-                                                self.ValueUmidade.text(), ossos_prev_limpos)
+        codCaixa = result[0][3]
+        iDcaixa = result[0][0]
 
-        )
-
-        outros = self.ValueEPOOutros.text()
-        obs = self.ValueObsEPO.text()
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSLH.text(), 1, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSA.text(), 2, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTNT.text(), 3, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSTP.text(), 4, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPL.text(), 5, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSASFM.text(), 6, cod_caixa, outros, obs)
-
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueEP.text(),12, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSdI.text(), 13, cod_caixa, outros, obs)
-        insere_material_acondicionamento(cursor, idcaixa, self.ValueSPT.text(), 14, cod_caixa, outros, obs)
+        cursor.execute("SELECT * FROM resp_caso WHERE caixa_id_caixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+        self.RespValue.setText(result[0][1])
+        cursor.execute("SELECT * FROM `caixa-pessoa-abre` WHERE caixa_id_caixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+        self.EquipeAbertValue.setText(result[0][1])
+        cursor.execute("SELECT * FROM `caixa-pessoa-limpa` WHERE caixa_id_caixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+        self.EquipeLimpValue.setText(result[0][1])
 
 
-        nrd = self.ValueNRD.text()
-        outros = self.ValueMatIDOutros.text()
 
-        insere_material_identificacao(cursor, idcaixa, 7, cod_caixa, self.ValueQtdeAM.text(), self.ValueCodAM.text(),
-                                      self.ValueLocAM.text(), self.ValueEstAM.text(), nrd, outros,self.ValueNRD2.text())
-
-        insere_material_identificacao(cursor, idcaixa, 8, cod_caixa, self.ValueQtdeSFM.text(), self.ValueCodSFM.text(),
-                                      self.ValueLocSFM.text(), self.ValueEstSFM.text(), nrd, outros,self.ValueNRD2.text())
-
-        insere_material_identificacao(cursor, idcaixa, 9, cod_caixa, self.ValueQtdeUNICAMP.text(), self.ValueCodUNICAMP.text(),
-                                      self.ValueLocUNICAMP.text(), self.ValueEstUNICAMP.text(), nrd, outros,self.ValueNRD2.text())
+        cursor.execute("SELECT * FROM caixa_tipomaterial WHERE cod_caixa = " + self.ValueCodCaixa.text())
+        result = cursor.fetchall()
+        self.ValueCompCabelo.setText(str(result[0][2]))
+        self.ValueCabeloCor.setText(str(result[0][3]))
+        self.ValueOutrosMatLimp.setText(str(result[0][4]))
+        self.ValueRoupaMatLimp.setText(str(result[0][5]))
 
 
-        insere_material_identificacao(cursor, idcaixa, 10, cod_caixa, self.ValueQtdeLacre.text(), self.ValueCodLacre.text(),
-                                self.ValueLocLacre.text(), self.ValueEstLacre.text(), nrd, outros,self.ValueNRD2.text())
+        cursor.execute("SELECT * FROM caixa_est_preserv WHERE id_caixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+
+        self.ValueOPL.setText(str(result[0][2]))
+        self.ValueFungos.setText(str(result[0][3]))
+        self.ValuePIO.setText(str(result[0][4]))
+        self.ValueUmidade.setText(str(result[0][5]))
+
+
+        cursor.execute("SELECT * FROM caixa_material_acondicionamento WHERE idcaixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+        self.ValueSLH.setText(str(result[0][2]))
+        self.ValueSA.setText(str(result[1][2]))
+        self.ValueSTNT.setText(str(result[2][2]))
+        self.ValueSASFM.setText(str(result[3][2]))
+        self.ValueSPL.setText(str(result[4][2]))
+        self.ValueSTP.setText(str(result[5][2]))
+        self.ValueSI.setText(str(result[6][2]))
+        self.ValueSE.setText(str(result[7][2]))
+        self.ValueSPT.setText(str(result[8][2]))
+
+
+        self.ValueEPOOutros.setText(str(result[0][4]))
+        self.ValueObsEPO.setText(str(result[0][5]))
+
+        cursor.execute("SELECT * FROM caixa_material_ident WHERE idcaixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+
+        self.ValueQtdeAM.setText(str(result[0][3]))
+        self.ValueLocAM.setText(str(result[0][4]))
+        self.ValueEstAM.setText(str(result[0][5]))
+        self.ValueCodAM.setText(str(result[0][6]))
+
+        self.ValueQtdeSFM.setText(str(result[1][3]))
+        self.ValueLocSFM.setText(str(result[1][4]))
+        self.ValueEstSFM.setText(str(result[1][5]))
+        self.ValueCodSFM.setText(str(result[1][6]))        
+
+        self.ValueQtdeUNICAMP.setText(str(result[2][3]))
+        self.ValueLocUNICAMP.setText(str(result[2][4]))
+        self.ValueEstUNICAMP.setText(str(result[2][5]))
+        self.ValueCodUNICAMP.setText(str(result[2][6]))
+
+        self.ValueQtdeLacre.setText(str(result[3][3]))
+        self.ValueLocLacre.setText(str(result[3][4]))
+        self.ValueEstLacre.setText(str(result[3][5]))
+        self.ValueCodLacre.setText(str(result[3][6]))
+
+        self.ValueQtdeEtiqueta.setText(str(result[4][3]))
+        self.ValueLocEtiqueta.setText(str(result[4][4]))
+        self.ValueEstEtiqueta.setText(str(result[4][5]))
+        self.ValueCodEtiqueta.setText(str(result[4][6]))
+
+        self.ValueNRD.setText(str(result[0][7]))
+        self.ValueMatIDOutros.setText(str(result[0][8]))
+
+        cursor.execute("SELECT * FROM conjunto_dados WHERE id_caixa = " + str(iDcaixa))
+        result = cursor.fetchall()
+
+        conjunto = json.loads(result[0][2].decode('utf-8'))
+
+        self.ValueNMI.setText(conjunto['NMI'])
+        self.ValueER.setText(conjunto['Elementos Repetidos'])
+        #self.ValueCranioQtde.setText(conjunto['Crânio Íntegro'])
+        self.ValueCranioCod.setText(conjunto['Crânio Íntegro'])
+        self.ValueCranioLoc.setText(conjunto['Crânio Fragmentado'])
+        # self.ValueMandQtde.setText(conjunto['Mandíbula Íntegro'])
+        self.ValueMandCod.setText(conjunto['Mandíbula Íntegro'])
+        self.ValueMandLoc.setText(conjunto['Mandíbula Fragmentado'])
+        # self.ValueHioideQtde.setText(conjunto['Hióide Íntegro'])
+        self.ValueHioideCod.setText(conjunto['Hióide Íntegro'])
+        self.ValueHioideLoc.setText(conjunto['Hióide Fragmentado'])
+        # self.ValueEsternoQtde.setText(conjunto['Esterno Íntegro'])
+        self.ValueEsternoCod.setText(conjunto['Esterno Íntegro'])
+        self.ValueEsternoLoc.setText(conjunto['Esterno Fragmentado'])
+        # self.ValueSacroQtde.setText(conjunto['Sacro Íntegro'])
+        self.ValueSacroCod.setText(conjunto['Sacro Íntegro'])
+        self.ValueSacroLoc.setText(conjunto['Sacro Fragmentado'])
+
+        self.ValueCranioD.setText(conjunto['Escápula Direito'])
+        self.ValueCranioE.setText(conjunto['Escápula Esquerdo'])
+        self.ValueCranioI.setText(conjunto['Escápula ?'])
+        self.ValueClavD.setText(conjunto['Clavícula Direito'])
+        self.ValueClavE.setText(conjunto['Clavícula Esquerdo'])
+        self.ValueClavI.setText(conjunto['Clavícula ?'])
+        self.ValueUmeroD.setText(conjunto['Úmero Direito'])
+        self.ValueUmeroE.setText(conjunto['Úmero Esquerdo'])
+        self.ValueUmeroI.setText(conjunto['Úmero ?'])
+        self.ValueRadioD.setText(conjunto['Rádio Direito'])
+        self.ValueRadioE.setText(conjunto['Rádio Esquerdo'])
+        self.ValueRadioI.setText(conjunto['Rádio ?'])
+        self.ValueUlnaD.setText(conjunto['Ulna Direito'])
+        self.ValueUlnaE.setText(conjunto['Ulna Esquerdo'])
+        self.ValueUlnaI.setText(conjunto['Ulna ?'])
+        self.ValueFemurD.setText(conjunto['Fêmur Direito'])
+        self.ValueFemurE.setText(conjunto['Fêmur Esquerdo'])
+        self.ValueFemurI.setText(conjunto['Fêmur ?'])
+        self.ValueTibiaD.setText(conjunto['Tíbia Direito'])
+        self.ValueTibiaE.setText(conjunto['Tíbia Esquerdo'])
+        self.ValueTibiaI.setText(conjunto['Tíbia ?'])
+        self.ValueFibulaD.setText(conjunto['Fíbula Direito'])
+        self.ValueFibulaE.setText(conjunto['Fíbula Esquerdo'])
+        self.ValueFibulaI.setText(conjunto['Fíbula ?'])
+        self.ValueCoxalD.setText(conjunto['Coxal Direito'])
+        self.ValueCoxalE.setText(conjunto['Coxal Esquerdo'])
+        self.ValueCoxalI.setText(conjunto['Coxal ?'])
+        self.ValuePatelaD.setText(conjunto['Patela Direito'])
+        self.ValuePatelaE.setText(conjunto['Patela Esquerdo'])
+        self.ValuePatelaI.setText(conjunto['Patela ?'])
+
+        cursor.execute("SELECT * FROM conteudo_osso_info WHERE caixa_cod_caixa = " + str(codCaixa))
+        result = cursor.fetchall()
+
+        self.ValueNumDentesMaxila.setText(str(result[0][5]))
+        self.ValueNumDentesMand.setText(str(result[0][3]))
+        self.ValueDentesSoltos.setText(str(result[0][4]))
+        self.ValueNumOssicOuv.setText(str(result[0][10]))
+        self.ValueNumVertFrag.setText(str(result[0][0]))
+        self.ValueNumCostFrag.setText(str(result[0][11]))
+        self.ValueOssosMao.setText(str(result[0][1]))
+        self.ValueOssosPe.setText(str(result[0][2]))
         
-        insere_material_identificacao(cursor, idcaixa, 11, cod_caixa, self.ValueQtdeEtiqueta.text(), self.ValueCodEtiqueta.text(),
-                                      self.ValueLocEtiqueta.text(), self.ValueEstEtiqueta.text(), nrd, outros,self.ValueNRD2.text())
 
-
-
-        num_dentes_maxila = self.ValueNumDentesMaxila.text()
-        num_dentes_mandibula = self.ValueNumDentesMand.text()
-        ossic_ouvido = self.ValueNumOssicOuv.text()
-        num_dentes_soltos = self.ValueDentesSoltos.text()
-        num_vertebras_frag = self.ValueNumVertFrag.text()
-        num_costelas_frag = self.ValueNumCostFrag.text()
-        osso_mao = self.ValueOssosMao.text()
-        osso_pe = self.ValueOssosPe.text()
-        caixa_cod_caixa = cod_caixa
-        obs_gerais = self.textEdit.toPlainText()
-
-        cursor.execute(
-            "INSERT INTO conteudo_osso_info(idcaixa, caixa_pessoa_cod_pessoa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
-            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
-            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
-                                                                                  idcaixa,
-                                                                                  num_dentes_maxila,
-                                                                                  num_dentes_mandibula,
-                                                                                  ossic_ouvido,
-                                                                                  num_dentes_soltos,
-                                                                                  num_vertebras_frag,
-                                                                                  num_costelas_frag,
-                                                                                  osso_mao,
-                                                                                  osso_pe,
-                                                                                  caixa_cod_caixa,
-                                                                                  obs_gerais
-                                                                                  )
-        )
-
-        json = build_conjunto_dados_json(self.ValueNMI.text(),self.ValueER.text(),
-            self.ValueCranioCod.text(), self.ValueCranioLoc.text(),'',
-            self.ValueMandCod.text() ,self.ValueMandLoc.text(),'',
-            self.ValueHioideCod.text(),self.ValueHioideLoc.text(), '',
-            self.ValueEsternoCod.text(),self.ValueEsternoLoc.text(), '',
-            self.ValueSacroCod.text(), self.ValueSacroLoc.text(),'',
-            self.ValueCranioD.text(), self.ValueCranioE.text(),self.ValueCranioI.text(),
-            self.ValueClavD.text(), self.ValueClavE.text(), self.ValueClavI.text(),
-            self.ValueUmeroD.text(), self.ValueUmeroE.text(), self.ValueUmeroI.text(),
-            self.ValueSacroD.text(), self.ValueSacroE.text(), self.ValueSacroI.text(),
-            self.ValueFemurD.text(), self.ValueFemurE.text(), self.ValueFemurI.text(),
-            self.ValueUlnaD.text(), self.ValueUlnaE.text(), self.ValueUlnaI.text(),
-            self.ValueTibiaD.text(), self.ValueTibiaE.text(), self.ValueTibiaI.text(),
-            self.ValueFibulaD.text(), self.ValueFibulaE.text(), self.ValueFibulaI.text(),
-            self.ValueCoxalD.text(), self.ValueCoxalE.text(), self.ValueCoxalI.text(),
-            self.ValuePatelaD.text(), self.ValuePatelaE.text(), self.ValuePatelaI.text(),
-         )
-        cursor.execute(
-            "INSERT INTO conjunto_dados(id_conjunto, id_caixa, input) VALUES ({}, {}, '{}')".format(0, idcaixa, json)
-        )
-
-        db.commit()
-        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -395,41 +189,41 @@ class Ui_Dialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -859, 532, 2600))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, -859, 532, 2518))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.widget = QtWidgets.QWidget(self.scrollAreaWidgetContents)
-        self.widget.setMinimumSize(QtCore.QSize(0, 2600))
+        self.widget.setMinimumSize(QtCore.QSize(0, 2700))
         self.widget.setObjectName("widget")
         self.ValueCodCaixa = QtWidgets.QLineEdit(self.widget)
-        self.ValueCodCaixa.setGeometry(QtCore.QRect(100, 40, 91, 20))
+        self.ValueCodCaixa.setGeometry(QtCore.QRect(10, 40, 91, 20))
         self.ValueCodCaixa.setObjectName("ValueCodCaixa")
         self.LabelCodCaixa = QtWidgets.QLabel(self.widget)
-        self.LabelCodCaixa.setGeometry(QtCore.QRect(100, 20, 91, 16))
+        self.LabelCodCaixa.setGeometry(QtCore.QRect(10, 20, 91, 16))
         self.LabelCodCaixa.setObjectName("LabelCodCaixa")
         self.LabelLimpeza = QtWidgets.QLabel(self.widget)
-        self.LabelLimpeza.setGeometry(QtCore.QRect(210, 20, 121, 16))
+        self.LabelLimpeza.setGeometry(QtCore.QRect(170, 20, 121, 16))
         self.LabelLimpeza.setObjectName("LabelLimpeza")
-        self.ValueLimpeza = QtWidgets.QLineEdit(self.widget)
-        self.ValueLimpeza.setGeometry(QtCore.QRect(220, 40, 91, 20))
+        self.ValueLimpeza = QtWidgets.QLabel(self.widget)
+        self.ValueLimpeza.setGeometry(QtCore.QRect(170, 40, 91, 20))
         self.ValueLimpeza.setObjectName("ValueLimpeza")
         self.LabelData = QtWidgets.QLabel(self.widget)
         self.LabelData.setGeometry(QtCore.QRect(370, 20, 91, 16))
         self.LabelData.setObjectName("LabelData")
-        self.RespValue = QtWidgets.QLineEdit(self.widget)
+        self.RespValue = QtWidgets.QLabel(self.widget)
         self.RespValue.setGeometry(QtCore.QRect(150, 90, 331, 20))
         self.RespValue.setObjectName("RespValue")
         self.RespLabel = QtWidgets.QLabel(self.widget)
         self.RespLabel.setGeometry(QtCore.QRect(0, 80, 141, 31))
         self.RespLabel.setObjectName("RespLabel")
-        self.EquipeAbertValue = QtWidgets.QLineEdit(self.widget)
+        self.EquipeAbertValue = QtWidgets.QLabel(self.widget)
         self.EquipeAbertValue.setGeometry(QtCore.QRect(150, 130, 331, 20))
         self.EquipeAbertValue.setObjectName("EquipeAbertValue")
         self.EquipeAbertLabel = QtWidgets.QLabel(self.widget)
         self.EquipeAbertLabel.setGeometry(QtCore.QRect(0, 130, 141, 16))
         self.EquipeAbertLabel.setObjectName("EquipeAbertLabel")
-        self.EquipeLimpValue = QtWidgets.QLineEdit(self.widget)
+        self.EquipeLimpValue = QtWidgets.QLabel(self.widget)
         self.EquipeLimpValue.setGeometry(QtCore.QRect(150, 170, 331, 20))
         self.EquipeLimpValue.setObjectName("EquipeLimpValue")
         self.EquipeLimpLabel = QtWidgets.QLabel(self.widget)
@@ -449,35 +243,35 @@ class Ui_Dialog(object):
         self.CorCabeloLabel = QtWidgets.QLabel(self.widget)
         self.CorCabeloLabel.setGeometry(QtCore.QRect(100, 270, 91, 16))
         self.CorCabeloLabel.setObjectName("CorCabeloLabel")
-        self.ValueCabeloCor = QtWidgets.QLineEdit(self.widget)
+        self.ValueCabeloCor = QtWidgets.QLabel(self.widget)
         self.ValueCabeloCor.setGeometry(QtCore.QRect(230, 270, 201, 20))
         self.ValueCabeloCor.setObjectName("ValueCabeloCor")
         self.CompCabeloLabel = QtWidgets.QLabel(self.widget)
         self.CompCabeloLabel.setGeometry(QtCore.QRect(100, 300, 121, 16))
         self.CompCabeloLabel.setObjectName("CompCabeloLabel")
-        self.ValueCompCabelo = QtWidgets.QLineEdit(self.widget)
+        self.ValueCompCabelo = QtWidgets.QLabel(self.widget)
         self.ValueCompCabelo.setGeometry(QtCore.QRect(230, 300, 201, 20))
         self.ValueCompCabelo.setObjectName("ValueCompCabelo")
-        self.ValueRoupaMatLimp = QtWidgets.QLineEdit(self.widget)
+        self.ValueRoupaMatLimp = QtWidgets.QLabel(self.widget)
         self.ValueRoupaMatLimp.setGeometry(QtCore.QRect(230, 330, 201, 20))
         self.ValueRoupaMatLimp.setText("")
         self.ValueRoupaMatLimp.setObjectName("ValueRoupaMatLimp")
         self.RoupaLabel = QtWidgets.QLabel(self.widget)
         self.RoupaLabel.setGeometry(QtCore.QRect(100, 330, 121, 16))
         self.RoupaLabel.setObjectName("RoupaLabel")
-        self.ValueOutrosMatLimp = QtWidgets.QLineEdit(self.widget)
+        self.ValueOutrosMatLimp = QtWidgets.QLabel(self.widget)
         self.ValueOutrosMatLimp.setGeometry(QtCore.QRect(230, 360, 201, 20))
         self.ValueOutrosMatLimp.setText("")
         self.ValueOutrosMatLimp.setObjectName("ValueOutrosMatLimp")
         self.MatLimpOutrosLabel = QtWidgets.QLabel(self.widget)
         self.MatLimpOutrosLabel.setGeometry(QtCore.QRect(100, 360, 121, 16))
         self.MatLimpOutrosLabel.setObjectName("MatLimpOutrosLabel")
-        self.radioButton = QtWidgets.QRadioButton(self.widget)
-        self.radioButton.setGeometry(QtCore.QRect(160, 430, 82, 17))
+        self.radioButton = QtWidgets.QLabel(self.widget)
+        self.radioButton.setGeometry(QtCore.QRect(220, 430, 82, 17))
         self.radioButton.setObjectName("radioButton")
-        self.radioButton_2 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton_2.setGeometry(QtCore.QRect(280, 430, 82, 17))
-        self.radioButton_2.setObjectName("radioButton_2")
+        # self.radioButton_2 = QtWidgets.QRadioButton(self.widget)
+        # self.radioButton_2.setGeometry(QtCore.QRect(280, 430, 82, 17))
+        # self.radioButton_2.setObjectName("radioButton_2")
         self.TipoLimpLabe = QtWidgets.QLabel(self.widget)
         self.TipoLimpLabe.setGeometry(QtCore.QRect(210, 410, 131, 16))
         self.TipoLimpLabe.setObjectName("TipoLimpLabe")
@@ -492,26 +286,20 @@ class Ui_Dialog(object):
         self.AvaliacaoLabel = QtWidgets.QLabel(self.widget)
         self.AvaliacaoLabel.setGeometry(QtCore.QRect(250, 510, 131, 16))
         self.AvaliacaoLabel.setObjectName("AvaliacaoLabel")
-        self.radioButton_7 = QtWidgets.QRadioButton(self.widget)
+        self.radioButton_7 = QtWidgets.QLabel(self.widget)
         self.radioButton_7.setGeometry(QtCore.QRect(240, 530, 82, 17))
         self.radioButton_7.setObjectName("radioButton_7")
-        self.radioButton_8 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton_8.setGeometry(QtCore.QRect(120, 530, 82, 17))
-        self.radioButton_8.setObjectName("radioButton_8")
-        self.radioButton_9 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton_9.setGeometry(QtCore.QRect(360, 530, 82, 17))
-        self.radioButton_9.setObjectName("radioButton_9")
-
-        self.bg1 = QtWidgets.QButtonGroup()
-        self.bg1.addButton(self.radioButton_7)
-        self.bg1.addButton(self.radioButton_8)
-        self.bg1.addButton(self.radioButton_9)
-
-        self.ValueFungos = QtWidgets.QLineEdit(self.widget)
+        # self.radioButton_8 = QtWidgets.QRadioButton(self.widget)
+        # self.radioButton_8.setGeometry(QtCore.QRect(120, 530, 82, 17))
+        # self.radioButton_8.setObjectName("radioButton_8")
+        # self.radioButton_9 = QtWidgets.QRadioButton(self.widget)
+        # self.radioButton_9.setGeometry(QtCore.QRect(360, 530, 82, 17))
+        # self.radioButton_9.setObjectName("radioButton_9")
+        self.ValueFungos = QtWidgets.QLabel(self.widget)
         self.ValueFungos.setGeometry(QtCore.QRect(240, 590, 201, 20))
         self.ValueFungos.setText("")
         self.ValueFungos.setObjectName("ValueFungos")
-        self.ValueUmidade = QtWidgets.QLineEdit(self.widget)
+        self.ValueUmidade = QtWidgets.QLabel(self.widget)
         self.ValueUmidade.setGeometry(QtCore.QRect(240, 560, 201, 20))
         self.ValueUmidade.setObjectName("ValueUmidade")
         self.UmidadeLabel = QtWidgets.QLabel(self.widget)
@@ -520,14 +308,14 @@ class Ui_Dialog(object):
         self.FungosLabel = QtWidgets.QLabel(self.widget)
         self.FungosLabel.setGeometry(QtCore.QRect(100, 590, 121, 16))
         self.FungosLabel.setObjectName("FungosLabel")
-        self.ValuePIO = QtWidgets.QLineEdit(self.widget)
+        self.ValuePIO = QtWidgets.QLabel(self.widget)
         self.ValuePIO.setGeometry(QtCore.QRect(240, 620, 201, 20))
         self.ValuePIO.setText("")
         self.ValuePIO.setObjectName("ValuePIO")
         self.PIOLabel = QtWidgets.QLabel(self.widget)
         self.PIOLabel.setGeometry(QtCore.QRect(100, 620, 121, 16))
         self.PIOLabel.setObjectName("PIOLabel")
-        self.ValueOPL = QtWidgets.QLineEdit(self.widget)
+        self.ValueOPL = QtWidgets.QLabel(self.widget)
         self.ValueOPL.setGeometry(QtCore.QRect(240, 650, 201, 20))
         self.ValueOPL.setText("")
         self.ValueOPL.setObjectName("ValueOPL")
@@ -545,63 +333,65 @@ class Ui_Dialog(object):
         self.SLHLabel = QtWidgets.QLabel(self.widget)
         self.SLHLabel.setGeometry(QtCore.QRect(10, 750, 91, 41))
         self.SLHLabel.setObjectName("SLHLabel")
-        self.ValueSLH = QtWidgets.QLineEdit(self.widget)
+        self.ValueSLH = QtWidgets.QLabel(self.widget)
         self.ValueSLH.setGeometry(QtCore.QRect(110, 760, 131, 20))
         self.ValueSLH.setObjectName("ValueSLH")
-        self.ValueSA = QtWidgets.QLineEdit(self.widget)
+        self.ValueSA = QtWidgets.QLabel(self.widget)
         self.ValueSA.setGeometry(QtCore.QRect(110, 810, 131, 20))
         self.ValueSA.setObjectName("ValueSA")
         self.SALabel = QtWidgets.QLabel(self.widget)
         self.SALabel.setGeometry(QtCore.QRect(10, 800, 91, 41))
         self.SALabel.setObjectName("SALabel")
-        self.ValueSTNT = QtWidgets.QLineEdit(self.widget)
+        self.ValueSTNT = QtWidgets.QLabel(self.widget)
         self.ValueSTNT.setGeometry(QtCore.QRect(110, 860, 131, 20))
         self.ValueSTNT.setObjectName("ValueSTNT")
         self.STNTLabel = QtWidgets.QLabel(self.widget)
         self.STNTLabel.setGeometry(QtCore.QRect(10, 850, 91, 41))
         self.STNTLabel.setObjectName("STNTLabel")
-
-        self.ValueEP = QtWidgets.QLineEdit(self.widget)
-        self.ValueEP.setGeometry(QtCore.QRect(110, 910, 131, 20))
-        self.ValueEP.setObjectName("ValueEP")
-        self.EPLabel = QtWidgets.QLabel(self.widget)
-        self.EPLabel.setGeometry(QtCore.QRect(10, 900, 91, 41))
-        self.EPLabel.setObjectName("EPLabel")
-
-        self.ValueSdI = QtWidgets.QLineEdit(self.widget)
-        self.ValueSdI.setGeometry(QtCore.QRect(360, 910, 131, 20))
-        self.ValueSdI.setObjectName("ValueSdI")
-        self.SdILabel = QtWidgets.QLabel(self.widget)
-        self.SdILabel.setGeometry(QtCore.QRect(260, 900, 91, 41))
-        self.SdILabel.setObjectName("SdILabel")
-        
-        self.ValueSPT = QtWidgets.QLineEdit(self.widget)
-        self.ValueSPT.setGeometry(QtCore.QRect(250, 960, 131, 20))
-        self.ValueSPT.setObjectName("ValueSPT")
-        self.SPTLabel = QtWidgets.QLabel(self.widget)
-        self.SPTLabel.setGeometry(QtCore.QRect(150, 950, 91, 41))
-        self.SPTLabel.setObjectName("SPTLabel")
-        
-
-        self.ValueSASFM = QtWidgets.QLineEdit(self.widget)
+        self.ValueSASFM = QtWidgets.QLabel(self.widget)
         self.ValueSASFM.setGeometry(QtCore.QRect(360, 760, 131, 20))
         self.ValueSASFM.setObjectName("ValueSASFM")
         self.STPLabel = QtWidgets.QLabel(self.widget)
         self.STPLabel.setGeometry(QtCore.QRect(260, 850, 91, 41))
         self.STPLabel.setObjectName("STPLabel")
+        self.ValueSTP = QtWidgets.QLabel(self.widget)
+        self.ValueSTP.setGeometry(QtCore.QRect(360, 860, 131, 20))
+        self.ValueSTP.setObjectName("ValueSTP")
         self.SPLLabel = QtWidgets.QLabel(self.widget)
         self.SPLLabel.setGeometry(QtCore.QRect(260, 800, 91, 41))
         self.SPLLabel.setObjectName("SPLLabel")
-        self.ValueSTP = QtWidgets.QLineEdit(self.widget)
-        self.ValueSTP.setGeometry(QtCore.QRect(360, 860, 131, 20))
-        self.ValueSTP.setObjectName("ValueSTP")
         self.SASFMLabel = QtWidgets.QLabel(self.widget)
         self.SASFMLabel.setGeometry(QtCore.QRect(260, 750, 91, 41))
         self.SASFMLabel.setObjectName("SASFMLabel")
-        self.ValueSPL = QtWidgets.QLineEdit(self.widget)
+        self.ValueSPL = QtWidgets.QLabel(self.widget)
         self.ValueSPL.setGeometry(QtCore.QRect(360, 810, 131, 20))
         self.ValueSPL.setObjectName("ValueSPL")
-        self.ValueObsEPO = QtWidgets.QLineEdit(self.widget)
+
+
+        self.SILabel = QtWidgets.QLabel(self.widget)
+        self.SILabel.setGeometry(QtCore.QRect(10, 900, 91, 41))
+        self.SILabel.setObjectName("SILabel")
+        self.ValueSI = QtWidgets.QLabel(self.widget)
+        self.ValueSI.setGeometry(QtCore.QRect(110, 910, 131, 20))
+        self.ValueSI.setObjectName("ValueSI")
+
+        self.SELabel = QtWidgets.QLabel(self.widget)
+        self.SELabel.setGeometry(QtCore.QRect(260, 900, 91, 41))
+        self.SELabel.setObjectName("SELabel")
+        self.ValueSE = QtWidgets.QLabel(self.widget)
+        self.ValueSE.setGeometry(QtCore.QRect(370, 910, 131, 20))
+        self.ValueSE.setObjectName("ValueSE")
+
+        self.SPTLabel = QtWidgets.QLabel(self.widget)
+        self.SPTLabel.setGeometry(QtCore.QRect(260, 950, 100, 41))
+        self.SPTLabel.setObjectName("SELabel")
+        self.ValueSPT = QtWidgets.QLabel(self.widget)
+        self.ValueSPT.setGeometry(QtCore.QRect(370, 960, 131, 20))
+        self.ValueSPT.setObjectName("ValueSE")
+
+
+
+        self.ValueObsEPO = QtWidgets.QLabel(self.widget)
         self.ValueObsEPO.setGeometry(QtCore.QRect(130, 1000, 321, 20))
         self.ValueObsEPO.setText("")
         self.ValueObsEPO.setObjectName("ValueObsEPO")
@@ -611,24 +401,24 @@ class Ui_Dialog(object):
         self.EPOOutrosLabel = QtWidgets.QLabel(self.widget)
         self.EPOOutrosLabel.setGeometry(QtCore.QRect(50, 1030, 121, 16))
         self.EPOOutrosLabel.setObjectName("EPOOutrosLabel")
-        self.ValueEPOOutros = QtWidgets.QLineEdit(self.widget)
+        self.ValueEPOOutros = QtWidgets.QLabel(self.widget)
         self.ValueEPOOutros.setGeometry(QtCore.QRect(131, 1030, 321, 20))
         self.ValueEPOOutros.setObjectName("ValueEPOOutros")
         self.MatIDLabel = QtWidgets.QLabel(self.widget)
-        self.MatIDLabel.setGeometry(QtCore.QRect(130, 1080, 281, 41))
+        self.MatIDLabel.setGeometry(QtCore.QRect(130, 1060, 281, 41))
         self.MatIDLabel.setObjectName("MatIDLabel")
         self.line_14 = QtWidgets.QFrame(self.widget)
-        self.line_14.setGeometry(QtCore.QRect(0, 1050, 511, 41))
+        self.line_14.setGeometry(QtCore.QRect(0, 1030, 511, 41))
         self.line_14.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_14.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_14.setObjectName("line_14")
-        self.ValueQtdeAM = QtWidgets.QLineEdit(self.widget)
+        self.ValueQtdeAM = QtWidgets.QLabel(self.widget)
         self.ValueQtdeAM.setGeometry(QtCore.QRect(70, 1150, 61, 20))
         self.ValueQtdeAM.setObjectName("ValueQtdeAM")
         self.AMQtde = QtWidgets.QLabel(self.widget)
         self.AMQtde.setGeometry(QtCore.QRect(0, 1140, 61, 41))
         self.AMQtde.setObjectName("AMQtde")
-        self.ValueCodAM = QtWidgets.QLineEdit(self.widget)
+        self.ValueCodAM = QtWidgets.QLabel(self.widget)
         self.ValueCodAM.setGeometry(QtCore.QRect(190, 1150, 61, 20))
         self.ValueCodAM.setObjectName("ValueCodAM")
         self.AMCod = QtWidgets.QLabel(self.widget)
@@ -637,7 +427,7 @@ class Ui_Dialog(object):
         self.AMLabel = QtWidgets.QLabel(self.widget)
         self.AMLabel.setGeometry(QtCore.QRect(-80, 1120, 281, 41))
         self.AMLabel.setObjectName("AMLabel")
-        self.ValueLocAM = QtWidgets.QLineEdit(self.widget)
+        self.ValueLocAM = QtWidgets.QLabel(self.widget)
         self.ValueLocAM.setGeometry(QtCore.QRect(330, 1150, 61, 20))
         self.ValueLocAM.setObjectName("ValueLocAM")
         self.AMEst = QtWidgets.QLabel(self.widget)
@@ -646,185 +436,133 @@ class Ui_Dialog(object):
         self.AMLoc = QtWidgets.QLabel(self.widget)
         self.AMLoc.setGeometry(QtCore.QRect(260, 1140, 61, 41))
         self.AMLoc.setObjectName("AMLoc")
-        self.ValueEstAM = QtWidgets.QLineEdit(self.widget)
+        self.ValueEstAM = QtWidgets.QLabel(self.widget)
         self.ValueEstAM.setGeometry(QtCore.QRect(440, 1150, 61, 20))
         self.ValueEstAM.setObjectName("ValueEstAM")
-        self.ValueQtdeSFM = QtWidgets.QLineEdit(self.widget)
-        self.ValueQtdeSFM.setGeometry(QtCore.QRect(70, 1210, 61, 20))
+        self.ValueQtdeSFM = QtWidgets.QLabel(self.widget)
+        self.ValueQtdeSFM.setGeometry(QtCore.QRect(70, 1230, 61, 20))
         self.ValueQtdeSFM.setObjectName("ValueQtdeSFM")
         self.SFMcod = QtWidgets.QLabel(self.widget)
-        self.SFMcod.setGeometry(QtCore.QRect(140, 1200, 61, 41))
+        self.SFMcod.setGeometry(QtCore.QRect(140, 1220, 61, 41))
         self.SFMcod.setObjectName("SFMcod")
         self.SFMLabel = QtWidgets.QLabel(self.widget)
-        self.SFMLabel.setGeometry(QtCore.QRect(-80, 1180, 281, 41))
+        self.SFMLabel.setGeometry(QtCore.QRect(-80, 1200, 281, 41))
         self.SFMLabel.setObjectName("SFMLabel")
         self.SFMQtde = QtWidgets.QLabel(self.widget)
-        self.SFMQtde.setGeometry(QtCore.QRect(0, 1200, 61, 41))
+        self.SFMQtde.setGeometry(QtCore.QRect(0, 1220, 61, 41))
         self.SFMQtde.setObjectName("SFMQtde")
-        self.ValueEstSFM = QtWidgets.QLineEdit(self.widget)
-        self.ValueEstSFM.setGeometry(QtCore.QRect(440, 1210, 61, 20))
+        self.ValueEstSFM = QtWidgets.QLabel(self.widget)
+        self.ValueEstSFM.setGeometry(QtCore.QRect(440, 1230, 61, 20))
         self.ValueEstSFM.setObjectName("ValueEstSFM")
-        self.ValueLocSFM = QtWidgets.QLineEdit(self.widget)
-        self.ValueLocSFM.setGeometry(QtCore.QRect(330, 1210, 61, 20))
+        self.ValueLocSFM = QtWidgets.QLabel(self.widget)
+        self.ValueLocSFM.setGeometry(QtCore.QRect(330, 1230, 61, 20))
         self.ValueLocSFM.setObjectName("ValueLocSFM")
         self.SFMLoc = QtWidgets.QLabel(self.widget)
-        self.SFMLoc.setGeometry(QtCore.QRect(260, 1200, 61, 41))
+        self.SFMLoc.setGeometry(QtCore.QRect(260, 1220, 61, 41))
         self.SFMLoc.setObjectName("SFMLoc")
-        self.ValueCodSFM = QtWidgets.QLineEdit(self.widget)
-        self.ValueCodSFM.setGeometry(QtCore.QRect(190, 1210, 61, 20))
+        self.ValueCodSFM = QtWidgets.QLabel(self.widget)
+        self.ValueCodSFM.setGeometry(QtCore.QRect(190, 1230, 61, 20))
         self.ValueCodSFM.setObjectName("ValueCodSFM")
         self.SFMEst = QtWidgets.QLabel(self.widget)
-        self.SFMEst.setGeometry(QtCore.QRect(400, 1200, 61, 41))
+        self.SFMEst.setGeometry(QtCore.QRect(400, 1220, 61, 41))
         self.SFMEst.setObjectName("SFMEst")
-        
         self.UNICAMPLocLabel = QtWidgets.QLabel(self.widget)
-        self.UNICAMPLocLabel.setGeometry(QtCore.QRect(260, 1260, 61, 41))
+        self.UNICAMPLocLabel.setGeometry(QtCore.QRect(260, 1270, 61, 41))
         self.UNICAMPLocLabel.setObjectName("UNICAMPLocLabel")
-        self.ValueCodUNICAMP = QtWidgets.QLineEdit(self.widget)
-        self.ValueCodUNICAMP.setGeometry(QtCore.QRect(190, 1270, 61, 20))
+        self.ValueCodUNICAMP = QtWidgets.QLabel(self.widget)
+        self.ValueCodUNICAMP.setGeometry(QtCore.QRect(190, 1280, 61, 20))
         self.ValueCodUNICAMP.setObjectName("ValueCodUNICAMP")
-        self.ValueEstUNICAMP = QtWidgets.QLineEdit(self.widget)
-        self.ValueEstUNICAMP.setGeometry(QtCore.QRect(440, 1270, 61, 20))
+        self.ValueEstUNICAMP = QtWidgets.QLabel(self.widget)
+        self.ValueEstUNICAMP.setGeometry(QtCore.QRect(440, 1280, 61, 20))
         self.ValueEstUNICAMP.setObjectName("ValueEstUNICAMP")
         self.UNICAMPCod = QtWidgets.QLabel(self.widget)
-        self.UNICAMPCod.setGeometry(QtCore.QRect(140, 1260, 61, 41))
+        self.UNICAMPCod.setGeometry(QtCore.QRect(140, 1270, 61, 41))
         self.UNICAMPCod.setObjectName("UNICAMPCod")
         self.UNICAMPEst = QtWidgets.QLabel(self.widget)
-        self.UNICAMPEst.setGeometry(QtCore.QRect(400, 1260, 61, 41))
+        self.UNICAMPEst.setGeometry(QtCore.QRect(400, 1270, 61, 41))
         self.UNICAMPEst.setObjectName("UNICAMPEst")
         self.UNICAMPQtde = QtWidgets.QLabel(self.widget)
-        self.UNICAMPQtde.setGeometry(QtCore.QRect(0, 1260, 61, 41))
+        self.UNICAMPQtde.setGeometry(QtCore.QRect(0, 1270, 61, 41))
         self.UNICAMPQtde.setObjectName("UNICAMPQtde")
-        self.ValueQtdeUNICAMP = QtWidgets.QLineEdit(self.widget)
-        self.ValueQtdeUNICAMP.setGeometry(QtCore.QRect(70, 1270, 61, 20))
+        self.ValueQtdeUNICAMP = QtWidgets.QLabel(self.widget)
+        self.ValueQtdeUNICAMP.setGeometry(QtCore.QRect(70, 1280, 61, 20))
         self.ValueQtdeUNICAMP.setObjectName("ValueQtdeUNICAMP")
         self.UNICAMPLabel = QtWidgets.QLabel(self.widget)
-        self.UNICAMPLabel.setGeometry(QtCore.QRect(-60, 1240, 281, 41))
+        self.UNICAMPLabel.setGeometry(QtCore.QRect(-60, 1260, 281, 41))
         self.UNICAMPLabel.setObjectName("UNICAMPLabel")
-        self.ValueLocUNICAMP = QtWidgets.QLineEdit(self.widget)
-        self.ValueLocUNICAMP.setGeometry(QtCore.QRect(330, 1270, 61, 20))
+        self.ValueLocUNICAMP = QtWidgets.QLabel(self.widget)
+        self.ValueLocUNICAMP.setGeometry(QtCore.QRect(330, 1280, 61, 20))
         self.ValueLocUNICAMP.setObjectName("ValueLocUNICAMP")
-        
+       
         self.LacreLocLabel = QtWidgets.QLabel(self.widget)
-        self.LacreLocLabel.setGeometry(QtCore.QRect(260, 1310, 61, 41))
+        self.LacreLocLabel.setGeometry(QtCore.QRect(260, 1330, 61, 41))
         self.LacreLocLabel.setObjectName("LacreLocLabel")
-        self.ValueCodLacre = QtWidgets.QLineEdit(self.widget)
-        self.ValueCodLacre.setGeometry(QtCore.QRect(190, 1320, 61, 20))
+        self.ValueCodLacre = QtWidgets.QLabel(self.widget)
+        self.ValueCodLacre.setGeometry(QtCore.QRect(190, 1340, 61, 20))
         self.ValueCodLacre.setObjectName("ValueCodLacre")
-        self.ValueEstLacre = QtWidgets.QLineEdit(self.widget)
-        self.ValueEstLacre.setGeometry(QtCore.QRect(440, 1320, 61, 20))
+        self.ValueEstLacre = QtWidgets.QLabel(self.widget)
+        self.ValueEstLacre.setGeometry(QtCore.QRect(440, 1340, 61, 20))
         self.ValueEstLacre.setObjectName("ValueEstLacre")
         self.LacreCod = QtWidgets.QLabel(self.widget)
-        self.LacreCod.setGeometry(QtCore.QRect(140, 1310, 61, 41))
+        self.LacreCod.setGeometry(QtCore.QRect(140, 1330, 61, 41))
         self.LacreCod.setObjectName("LacreCod")
         self.LacreEst = QtWidgets.QLabel(self.widget)
-        self.LacreEst.setGeometry(QtCore.QRect(400, 1310, 61, 41))
+        self.LacreEst.setGeometry(QtCore.QRect(400, 1330, 61, 41))
         self.LacreEst.setObjectName("LacreEst")
         self.LacreQtde = QtWidgets.QLabel(self.widget)
-        self.LacreQtde.setGeometry(QtCore.QRect(0, 1310, 61, 41))
+        self.LacreQtde.setGeometry(QtCore.QRect(0, 1330, 61, 41))
         self.LacreQtde.setObjectName("LacreQtde")
-        self.ValueQtdeLacre = QtWidgets.QLineEdit(self.widget)
-        self.ValueQtdeLacre.setGeometry(QtCore.QRect(70, 1320, 61, 20))
+        self.ValueQtdeLacre = QtWidgets.QLabel(self.widget)
+        self.ValueQtdeLacre.setGeometry(QtCore.QRect(70, 1340, 61, 20))
         self.ValueQtdeLacre.setObjectName("ValueQtdeLacre")
         self.LacreLabel = QtWidgets.QLabel(self.widget)
-        self.LacreLabel.setGeometry(QtCore.QRect(-115, 1300, 281, 41))
+        self.LacreLabel.setGeometry(QtCore.QRect(-115, 1310, 281, 41))
         self.LacreLabel.setObjectName("LacreLabel")
-        self.ValueLocLacre = QtWidgets.QLineEdit(self.widget)
-        self.ValueLocLacre.setGeometry(QtCore.QRect(330, 1320, 61, 20))
+        self.ValueLocLacre = QtWidgets.QLabel(self.widget)
+        self.ValueLocLacre.setGeometry(QtCore.QRect(330, 1340, 61, 20))
         self.ValueLocLacre.setObjectName("ValueLocLacre")
 
         self.EtiquetaLocLabel = QtWidgets.QLabel(self.widget)
-        self.EtiquetaLocLabel.setGeometry(QtCore.QRect(260, 1360, 61, 41))
+        self.EtiquetaLocLabel.setGeometry(QtCore.QRect(260, 1380, 61, 41))
         self.EtiquetaLocLabel.setObjectName("EtiquetaLocLabel")
-        self.ValueCodEtiqueta = QtWidgets.QLineEdit(self.widget)
-        self.ValueCodEtiqueta.setGeometry(QtCore.QRect(190, 1370, 61, 20))
+        self.ValueCodEtiqueta = QtWidgets.QLabel(self.widget)
+        self.ValueCodEtiqueta.setGeometry(QtCore.QRect(190, 1390, 61, 20))
         self.ValueCodEtiqueta.setObjectName("ValueCodEtiqueta")
-        self.ValueEstEtiqueta = QtWidgets.QLineEdit(self.widget)
-        self.ValueEstEtiqueta.setGeometry(QtCore.QRect(440, 1370, 61, 20))
+        self.ValueEstEtiqueta = QtWidgets.QLabel(self.widget)
+        self.ValueEstEtiqueta.setGeometry(QtCore.QRect(440, 1390, 61, 20))
         self.ValueEstEtiqueta.setObjectName("ValueEstEtiqueta")
         self.EtiquetaCod = QtWidgets.QLabel(self.widget)
-        self.EtiquetaCod.setGeometry(QtCore.QRect(140, 1360, 61, 41))
+        self.EtiquetaCod.setGeometry(QtCore.QRect(140, 1380, 61, 41))
         self.EtiquetaCod.setObjectName("EtiquetaCod")
         self.EtiquetaEst = QtWidgets.QLabel(self.widget)
-        self.EtiquetaEst.setGeometry(QtCore.QRect(400, 1360, 61, 41))
+        self.EtiquetaEst.setGeometry(QtCore.QRect(400, 1380, 61, 41))
         self.EtiquetaEst.setObjectName("EtiquetaEst")
         self.EtiquetaQtde = QtWidgets.QLabel(self.widget)
-        self.EtiquetaQtde.setGeometry(QtCore.QRect(0, 1360, 61, 41))
+        self.EtiquetaQtde.setGeometry(QtCore.QRect(0, 1380, 61, 41))
         self.EtiquetaQtde.setObjectName("EtiquetaQtde")
-        self.ValueQtdeEtiqueta = QtWidgets.QLineEdit(self.widget)
-        self.ValueQtdeEtiqueta.setGeometry(QtCore.QRect(70, 1370, 61, 20))
+        self.ValueQtdeEtiqueta = QtWidgets.QLabel(self.widget)
+        self.ValueQtdeEtiqueta.setGeometry(QtCore.QRect(70, 1390, 61, 20))
         self.ValueQtdeEtiqueta.setObjectName("ValueQtdeEtiqueta")
         self.EtiquetaLabel = QtWidgets.QLabel(self.widget)
-        self.EtiquetaLabel.setGeometry(QtCore.QRect(-110, 1350, 281, 41))
+        self.EtiquetaLabel.setGeometry(QtCore.QRect(-110, 1360, 281, 41))
         self.EtiquetaLabel.setObjectName("EtiquetaLabel")
-        self.ValueLocEtiqueta = QtWidgets.QLineEdit(self.widget)
-        self.ValueLocEtiqueta.setGeometry(QtCore.QRect(330, 1370, 61, 20))
+        self.ValueLocEtiqueta = QtWidgets.QLabel(self.widget)
+        self.ValueLocEtiqueta.setGeometry(QtCore.QRect(330, 1390, 61, 20))
         self.ValueLocEtiqueta.setObjectName("ValueLocEtiqueta")
 
 
-        self.SacosSimLabel = QtWidgets.QLabel(self.widget)
-        self.SacosSimLabel.setGeometry(QtCore.QRect(180, 1430, 20, 17))
-        self.SacosSimLabel.setObjectName("SacosSimLabel")
-        self.SacosNaoLabel = QtWidgets.QLabel(self.widget)
-        self.SacosNaoLabel.setGeometry(QtCore.QRect(220, 1430, 20, 17))
-        self.SacosNaoLabel.setObjectName("SacosNaoLabel")
-        self.SacosOndeLabel = QtWidgets.QLabel(self.widget)
-        self.SacosOndeLabel.setGeometry(QtCore.QRect(250, 1430, 25, 17))
-        self.SacosOndeLabel.setObjectName("SacosOndeLabel")
-
         self.MatIDOutrosLabel = QtWidgets.QLabel(self.widget)
-        self.MatIDOutrosLabel.setGeometry(QtCore.QRect(50, 1400, 121, 16))
+        self.MatIDOutrosLabel.setGeometry(QtCore.QRect(50, 1420, 121, 16))
         self.MatIDOutrosLabel.setObjectName("MatIDOutrosLabel")
-        self.ValueMatIDOutros = QtWidgets.QLineEdit(self.widget)
-        self.ValueMatIDOutros.setGeometry(QtCore.QRect(150, 1400, 321, 20))
+        self.ValueMatIDOutros = QtWidgets.QLabel(self.widget)
+        self.ValueMatIDOutros.setGeometry(QtCore.QRect(150, 1430, 321, 20))
         self.ValueMatIDOutros.setObjectName("ValueMatIDOutros")
-        self.ValueNRD = QtWidgets.QLineEdit(self.widget)
-        self.ValueNRD.setGeometry(QtCore.QRect(285, 1430, 200, 20))
+        self.ValueNRD = QtWidgets.QLabel(self.widget)
+        self.ValueNRD.setGeometry(QtCore.QRect(150, 1450, 321, 20))
         self.ValueNRD.setText("")
         self.ValueNRD.setObjectName("ValueNRD")
-
-        self.radioButton3 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton3.setGeometry(QtCore.QRect(160, 1430, 20, 17))
-
-        self.radioButton3.setObjectName("radioButton3")
-        self.radioButton4 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton4.setGeometry(QtCore.QRect(205, 1430, 20, 17))
-        self.radioButton4.setObjectName("radioButton4")
-        self.bg2 = QtWidgets.QButtonGroup()
-        self.bg2.addButton(self.radioButton3)
-        self.bg2.addButton(self.radioButton4)
-
-
-        self.EmbSimLabel = QtWidgets.QLabel(self.widget)
-        self.EmbSimLabel.setGeometry(QtCore.QRect(180, 1480, 20, 17))
-        self.EmbSimLabel.setObjectName("EmbSimLabel")
-        self.EmbNaoLabel = QtWidgets.QLabel(self.widget)
-        self.EmbNaoLabel.setGeometry(QtCore.QRect(220, 1480, 20, 17))
-        self.EmbNaoLabel.setObjectName("EmbNaoLabel")
-        self.EmbOndeLabel = QtWidgets.QLabel(self.widget)
-        self.EmbOndeLabel.setGeometry(QtCore.QRect(250, 1480, 25, 17))
-        self.EmbOndeLabel.setObjectName("EmbOndeLabel")
-        self.NRDLabel2 = QtWidgets.QLabel(self.widget)
-        self.NRDLabel2.setGeometry(QtCore.QRect(10, 1475, 151, 31))
-        self.NRDLabel2.setObjectName("NRDLabel")
-        self.ValueNRD2 = QtWidgets.QLineEdit(self.widget)
-        self.ValueNRD2.setGeometry(QtCore.QRect(285, 1480, 200, 20))
-        self.ValueNRD2.setText("")
-        self.ValueNRD2.setObjectName("ValueNRD")
-        self.radioButton5 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton5.setGeometry(QtCore.QRect(160, 1480, 20, 17))
-        self.radioButton5.setObjectName("radioButton3")
-        self.radioButton6 = QtWidgets.QRadioButton(self.widget)
-        self.radioButton6.setGeometry(QtCore.QRect(205, 1480, 20, 17))
-        self.radioButton6.setObjectName("radioButton4")
-        self.bg3 = QtWidgets.QButtonGroup()
-        self.bg3.addButton(self.radioButton5)
-        self.bg3.addButton(self.radioButton6)
-
-
-
         self.NRDLabel = QtWidgets.QLabel(self.widget)
-        self.NRDLabel.setGeometry(QtCore.QRect(10, 1420, 151, 31))
+        self.NRDLabel.setGeometry(QtCore.QRect(10, 1450, 161, 31))
         self.NRDLabel.setObjectName("NRDLabel")
         self.ContOsseoLabel = QtWidgets.QLabel(self.widget)
         self.ContOsseoLabel.setGeometry(QtCore.QRect(130, 1520, 281, 41))
@@ -834,10 +572,10 @@ class Ui_Dialog(object):
         self.line_27.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_27.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_27.setObjectName("line_27")
-        self.ValueER = QtWidgets.QLineEdit(self.widget)
+        self.ValueER = QtWidgets.QLabel(self.widget)
         self.ValueER.setGeometry(QtCore.QRect(324, 1560, 61, 20))
         self.ValueER.setObjectName("ValueER")
-        self.ValueNMI = QtWidgets.QLineEdit(self.widget)
+        self.ValueNMI = QtWidgets.QLabel(self.widget)
         self.ValueNMI.setGeometry(QtCore.QRect(180, 1560, 61, 20))
         self.ValueNMI.setObjectName("ValueNMI")
         self.NMILabel = QtWidgets.QLabel(self.widget)
@@ -846,128 +584,110 @@ class Ui_Dialog(object):
         self.ERLabel = QtWidgets.QLabel(self.widget)
         self.ERLabel.setGeometry(QtCore.QRect(260, 1550, 61, 41))
         self.ERLabel.setObjectName("ERLabel")
-        self.CheckBoxCranio = QtWidgets.QCheckBox("Ausente",self.widget)
-        self.CheckBoxCranio.setGeometry(QtCore.QRect(60, 1620, 281, 41))
-        self.CheckBoxCranio.setObjectName("ValueCranioQtde")
+        self.ValueCranioQtde = QtWidgets.QLabel(self.widget)
+        self.ValueCranioQtde.setGeometry(QtCore.QRect(130, 1630, 61, 20))
+        self.ValueCranioQtde.setObjectName("ValueCranioQtde")
         self.COCranCodLabel = QtWidgets.QLabel(self.widget)
-
-        self.COCranCodLabel.setGeometry(QtCore.QRect(240, 1630, 61, 20))
+        self.COCranCodLabel.setGeometry(QtCore.QRect(150, 1620, 61, 41))
         self.COCranCodLabel.setObjectName("COCranCodLabel")
         self.CranioLabel = QtWidgets.QLabel(self.widget)
-        self.CranioLabel.setGeometry(QtCore.QRect(-60, 1600, 281, 20))
+        self.CranioLabel.setGeometry(QtCore.QRect(120, 1600, 281, 41))
         self.CranioLabel.setObjectName("CranioLabel")
         self.CranioQtdeLabel = QtWidgets.QLabel(self.widget)
-        self.CranioQtdeLabel.setGeometry(QtCore.QRect(200, 1630, 61, 20))
-
+        self.CranioQtdeLabel.setGeometry(QtCore.QRect(60, 1620, 61, 41))
         self.CranioQtdeLabel.setObjectName("CranioQtdeLabel")
-        self.ValueCranioLoc = QtWidgets.QLineEdit(self.widget)
-        self.ValueCranioLoc.setGeometry(QtCore.QRect(370, 1630, 61, 20))
+        self.ValueCranioLoc = QtWidgets.QLabel(self.widget)
+        self.ValueCranioLoc.setGeometry(QtCore.QRect(390, 1630, 61, 20))
         self.ValueCranioLoc.setObjectName("ValueCranioLoc")
         self.CranioLocLabel = QtWidgets.QLabel(self.widget)
-
-        self.CranioLocLabel.setGeometry(QtCore.QRect(320, 1630, 61, 20))
+        self.CranioLocLabel.setGeometry(QtCore.QRect(320, 1620, 61, 41))
         self.CranioLocLabel.setObjectName("CranioLocLabel")
-        self.ValueCranioCod = QtWidgets.QLineEdit(self.widget)
-        self.ValueCranioCod.setGeometry(QtCore.QRect(250, 1630, 61, 20))
+        self.ValueCranioCod = QtWidgets.QLabel(self.widget)
+        self.ValueCranioCod.setGeometry(QtCore.QRect(200, 1630, 61, 20))
         self.ValueCranioCod.setObjectName("ValueCranioCod")
-        
         self.MandCodLabel = QtWidgets.QLabel(self.widget)
-
-        self.MandCodLabel.setGeometry(QtCore.QRect(200, 1700, 61, 20))
+        self.MandCodLabel.setGeometry(QtCore.QRect(150, 1690, 61, 41))
         self.MandCodLabel.setObjectName("MandCodLabel")
         self.MandLocLabel = QtWidgets.QLabel(self.widget)
-        self.MandLocLabel.setGeometry(QtCore.QRect(320, 1700, 61, 20))
+        self.MandLocLabel.setGeometry(QtCore.QRect(320, 1690, 61, 41))
         self.MandLocLabel.setObjectName("MandLocLabel")
-
-        self.CheckBoxMand = QtWidgets.QCheckBox("Ausente",self.widget)
-        self.CheckBoxMand.setGeometry(QtCore.QRect(60, 1690, 281, 41))
-        self.CheckBoxMand.setObjectName("ValueCranioQtde")
-        self.ValueMandLoc = QtWidgets.QLineEdit(self.widget)
-        self.ValueMandLoc.setGeometry(QtCore.QRect(370, 1700, 61, 20))
+        self.ValueMandQtde = QtWidgets.QLabel(self.widget)
+        self.ValueMandQtde.setGeometry(QtCore.QRect(130, 1700, 61, 20))
+        self.ValueMandQtde.setObjectName("ValueMandQtde")
+        self.ValueMandLoc = QtWidgets.QLabel(self.widget)
+        self.ValueMandLoc.setGeometry(QtCore.QRect(390, 1700, 61, 20))
         self.ValueMandLoc.setObjectName("ValueMandLoc")
-        self.ValueMandCod = QtWidgets.QLineEdit(self.widget)
-        self.ValueMandCod.setGeometry(QtCore.QRect(250, 1700, 61, 20))
+        self.ValueMandCod = QtWidgets.QLabel(self.widget)
+        self.ValueMandCod.setGeometry(QtCore.QRect(200, 1700, 61, 20))
         self.ValueMandCod.setObjectName("ValueMandCod")
         self.MandQtdeLabel = QtWidgets.QLabel(self.widget)
-
-        self.MandQtdeLabel.setGeometry(QtCore.QRect(60, 1700, 61, 20))
+        self.MandQtdeLabel.setGeometry(QtCore.QRect(60, 1690, 61, 41))
         self.MandQtdeLabel.setObjectName("MandQtdeLabel")
         self.MandLabel = QtWidgets.QLabel(self.widget)
-        self.MandLabel.setGeometry(QtCore.QRect(-50, 1670, 279, 20))
+        self.MandLabel.setGeometry(QtCore.QRect(120, 1670, 281, 41))
         self.MandLabel.setObjectName("MandLabel")
-
-        self.CheckBoxHioide = QtWidgets.QCheckBox("Ausente",self.widget)
-        self.CheckBoxHioide.setGeometry(QtCore.QRect(60, 1770, 281, 41))
-        self.CheckBoxHioide.setObjectName("ValueHioideQtde")
         self.HioideCodLabel = QtWidgets.QLabel(self.widget)
-
-        self.HioideCodLabel.setGeometry(QtCore.QRect(200, 1780, 61, 20))
+        self.HioideCodLabel.setGeometry(QtCore.QRect(150, 1770, 61, 41))
         self.HioideCodLabel.setObjectName("HioideCodLabel")
         self.HioideLocLabel = QtWidgets.QLabel(self.widget)
-        self.HioideLocLabel.setGeometry(QtCore.QRect(320, 1780, 61, 20))
-
+        self.HioideLocLabel.setGeometry(QtCore.QRect(320, 1770, 61, 41))
         self.HioideLocLabel.setObjectName("HioideLocLabel")
-        self.ValueHioideLoc = QtWidgets.QLineEdit(self.widget)
-        self.ValueHioideLoc.setGeometry(QtCore.QRect(370, 1780, 61, 20))
+        self.ValueHioideQtde = QtWidgets.QLabel(self.widget)
+        self.ValueHioideQtde.setGeometry(QtCore.QRect(130, 1780, 61, 20))
+        self.ValueHioideQtde.setObjectName("ValueHioideQtde")
+        self.ValueHioideLoc = QtWidgets.QLabel(self.widget)
+        self.ValueHioideLoc.setGeometry(QtCore.QRect(390, 1780, 61, 20))
         self.ValueHioideLoc.setObjectName("ValueHioideLoc")
-        self.ValueHioideCod = QtWidgets.QLineEdit(self.widget)
-        self.ValueHioideCod.setGeometry(QtCore.QRect(250, 1780, 61, 20))
+        self.ValueHioideCod = QtWidgets.QLabel(self.widget)
+        self.ValueHioideCod.setGeometry(QtCore.QRect(200, 1780, 61, 20))
         self.ValueHioideCod.setObjectName("ValueHioideCod")
         self.HioideQtdeLabel = QtWidgets.QLabel(self.widget)
-
-        self.HioideQtdeLabel.setGeometry(QtCore.QRect(60, 1780, 61, 20))
+        self.HioideQtdeLabel.setGeometry(QtCore.QRect(60, 1770, 61, 41))
         self.HioideQtdeLabel.setObjectName("HioideQtdeLabel")
         self.HioideLabel = QtWidgets.QLabel(self.widget)
-        self.HioideLabel.setGeometry(QtCore.QRect(-60, 1750, 281, 20))
+        self.HioideLabel.setGeometry(QtCore.QRect(120, 1750, 281, 41))
         self.HioideLabel.setObjectName("HioideLabel")
-        
         self.CodEsternoLabel = QtWidgets.QLabel(self.widget)
-        self.CodEsternoLabel.setGeometry(QtCore.QRect(200, 1860, 61, 20))
+        self.CodEsternoLabel.setGeometry(QtCore.QRect(150, 1850, 61, 41))
         self.CodEsternoLabel.setObjectName("CodEsternoLabel")
         self.LocEsternoLabel = QtWidgets.QLabel(self.widget)
-        self.LocEsternoLabel.setGeometry(QtCore.QRect(320, 1860, 61, 20))
-
+        self.LocEsternoLabel.setGeometry(QtCore.QRect(320, 1850, 61, 41))
         self.LocEsternoLabel.setObjectName("LocEsternoLabel")
-        self.CheckBoxEsterno = QtWidgets.QCheckBox("Ausente",self.widget)
-        self.CheckBoxEsterno.setGeometry(QtCore.QRect(60, 1850, 281, 41))
-        self.CheckBoxEsterno.setObjectName("ValueEsternoQtde")
-        self.ValueEsternoLoc = QtWidgets.QLineEdit(self.widget)
-        self.ValueEsternoLoc.setGeometry(QtCore.QRect(370, 1860, 61, 20))
+        self.ValueEsternoQtde = QtWidgets.QLabel(self.widget)
+        self.ValueEsternoQtde.setGeometry(QtCore.QRect(130, 1860, 61, 20))
+        self.ValueEsternoQtde.setObjectName("ValueEsternoQtde")
+        self.ValueEsternoLoc = QtWidgets.QLabel(self.widget)
+        self.ValueEsternoLoc.setGeometry(QtCore.QRect(390, 1860, 61, 20))
         self.ValueEsternoLoc.setObjectName("ValueEsternoLoc")
-        self.ValueEsternoCod = QtWidgets.QLineEdit(self.widget)
-        self.ValueEsternoCod.setGeometry(QtCore.QRect(250, 1860, 61, 20))
+        self.ValueEsternoCod = QtWidgets.QLabel(self.widget)
+        self.ValueEsternoCod.setGeometry(QtCore.QRect(200, 1860, 61, 20))
         self.ValueEsternoCod.setObjectName("ValueEsternoCod")
         self.QtdeEsternoLabel = QtWidgets.QLabel(self.widget)
-
-        self.QtdeEsternoLabel.setGeometry(QtCore.QRect(60, 1860, 61, 20))
+        self.QtdeEsternoLabel.setGeometry(QtCore.QRect(60, 1850, 61, 41))
         self.QtdeEsternoLabel.setObjectName("QtdeEsternoLabel")
         self.EsternoLabel = QtWidgets.QLabel(self.widget)
-        self.EsternoLabel.setGeometry(QtCore.QRect(-60, 1830, 281, 20))
+        self.EsternoLabel.setGeometry(QtCore.QRect(120, 1830, 281, 41))
         self.EsternoLabel.setObjectName("EsternoLabel")
-        
         self.SacroLocLabel = QtWidgets.QLabel(self.widget)
-        self.SacroLocLabel.setGeometry(QtCore.QRect(320, 1930, 61, 20))
+        self.SacroLocLabel.setGeometry(QtCore.QRect(320, 1920, 61, 41))
         self.SacroLocLabel.setObjectName("SacroLocLabel")
         self.SacroCodLabel = QtWidgets.QLabel(self.widget)
-        self.SacroCodLabel.setGeometry(QtCore.QRect(180, 1930, 61, 20))
+        self.SacroCodLabel.setGeometry(QtCore.QRect(150, 1920, 61, 41))
         self.SacroCodLabel.setObjectName("SacroCodLabel")
-
-        self.CheckBoxSacro = QtWidgets.QCheckBox("Ausente",self.widget)
-        self.CheckBoxSacro.setGeometry(QtCore.QRect(60, 1920, 281, 41))
-        self.CheckBoxSacro.setObjectName("ValueSacroQtde")
-        self.SacroQtdeLabel = QtWidgets.QLabel(self.widget)
-
-        self.SacroQtdeLabel.setGeometry(QtCore.QRect(60, 1930, 61, 20))
-        self.SacroQtdeLabel.setObjectName("SacroQtdeLabel")
-        self.ValueSacroLoc = QtWidgets.QLineEdit(self.widget)
-        self.ValueSacroLoc.setGeometry(QtCore.QRect(370, 1930, 61, 20))
-        self.ValueSacroLoc.setObjectName("ValueSacroLoc")
-        self.ValueSacroCod = QtWidgets.QLineEdit(self.widget)
-        self.ValueSacroCod.setGeometry(QtCore.QRect(250, 1930, 61, 20))
+        self.ValueSacroCod = QtWidgets.QLabel(self.widget)
+        self.ValueSacroCod.setGeometry(QtCore.QRect(200, 1930, 61, 20))
         self.ValueSacroCod.setObjectName("ValueSacroCod")
+        self.ValueSacroQtde = QtWidgets.QLabel(self.widget)
+        self.ValueSacroQtde.setGeometry(QtCore.QRect(130, 1930, 61, 20))
+        self.ValueSacroQtde.setObjectName("ValueSacroQtde")
+        self.SacroQtdeLabel = QtWidgets.QLabel(self.widget)
+        self.SacroQtdeLabel.setGeometry(QtCore.QRect(60, 1920, 61, 41))
+        self.SacroQtdeLabel.setObjectName("SacroQtdeLabel")
+        self.ValueSacroLoc = QtWidgets.QLabel(self.widget)
+        self.ValueSacroLoc.setGeometry(QtCore.QRect(390, 1930, 61, 20))
+        self.ValueSacroLoc.setObjectName("ValueSacroLoc")
         self.SacroLabel = QtWidgets.QLabel(self.widget)
-        self.SacroLabel.setGeometry(QtCore.QRect(-60, 1900, 281, 20))
-
+        self.SacroLabel.setGeometry(QtCore.QRect(120, 1900, 281, 41))
         self.SacroLabel.setObjectName("SacroLabel")
         self.line_28 = QtWidgets.QFrame(self.widget)
         self.line_28.setGeometry(QtCore.QRect(0, 1960, 511, 41))
@@ -980,16 +700,16 @@ class Ui_Dialog(object):
         self.CranioDLabel = QtWidgets.QLabel(self.widget)
         self.CranioDLabel.setGeometry(QtCore.QRect(170, 1990, 61, 41))
         self.CranioDLabel.setObjectName("CranioDLabel")
-        self.ValueCranioE = QtWidgets.QLineEdit(self.widget)
+        self.ValueCranioE = QtWidgets.QLabel(self.widget)
         self.ValueCranioE.setGeometry(QtCore.QRect(90, 2020, 61, 20))
         self.ValueCranioE.setObjectName("ValueCranioE")
         self.CranioILabel = QtWidgets.QLabel(self.widget)
         self.CranioILabel.setGeometry(QtCore.QRect(250, 1990, 61, 41))
         self.CranioILabel.setObjectName("CranioILabel")
-        self.ValueCranioD = QtWidgets.QLineEdit(self.widget)
+        self.ValueCranioD = QtWidgets.QLabel(self.widget)
         self.ValueCranioD.setGeometry(QtCore.QRect(170, 2020, 61, 20))
         self.ValueCranioD.setObjectName("ValueCranioD")
-        self.ValueCranioI = QtWidgets.QLineEdit(self.widget)
+        self.ValueCranioI = QtWidgets.QLabel(self.widget)
         self.ValueCranioI.setGeometry(QtCore.QRect(250, 2020, 61, 20))
         self.ValueCranioI.setObjectName("ValueCranioI")
         self.CranioELabel = QtWidgets.QLabel(self.widget)
@@ -998,19 +718,19 @@ class Ui_Dialog(object):
         self.ClavDLabel = QtWidgets.QLabel(self.widget)
         self.ClavDLabel.setGeometry(QtCore.QRect(170, 2040, 61, 41))
         self.ClavDLabel.setObjectName("ClavDLabel")
-        self.ValueClavE = QtWidgets.QLineEdit(self.widget)
+        self.ValueClavE = QtWidgets.QLabel(self.widget)
         self.ValueClavE.setGeometry(QtCore.QRect(90, 2070, 61, 20))
         self.ValueClavE.setObjectName("ValueClavE")
         self.ClavILabel = QtWidgets.QLabel(self.widget)
         self.ClavILabel.setGeometry(QtCore.QRect(250, 2040, 61, 41))
         self.ClavILabel.setObjectName("ClavILabel")
-        self.ValueClavD = QtWidgets.QLineEdit(self.widget)
+        self.ValueClavD = QtWidgets.QLabel(self.widget)
         self.ValueClavD.setGeometry(QtCore.QRect(170, 2070, 61, 20))
         self.ValueClavD.setObjectName("ValueClavD")
         self.ClavLabel = QtWidgets.QLabel(self.widget)
         self.ClavLabel.setGeometry(QtCore.QRect(-100, 2060, 281, 41))
         self.ClavLabel.setObjectName("ClavLabel")
-        self.ValueClavI = QtWidgets.QLineEdit(self.widget)
+        self.ValueClavI = QtWidgets.QLabel(self.widget)
         self.ValueClavI.setGeometry(QtCore.QRect(250, 2070, 61, 20))
         self.ValueClavI.setObjectName("ValueClavI")
         self.ClavELabel = QtWidgets.QLabel(self.widget)
@@ -1019,19 +739,19 @@ class Ui_Dialog(object):
         self.UmeroDLabel = QtWidgets.QLabel(self.widget)
         self.UmeroDLabel.setGeometry(QtCore.QRect(170, 2090, 61, 41))
         self.UmeroDLabel.setObjectName("UmeroDLabel")
-        self.ValueUmeroE = QtWidgets.QLineEdit(self.widget)
+        self.ValueUmeroE = QtWidgets.QLabel(self.widget)
         self.ValueUmeroE.setGeometry(QtCore.QRect(90, 2120, 61, 20))
         self.ValueUmeroE.setObjectName("ValueUmeroE")
         self.UmeroILabel = QtWidgets.QLabel(self.widget)
         self.UmeroILabel.setGeometry(QtCore.QRect(250, 2090, 61, 41))
         self.UmeroILabel.setObjectName("UmeroILabel")
-        self.ValueUmeroD = QtWidgets.QLineEdit(self.widget)
+        self.ValueUmeroD = QtWidgets.QLabel(self.widget)
         self.ValueUmeroD.setGeometry(QtCore.QRect(170, 2120, 61, 20))
         self.ValueUmeroD.setObjectName("ValueUmeroD")
         self.UmeroLabel = QtWidgets.QLabel(self.widget)
         self.UmeroLabel.setGeometry(QtCore.QRect(-100, 2120, 281, 41))
         self.UmeroLabel.setObjectName("UmeroLabel")
-        self.ValueUmeroI = QtWidgets.QLineEdit(self.widget)
+        self.ValueUmeroI = QtWidgets.QLabel(self.widget)
         self.ValueUmeroI.setGeometry(QtCore.QRect(250, 2120, 61, 20))
         self.ValueUmeroI.setObjectName("ValueUmeroI")
         self.UmeroELabel = QtWidgets.QLabel(self.widget)
@@ -1040,19 +760,19 @@ class Ui_Dialog(object):
         self.UlnaDLabel = QtWidgets.QLabel(self.widget)
         self.UlnaDLabel.setGeometry(QtCore.QRect(170, 2140, 61, 41))
         self.UlnaDLabel.setObjectName("UlnaDLabel")
-        self.ValueUlnaE = QtWidgets.QLineEdit(self.widget)
+        self.ValueUlnaE = QtWidgets.QLabel(self.widget)
         self.ValueUlnaE.setGeometry(QtCore.QRect(90, 2170, 61, 20))
         self.ValueUlnaE.setObjectName("ValueUlnaE")
         self.UlnaILabel = QtWidgets.QLabel(self.widget)
         self.UlnaILabel.setGeometry(QtCore.QRect(250, 2140, 61, 41))
         self.UlnaILabel.setObjectName("UlnaILabel")
-        self.ValueUlnaD = QtWidgets.QLineEdit(self.widget)
+        self.ValueUlnaD = QtWidgets.QLabel(self.widget)
         self.ValueUlnaD.setGeometry(QtCore.QRect(170, 2170, 61, 20))
         self.ValueUlnaD.setObjectName("ValueUlnaD")
         self.UlnaLabel = QtWidgets.QLabel(self.widget)
         self.UlnaLabel.setGeometry(QtCore.QRect(-100, 2170, 281, 41))
         self.UlnaLabel.setObjectName("UlnaLabel")
-        self.ValueUlnaI = QtWidgets.QLineEdit(self.widget)
+        self.ValueUlnaI = QtWidgets.QLabel(self.widget)
         self.ValueUlnaI.setGeometry(QtCore.QRect(250, 2170, 61, 20))
         self.ValueUlnaI.setObjectName("ValueUlnaI")
         self.UlnaELabel = QtWidgets.QLabel(self.widget)
@@ -1061,19 +781,19 @@ class Ui_Dialog(object):
         self.FemurDLabel = QtWidgets.QLabel(self.widget)
         self.FemurDLabel.setGeometry(QtCore.QRect(170, 2190, 61, 41))
         self.FemurDLabel.setObjectName("FemurDLabel")
-        self.ValueFemurE = QtWidgets.QLineEdit(self.widget)
+        self.ValueFemurE = QtWidgets.QLabel(self.widget)
         self.ValueFemurE.setGeometry(QtCore.QRect(90, 2220, 61, 20))
         self.ValueFemurE.setObjectName("ValueFemurE")
         self.FemurILabel = QtWidgets.QLabel(self.widget)
         self.FemurILabel.setGeometry(QtCore.QRect(250, 2190, 61, 41))
         self.FemurILabel.setObjectName("FemurILabel")
-        self.ValueFemurD = QtWidgets.QLineEdit(self.widget)
+        self.ValueFemurD = QtWidgets.QLabel(self.widget)
         self.ValueFemurD.setGeometry(QtCore.QRect(170, 2220, 61, 20))
         self.ValueFemurD.setObjectName("ValueFemurD")
         self.FemurLabel = QtWidgets.QLabel(self.widget)
         self.FemurLabel.setGeometry(QtCore.QRect(-100, 2220, 281, 41))
         self.FemurLabel.setObjectName("FemurLabel")
-        self.ValueFemurI = QtWidgets.QLineEdit(self.widget)
+        self.ValueFemurI = QtWidgets.QLabel(self.widget)
         self.ValueFemurI.setGeometry(QtCore.QRect(250, 2220, 61, 20))
         self.ValueFemurI.setObjectName("ValueFemurI")
         self.FemurELabel = QtWidgets.QLabel(self.widget)
@@ -1082,19 +802,19 @@ class Ui_Dialog(object):
         self.TibiaDLabel = QtWidgets.QLabel(self.widget)
         self.TibiaDLabel.setGeometry(QtCore.QRect(170, 2240, 61, 41))
         self.TibiaDLabel.setObjectName("TibiaDLabel")
-        self.ValueTibiaE = QtWidgets.QLineEdit(self.widget)
+        self.ValueTibiaE = QtWidgets.QLabel(self.widget)
         self.ValueTibiaE.setGeometry(QtCore.QRect(90, 2270, 61, 20))
         self.ValueTibiaE.setObjectName("ValueTibiaE")
         self.TibiaILabel = QtWidgets.QLabel(self.widget)
         self.TibiaILabel.setGeometry(QtCore.QRect(250, 2240, 61, 41))
         self.TibiaILabel.setObjectName("TibiaILabel")
-        self.ValueTibiaD = QtWidgets.QLineEdit(self.widget)
+        self.ValueTibiaD = QtWidgets.QLabel(self.widget)
         self.ValueTibiaD.setGeometry(QtCore.QRect(170, 2270, 61, 20))
         self.ValueTibiaD.setObjectName("ValueTibiaD")
         self.TibiaLabel = QtWidgets.QLabel(self.widget)
         self.TibiaLabel.setGeometry(QtCore.QRect(-100, 2270, 281, 41))
         self.TibiaLabel.setObjectName("TibiaLabel")
-        self.ValueTibiaI = QtWidgets.QLineEdit(self.widget)
+        self.ValueTibiaI = QtWidgets.QLabel(self.widget)
         self.ValueTibiaI.setGeometry(QtCore.QRect(250, 2270, 61, 20))
         self.ValueTibiaI.setObjectName("ValueTibiaI")
         self.TibiaELabel = QtWidgets.QLabel(self.widget)
@@ -1103,19 +823,19 @@ class Ui_Dialog(object):
         self.FibulaDLabel = QtWidgets.QLabel(self.widget)
         self.FibulaDLabel.setGeometry(QtCore.QRect(170, 2290, 61, 41))
         self.FibulaDLabel.setObjectName("FibulaDLabel")
-        self.ValueFibulaE = QtWidgets.QLineEdit(self.widget)
+        self.ValueFibulaE = QtWidgets.QLabel(self.widget)
         self.ValueFibulaE.setGeometry(QtCore.QRect(90, 2320, 61, 20))
         self.ValueFibulaE.setObjectName("ValueFibulaE")
         self.FibulaILabel = QtWidgets.QLabel(self.widget)
         self.FibulaILabel.setGeometry(QtCore.QRect(250, 2290, 61, 41))
         self.FibulaILabel.setObjectName("FibulaILabel")
-        self.ValueFibulaD = QtWidgets.QLineEdit(self.widget)
+        self.ValueFibulaD = QtWidgets.QLabel(self.widget)
         self.ValueFibulaD.setGeometry(QtCore.QRect(170, 2320, 61, 20))
         self.ValueFibulaD.setObjectName("ValueFibulaD")
         self.FibulaLabel = QtWidgets.QLabel(self.widget)
         self.FibulaLabel.setGeometry(QtCore.QRect(-100, 2320, 281, 41))
         self.FibulaLabel.setObjectName("FibulaLabel")
-        self.ValueFibulaI = QtWidgets.QLineEdit(self.widget)
+        self.ValueFibulaI = QtWidgets.QLabel(self.widget)
         self.ValueFibulaI.setGeometry(QtCore.QRect(250, 2320, 61, 20))
         self.ValueFibulaI.setObjectName("ValueFibulaI")
         self.FibulaELabel = QtWidgets.QLabel(self.widget)
@@ -1124,19 +844,19 @@ class Ui_Dialog(object):
         self.CoxalDLabel = QtWidgets.QLabel(self.widget)
         self.CoxalDLabel.setGeometry(QtCore.QRect(170, 2340, 61, 41))
         self.CoxalDLabel.setObjectName("CoxalDLabel")
-        self.ValueCoxalE = QtWidgets.QLineEdit(self.widget)
+        self.ValueCoxalE = QtWidgets.QLabel(self.widget)
         self.ValueCoxalE.setGeometry(QtCore.QRect(90, 2370, 61, 20))
         self.ValueCoxalE.setObjectName("ValueCoxalE")
         self.CoxalILabel = QtWidgets.QLabel(self.widget)
         self.CoxalILabel.setGeometry(QtCore.QRect(250, 2340, 61, 41))
         self.CoxalILabel.setObjectName("CoxalILabel")
-        self.ValueCoxalD = QtWidgets.QLineEdit(self.widget)
+        self.ValueCoxalD = QtWidgets.QLabel(self.widget)
         self.ValueCoxalD.setGeometry(QtCore.QRect(170, 2370, 61, 20))
         self.ValueCoxalD.setObjectName("ValueCoxalD")
         self.CoxalLabel = QtWidgets.QLabel(self.widget)
         self.CoxalLabel.setGeometry(QtCore.QRect(-100, 2360, 281, 41))
         self.CoxalLabel.setObjectName("CoxalLabel")
-        self.ValueCoxalI = QtWidgets.QLineEdit(self.widget)
+        self.ValueCoxalI = QtWidgets.QLabel(self.widget)
         self.ValueCoxalI.setGeometry(QtCore.QRect(250, 2370, 61, 20))
         self.ValueCoxalI.setObjectName("ValueCoxalI")
         self.CoxalELabel = QtWidgets.QLabel(self.widget)
@@ -1145,84 +865,81 @@ class Ui_Dialog(object):
         self.PatelaDLabel = QtWidgets.QLabel(self.widget)
         self.PatelaDLabel.setGeometry(QtCore.QRect(170, 2390, 61, 41))
         self.PatelaDLabel.setObjectName("PatelaDLabel")
-        self.ValuePatelaE = QtWidgets.QLineEdit(self.widget)
+        self.ValuePatelaE = QtWidgets.QLabel(self.widget)
         self.ValuePatelaE.setGeometry(QtCore.QRect(90, 2420, 61, 20))
         self.ValuePatelaE.setObjectName("ValuePatelaE")
         self.PatelaILabel = QtWidgets.QLabel(self.widget)
         self.PatelaILabel.setGeometry(QtCore.QRect(250, 2390, 61, 41))
         self.PatelaILabel.setObjectName("PatelaILabel")
-        self.ValuePatelaD = QtWidgets.QLineEdit(self.widget)
+        self.ValuePatelaD = QtWidgets.QLabel(self.widget)
         self.ValuePatelaD.setGeometry(QtCore.QRect(170, 2420, 61, 20))
         self.ValuePatelaD.setObjectName("ValuePatelaD")
         self.PatelaLabel = QtWidgets.QLabel(self.widget)
         self.PatelaLabel.setGeometry(QtCore.QRect(-100, 2410, 281, 41))
         self.PatelaLabel.setObjectName("PatelaLabel")
-        self.ValuePatelaI = QtWidgets.QLineEdit(self.widget)
+        self.ValuePatelaI = QtWidgets.QLabel(self.widget)
         self.ValuePatelaI.setGeometry(QtCore.QRect(250, 2420, 61, 20))
         self.ValuePatelaI.setObjectName("ValuePatelaI")
         self.PatelaELabel = QtWidgets.QLabel(self.widget)
         self.PatelaELabel.setGeometry(QtCore.QRect(90, 2390, 61, 41))
         self.PatelaELabel.setObjectName("PatelaELabel")
-        
-        self.SacroDLabel = QtWidgets.QLabel(self.widget)
-        self.SacroDLabel.setGeometry(QtCore.QRect(170, 2440, 61, 41))
-        self.SacroDLabel.setObjectName("SacroDLabel")
-        self.ValueSacroE = QtWidgets.QLineEdit(self.widget)
-        self.ValueSacroE.setGeometry(QtCore.QRect(90, 2470, 61, 20))
-        self.ValueSacroE.setObjectName("ValueSacroE")
-        self.SacroILabel = QtWidgets.QLabel(self.widget)
-        self.SacroILabel.setGeometry(QtCore.QRect(250, 2440, 61, 41))
-        self.SacroILabel.setObjectName("SacroILabel")
-        self.ValueSacroD = QtWidgets.QLineEdit(self.widget)
-        self.ValueSacroD.setGeometry(QtCore.QRect(170, 2470, 61, 20))
-        self.ValueSacroD.setObjectName("ValueSacroD")
+        self.RadioDLabel = QtWidgets.QLabel(self.widget)
+        self.RadioDLabel.setGeometry(QtCore.QRect(170, 2440, 61, 41))
+        self.RadioDLabel.setObjectName("RadioDLabel")
+        self.ValueRadioE = QtWidgets.QLabel(self.widget)
+        self.ValueRadioE.setGeometry(QtCore.QRect(90, 2470, 61, 20))
+        self.ValueRadioE.setObjectName("ValueRadioE")
+        self.RadioILabel = QtWidgets.QLabel(self.widget)
+        self.RadioILabel.setGeometry(QtCore.QRect(250, 2440, 61, 41))
+        self.RadioILabel.setObjectName("RadioILabel")
+        self.ValueRadioD = QtWidgets.QLabel(self.widget)
+        self.ValueRadioD.setGeometry(QtCore.QRect(170, 2470, 61, 20))
+        self.ValueRadioD.setObjectName("ValueRadioD")
         self.RadioLabel = QtWidgets.QLabel(self.widget)
         self.RadioLabel.setGeometry(QtCore.QRect(-100, 2460, 281, 41))
         self.RadioLabel.setObjectName("RadioLabel")
-        self.ValueSacroI = QtWidgets.QLineEdit(self.widget)
-        self.ValueSacroI.setGeometry(QtCore.QRect(250, 2470, 61, 20))
-        self.ValueSacroI.setObjectName("ValueSacroI")
-        self.SacroELabel = QtWidgets.QLabel(self.widget)
-        self.SacroELabel.setGeometry(QtCore.QRect(90, 2440, 61, 41))
-        self.SacroELabel.setObjectName("SacroELabel")
-        
+        self.ValueRadioI = QtWidgets.QLabel(self.widget)
+        self.ValueRadioI.setGeometry(QtCore.QRect(250, 2470, 61, 20))
+        self.ValueRadioI.setObjectName("ValueRadioI")
+        self.RadioELabel = QtWidgets.QLabel(self.widget)
+        self.RadioELabel.setGeometry(QtCore.QRect(90, 2440, 61, 41))
+        self.RadioELabel.setObjectName("RadioELabel")
         self.line_29 = QtWidgets.QFrame(self.widget)
-
-        self.line_29.setGeometry(QtCore.QRect(320, 2030, 21, 461))
+        self.line_29.setGeometry(QtCore.QRect(320, 1980, 21, 461))
         self.line_29.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_29.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_29.setObjectName("line_29")
         self.NumDentesMaxilaLabel = QtWidgets.QLabel(self.widget)
         self.NumDentesMaxilaLabel.setGeometry(QtCore.QRect(340, 1990, 101, 51))
         self.NumDentesMaxilaLabel.setObjectName("NumDentesMaxilaLabel")
-        self.ValueNumDentesMaxila = QtWidgets.QLineEdit(self.widget)
+        self.ValueNumDentesMaxila = QtWidgets.QLabel(self.widget)
         self.ValueNumDentesMaxila.setGeometry(QtCore.QRect(450, 2010, 61, 20))
         self.ValueNumDentesMaxila.setObjectName("ValueNumDentesMaxila")
         self.NumDentesMandLabel = QtWidgets.QLabel(self.widget)
         self.NumDentesMandLabel.setGeometry(QtCore.QRect(340, 2040, 101, 51))
         self.NumDentesMandLabel.setObjectName("NumDentesMandLabel")
-        self.ValueNumDentesMand = QtWidgets.QLineEdit(self.widget)
+        self.ValueNumDentesMand = QtWidgets.QLabel(self.widget)
         self.ValueNumDentesMand.setGeometry(QtCore.QRect(450, 2060, 61, 20))
         self.ValueNumDentesMand.setObjectName("ValueNumDentesMand")
         self.DentesSoltosLabel = QtWidgets.QLabel(self.widget)
         self.DentesSoltosLabel.setGeometry(QtCore.QRect(350, 2100, 101, 51))
         self.DentesSoltosLabel.setObjectName("DentesSoltosLabel")
-        self.ValueDentesSoltos = QtWidgets.QLineEdit(self.widget)
+        self.ValueDentesSoltos = QtWidgets.QLabel(self.widget)
         self.ValueDentesSoltos.setGeometry(QtCore.QRect(450, 2110, 61, 20))
         self.ValueDentesSoltos.setObjectName("ValueDentesSoltos")
-        self.ValueNumOssicOuv = QtWidgets.QLineEdit(self.widget)
+        self.ValueNumOssicOuv = QtWidgets.QLabel(self.widget)
         self.ValueNumOssicOuv.setGeometry(QtCore.QRect(450, 2160, 61, 20))
         self.ValueNumOssicOuv.setObjectName("ValueNumOssicOuv")
         self.OssicOuvidLabel = QtWidgets.QLabel(self.widget)
         self.OssicOuvidLabel.setGeometry(QtCore.QRect(350, 2150, 101, 51))
         self.OssicOuvidLabel.setObjectName("OssicOuvidLabel")
-        self.ValueNumVertFrag = QtWidgets.QLineEdit(self.widget)
+        self.ValueNumVertFrag = QtWidgets.QLabel(self.widget)
         self.ValueNumVertFrag.setGeometry(QtCore.QRect(450, 2220, 61, 20))
         self.ValueNumVertFrag.setObjectName("ValueNumVertFrag")
         self.NumVertFragLabel = QtWidgets.QLabel(self.widget)
         self.NumVertFragLabel.setGeometry(QtCore.QRect(340, 2210, 101, 51))
         self.NumVertFragLabel.setObjectName("NumVertFragLabel")
-        self.ValueNumCostFrag = QtWidgets.QLineEdit(self.widget)
+        self.ValueNumCostFrag = QtWidgets.QLabel(self.widget)
         self.ValueNumCostFrag.setGeometry(QtCore.QRect(450, 2290, 61, 20))
         self.ValueNumCostFrag.setObjectName("ValueNumCostFrag")
         self.NumCostFragLabel = QtWidgets.QLabel(self.widget)
@@ -1231,31 +948,30 @@ class Ui_Dialog(object):
         self.OssosMaoLabel = QtWidgets.QLabel(self.widget)
         self.OssosMaoLabel.setGeometry(QtCore.QRect(360, 2330, 101, 51))
         self.OssosMaoLabel.setObjectName("OssosMaoLabel")
-        self.ValueOssosMao = QtWidgets.QLineEdit(self.widget)
-        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2330, 61, 20))
+        self.ValueOssosMao = QtWidgets.QLabel(self.widget)
+        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2350, 61, 20))
         self.ValueOssosMao.setText("")
         self.ValueOssosMao.setObjectName("ValueOssosMao")
-        self.ValueOssosPe = QtWidgets.QLineEdit(self.widget)
-        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2380, 61, 20))
+        self.ValueOssosPe = QtWidgets.QLabel(self.widget)
+        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2400, 61, 20))
         self.ValueOssosPe.setText("")
         self.ValueOssosPe.setObjectName("ValueOssosPe")
         self.OssosPeLabel = QtWidgets.QLabel(self.widget)
-        self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2370, 101, 51))
+        self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2380, 101, 51))
         self.OssosPeLabel.setObjectName("OssosPeLabel")
         self.ObsGeraisFinalLabel = QtWidgets.QLabel(self.widget)
-
-        self.ObsGeraisFinalLabel.setGeometry(QtCore.QRect(-30, 2490, 601, 41))
+        self.ObsGeraisFinalLabel.setGeometry(QtCore.QRect(-30, 2500, 601, 41))
         self.ObsGeraisFinalLabel.setObjectName("ObsGeraisFinalLabel")
-        self.textEdit = QtWidgets.QTextEdit(self.widget)
-        self.textEdit.setGeometry(QtCore.QRect(20, 2530, 481, 71))
-        self.textEdit.setObjectName("textEdit")
+        # self.textEdit = QtWidgets.QTextEdit(self.widget)
+        # self.textEdit.setGeometry(QtCore.QRect(20, 2540, 481, 71))
+        # self.textEdit.setObjectName("textEdit")
         self.horizontalLayout.addWidget(self.widget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.pushButton = QtWidgets.QPushButton(Dialog)
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.insert_data_into_database)
+        self.pushButton.clicked.connect(self.get_data_into_database)
 
 
         self.retranslateUi(Dialog)
@@ -1263,7 +979,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        Dialog.setWindowTitle(_translate("Ficha 1 - Consulta", "Ficha 1 - Consulta"))
         self.LabelCodCaixa.setText(_translate("Dialog", "Código da caso"))
         self.LabelLimpeza.setText(_translate("Dialog", "Sequencia de Limpeza"))
         self.LabelData.setText(_translate("Dialog", "Data"))
@@ -1272,33 +988,36 @@ class Ui_Dialog(object):
         self.EquipeLimpLabel.setText(_translate("Dialog", "Equipe envolvida na limpeza"))
         self.MatLimpLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Material e Limpeza</span></p><p align=\"center\"><br/></p></body></html>"))
         self.CorCabeloLabel.setText(_translate("Dialog", "Cor do cabelo"))
-        self.CompCabeloLabel.setText(_translate("Dialog", "Comprimento do cabelo"))
+        self.CompCabeloLabel.setText(_translate("Dialog", "Comprimentor do cabelo"))
         self.RoupaLabel.setText(_translate("Dialog", "Roupa"))
         self.MatLimpOutrosLabel.setText(_translate("Dialog", "Outros"))
-        self.radioButton.setText(_translate("Dialog", "Com água"))
-        self.radioButton_2.setText(_translate("Dialog", "À seco"))
+        # self.radioButton.setText(_translate("Dialog", "Com água"))
+        # self.radioButton_2.setText(_translate("Dialog", "À seco"))
         self.TipoLimpLabe.setText(_translate("Dialog", "Tipo de limpeza"))
         self.EstPreservOssosLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Estado de preservação dos ossos</span></p><p align=\"center\"><br/></p></body></html>"))
-        self.AvaliacaoLabel.setText(_translate("Dialog", "Avaliação"))
-        self.radioButton_7.setText(_translate("Dialog", "Regular"))
-        self.radioButton_8.setText(_translate("Dialog", "Bom"))
-        self.radioButton_9.setText(_translate("Dialog", "Ruim"))
+        # self.radioButton_7.setText(_translate("Dialog", "Regular"))
+        # self.radioButton_8.setText(_translate("Dialog", "Bom"))
+        # self.radioButton_9.setText(_translate("Dialog", "Ruim"))
         self.UmidadeLabel.setText(_translate("Dialog", "Umidade"))
         self.FungosLabel.setText(_translate("Dialog", "Fungos Visíveis"))
         self.PIOLabel.setText(_translate("Dialog", "Pupas/Insetos/Outros"))
         self.OPLLabel.setText(_translate("Dialog", "Ossos previamente Limpos"))
         self.EstPreservOssosLabel_2.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Material para acondicionamento</span></p><p align=\"center\"><br/></p></body></html>"))
-        self.SLHLabel.setText(_translate("Dialog", "Saco  Para Lixo \nHospitalar"))
+        self.SLHLabel.setText(_translate("Dialog", "Saco Para Lixo \n"
+"     Hospitalar"))
         self.SALabel.setText(_translate("Dialog", "Saco de Algodão"))
         self.STNTLabel.setText(_translate("Dialog", "Saco de TNT"))
-        self.EPLabel.setText(_translate("Dialog", "Envelope de papel"))
-        self.SdILabel.setText(_translate("Dialog", "Saco de instituição \nde perícia anterior"))
-        self.SPTLabel.setText(_translate("Dialog", "Saco Plástico\nTransparente"))
-
-
-        self.STPLabel.setText(_translate("Dialog", "Saco transparente\n pequeno"))
-        self.SPLLabel.setText(_translate("Dialog", "Saco Plástico de\n Lixo"))
+        self.STPLabel.setText(_translate("Dialog", "Saco transparente\n"
+"         pequeno"))
+        self.SPLLabel.setText(_translate("Dialog", "Saco Plástico de\n"
+"           Lixo"))
         self.SASFMLabel.setText(_translate("Dialog", "Saco Azul do SFM"))
+        self.SILabel.setText(_translate("Dialog", "Saco de instituição"))
+
+        self.SELabel.setText(_translate("Dialog", "Envelope de papel"))
+        self.SPTLabel.setText(_translate("Dialog", "Saco Plástico Transp."))
+
+
         self.EPOObsLabel.setText(_translate("Dialog", "Observações"))
         self.EPOOutrosLabel.setText(_translate("Dialog", "Outros"))
         self.MatIDLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Material para identificação</span></p></body></html>"))
@@ -1318,54 +1037,44 @@ class Ui_Dialog(object):
         self.UNICAMPQtde.setText(_translate("Dialog", "Quantidade"))
         self.UNICAMPLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Etiquetas da UNICAMP</span></p><p align=\"center\"><br/></p><p align=\"center\"><br/></p></body></html>"))
         self.LacreLocLabel.setText(_translate("Dialog", "Localização"))
-        self.EtiquetaCod.setText(_translate("Dialog", "Código"))
-        self.EtiquetaEst.setText(_translate("Dialog", "Estado"))
-        self.EtiquetaLocLabel.setText(_translate("Dialog", "Localização"))
-        self.EtiquetaQtde.setText(_translate("Dialog", "Quantidade"))
         self.LacreCod.setText(_translate("Dialog", "Código"))
         self.LacreEst.setText(_translate("Dialog", "Estado"))
         self.LacreQtde.setText(_translate("Dialog", "Quantidade"))
-
         self.LacreLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Lacres</span></p><p align=\"center\"><br/></p><p align=\"center\"><br/></p></body></html>"))
+        self.EtiquetaLocLabel.setText(_translate("Dialog", "Localização"))
+        self.EtiquetaCod.setText(_translate("Dialog", "Código"))
+        self.EtiquetaEst.setText(_translate("Dialog", "Estado"))
+        self.EtiquetaQtde.setText(_translate("Dialog", "Quantidade"))
         self.EtiquetaLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Etiqueta</span></p><p align=\"center\"><br/></p><p align=\"center\"><br/></p></body></html>"))
 
+
         self.MatIDOutrosLabel.setText(_translate("Dialog", "Outros"))
-
-        self.SacosSimLabel.setText(_translate("Dialog", "Sim"))
-        self.SacosNaoLabel.setText(_translate("Dialog", "Não"))
-        self.SacosOndeLabel.setText(_translate("Dialog", "Onde"))
-
-
-        self.EmbSimLabel.setText(_translate("Dialog", "Sim"))
-        self.EmbNaoLabel.setText(_translate("Dialog", "Não"))
-        self.EmbOndeLabel.setText(_translate("Dialog", "Onde"))
-
-
-        self.NRDLabel.setText(_translate("Dialog", "Numerações riscadas e/ou\ndiscordantes em sacos"))
-        self.NRDLabel2.setText(_translate("Dialog", "Numerações riscadas e/ou\ndiscordantes em embalagens"))
-
+        self.NRDLabel.setText(_translate("Dialog", "Numerações riscadas e/ou \n"
+"  discordantes em sacos"))
         self.ContOsseoLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Conteúdo Ósseo</span></p><p align=\"center\"><br/></p></body></html>"))
         self.NMILabel.setText(_translate("Dialog", "NMI"))
         self.ERLabel.setText(_translate("Dialog", "Elementos \n"
 " repetidos"))
-        
+        self.COCranCodLabel.setText(_translate("Dialog", "Frag."))
         self.CranioLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Crânio</span></p><p align=\"center\"><br/></p></body></html>"))
-        self.CranioQtdeLabel.setText(_translate("Dialog", "Íntegro"))
-        self.CranioLocLabel.setText(_translate("Dialog", "Frag."))
-        self.MandCodLabel.setText(_translate("Dialog", "Íntegro"))
-        self.MandLocLabel.setText(_translate("Dialog", "Frag."))
+        # self.CranioQtdeLabel.setText(_translate("Dialog", "Íntegro"))
+        self.CranioLocLabel.setText(_translate("Dialog", "Ausente"))
+        self.MandCodLabel.setText(_translate("Dialog", "Frag."))
+        self.MandLocLabel.setText(_translate("Dialog", "Ausente"))
+        # self.MandQtdeLabel.setText(_translate("Dialog", "Íntegro"))
         self.MandLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Mandíbula</span></p><p align=\"center\"><br/></p><p align=\"center\"><br/></p></body></html>"))
-        self.HioideCodLabel.setText(_translate("Dialog", "Íntegro"))
-        self.HioideLocLabel.setText(_translate("Dialog", "Frag."))
+        self.HioideCodLabel.setText(_translate("Dialog", "Frag."))
+        self.HioideLocLabel.setText(_translate("Dialog", "Ausente"))
+        # self.HioideQtdeLabel.setText(_translate("Dialog", "Íntegro"))
         self.HioideLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Hióide</span></p><p align=\"center\"><br/></p><p align=\"center\"><br/></p></body></html>"))
-        self.CodEsternoLabel.setText(_translate("Dialog", "Íntegro"))
-        self.LocEsternoLabel.setText(_translate("Dialog", "Frag."))
+        self.CodEsternoLabel.setText(_translate("Dialog", "Frag."))
+        self.LocEsternoLabel.setText(_translate("Dialog", "Ausente"))
+        # self.QtdeEsternoLabel.setText(_translate("Dialog", "Íntegro"))
         self.EsternoLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Esterno</span></p><p align=\"center\"><br/></p></body></html>"))
-
+        self.SacroLocLabel.setText(_translate("Dialog", "Ausente"))
+        self.SacroCodLabel.setText(_translate("Dialog", "Frag."))
+        # self.SacroQtdeLabel.setText(_translate("Dialog", "Íntegro"))
         self.SacroLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Sacro</span></p><p align=\"center\"><br/></p></body></html>"))
-        self.SacroLocLabel.setText(_translate("Dialog", "Frag."))
-        self.SacroCodLabel.setText(_translate("Dialog", "Íntegro"))
-        self.RadioLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Rádio</span></p><p align=\"center\"><br/></p></body></html>"))
         self.CranioLabel_2.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Escápula</span></p><p align=\"center\"><br/></p></body></html>"))
         self.CranioDLabel.setText(_translate("Dialog", "D"))
         self.CranioILabel.setText(_translate("Dialog", "I"))
@@ -1400,23 +1109,35 @@ class Ui_Dialog(object):
         self.CoxalELabel.setText(_translate("Dialog", "E"))
         self.PatelaDLabel.setText(_translate("Dialog", "D"))
         self.PatelaILabel.setText(_translate("Dialog", "I"))
-        self.PatelaELabel.setText(_translate("Dialog", "E"))
-
-        self.SacroDLabel.setText(_translate("Dialog", "D"))
-        self.SacroILabel.setText(_translate("Dialog", "I"))
-        self.SacroELabel.setText(_translate("Dialog", "E"))
         self.PatelaLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Patela</span></p></body></html>"))
-
-        self.NumDentesMaxilaLabel.setText(_translate("Dialog", "Número de dentes \n presos na maxila"))
-        self.NumDentesMandLabel.setText(_translate("Dialog", "Número de dentes \npresos na mandíbula"))
-        self.DentesSoltosLabel.setText(_translate("Dialog", "Nº de dentes soltos\n"))
-        self.OssicOuvidLabel.setText(_translate("Dialog", "Nº de ossículos de \n ouvido"))
-        self.NumVertFragLabel.setText(_translate("Dialog", "Nº de \n""vértebras/fragmentos"))
-        self.NumCostFragLabel.setText(_translate("Dialog", "Nº de \n""costelas/fragmentos"))
+        self.PatelaELabel.setText(_translate("Dialog", "E"))
+        self.RadioDLabel.setText(_translate("Dialog", "D"))
+        self.RadioILabel.setText(_translate("Dialog", "I"))
+        self.RadioLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Radio</span></p></body></html>"))
+        self.RadioELabel.setText(_translate("Dialog", "E"))
+        self.NumDentesMaxilaLabel.setText(_translate("Dialog", "Número de dentes \n"
+" presos na maxila"))
+        self.NumDentesMandLabel.setText(_translate("Dialog", "Número de dentes \n"
+"presos na mandíbula"))
+        self.DentesSoltosLabel.setText(_translate("Dialog", "Nº de dentes soltos\n"
+""))
+        self.OssicOuvidLabel.setText(_translate("Dialog", "Nº de ossículos de \n"
+"          ouvido"))
+        self.NumVertFragLabel.setText(_translate("Dialog", "              Nº de \n"
+"vértebras/fragmento"))
+        self.NumCostFragLabel.setText(_translate("Dialog", "              Nº de \n"
+"costelas/fragmento"))
         self.OssosMaoLabel.setText(_translate("Dialog", "Ossos da mão"))
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
-        self.pushButton.setText(_translate("Dialog", "Enviar"))
+        self.pushButton.setText(_translate("Dialog", "Consultar"))
+
+
+        #### CONSULTA AO BANCO #### 
+
+
+
+
 
 if __name__ == "__main__":
     import sys
