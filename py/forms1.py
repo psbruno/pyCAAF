@@ -15,14 +15,14 @@ import json
 from datetime import datetime
 import time
 
-def insere_material_acondicionamento(cursor, idcaixa, qtde, cod_material, cod_caixa, outros, obs):
+def insere_material_acondicionamento(cursor, idcaixa=0, qtde=0, cod_material=0, cod_caixa=0, outros=0, obs=0):
     cursor.execute(
         "INSERT INTO caixa_material_acondicionamento(idcaixa, cod_material, qtde, cod_caixa, outros, obs) " +
         "VALUES ({}, {}, {}, '{}', '{}', '{}');".format(idcaixa, cod_material, qtde, cod_caixa, outros, obs)
     )
 
 
-def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros, nrd2):
+def insere_material_identificacao(cursor, idcaixa=0, cod_material_id=0, codcaixa=0, qtde=0, codigo=0, localizacao=0, estado=0, NRD=0, outros=0, nrd2=0):
     cursor.execute(
         "INSERT INTO caixa_material_ident(idcaixa, cod_material_id, codcaixa, qtde, codigo, localizacao, estado, NRD, outros,NRD2) " +
         "VALUES ({}, {}, '{}', {}, {}, '{}', '{}', '{}', '{}', '{}');".format(idcaixa, cod_material_id, codcaixa, qtde, codigo,
@@ -30,21 +30,21 @@ def insere_material_identificacao(cursor, idcaixa, cod_material_id, codcaixa, qt
     )
 
 
-def build_conjunto_dados_json(nmi, elementos_repetidos, cranio_integro, cranio_fragmentado, cranio_ausente,
-                              mandibula_integro, mandibula_fragmentado, mandibula_ausente,
-                              hiloide_integro, hiloide_fragmentado, hiloide_ausente,
-                              esterno_integro, esterno_fragmentado, esterno_ausente,
-                              sancro_integro, sancro_fragmentado, sancro_ausente,
-                              escapula_direito, escapula_esquerdo, escapula_indefinido,
-                              clavicula_direito, clavicula_esquerdo, clavicula_indefinido,
-                              umero_direito, umero_esquerdo, umero_indefinido,
-                              radio_direito, radio_esquerdo, radio_indefinido,
-                              femur_direito, femur_esquerdo, femur_indefinido,
-                              ulna_direito, ulna_esquerdo, ulna_indefinido,
-                              tibia_direito, tibia_esquerdo, tibia_indefinido,
-                              fibula_direito, fibula_esquerdo, fibula_indefinido,
-                              Pelve_direito, Pelve_esquerdo, Pelve_indefinido,
-                              patela_direito, patela_esquerdo, patela_indefinido
+def build_conjunto_dados_json(nmi=0, elementos_repetidos=0, cranio_integro=0, cranio_fragmentado=0, cranio_ausente=0,
+                              mandibula_integro=0, mandibula_fragmentado=0, mandibula_ausente=0,
+                              hiloide_integro=0, hiloide_fragmentado=0, hiloide_ausente=0,
+                              esterno_integro=0, esterno_fragmentado=0, esterno_ausente=0,
+                              sancro_integro=0, sancro_fragmentado=0, sancro_ausente=0,
+                              escapula_direito=0, escapula_esquerdo=0, escapula_indefinido=0,
+                              clavicula_direito=0, clavicula_esquerdo=0, clavicula_indefinido=0,
+                              umero_direito=0, umero_esquerdo=0, umero_indefinido=0,
+                              radio_direito=0, radio_esquerdo=0, radio_indefinido=0,
+                              femur_direito=0, femur_esquerdo=0, femur_indefinido=0,
+                              ulna_direito=0, ulna_esquerdo=0, ulna_indefinido=0,
+                              tibia_direito=0, tibia_esquerdo=0, tibia_indefinido=0,
+                              fibula_direito=0, fibula_esquerdo=0, fibula_indefinido=0,
+                              Pelve_direito=0, Pelve_esquerdo=0, Pelve_indefinido=0,
+                              patela_direito=0, patela_esquerdo=0, patela_indefinido=0
                               ):
 
     conjunto_dados = {
@@ -94,7 +94,7 @@ class Ui_Dialog(object):
         db = connector.connect(
             host="localhost",
             user="root",
-            password="password",
+            password="",
             db="caaf"
         )
         cursor = db.cursor()
