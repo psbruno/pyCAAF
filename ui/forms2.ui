@@ -1,0 +1,2201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>772</width>
+    <height>605</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>751</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>735</width>
+      <height>4468</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QWidget" name="widget" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>4450</height>
+        </size>
+       </property>
+       <widget class="QLineEdit" name="ValueCodCaixa">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>60</y>
+          <width>291</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCodCaso">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>60</y>
+          <width>121</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Código do caso</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloPrincipal">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>711</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;INVENTÁRIO DE ESQUELETOS COMPLETOS E SEMICOMPLETOS&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaCranioOssosArticulacoes">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>410</y>
+          <width>361</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;CRÂNIO: Ossos e Articulações&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>140</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="TabelaOssosArticulacoes">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>430</y>
+          <width>361</width>
+          <height>391</height>
+         </rect>
+        </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>true</bool>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>Frontal</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Parietal</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Occipital</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Temporal (escama)</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Temporal (petrosa)</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Esfenóides</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Malar</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Nasal</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Maxilar</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Palatino</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Mandíbula</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Ossículos do ouvido</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <item row="0" column="0">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="whatsThis">
+          <string>Frontal</string>
+         </property>
+        </item>
+        <item row="1" column="0">
+         <property name="text">
+          <string/>
+         </property>
+        </item>
+        <item row="11" column="1">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="background">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>222</red>
+            <green>221</green>
+            <blue>218</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="foreground">
+          <brush brushstyle="NoBrush">
+           <color alpha="255">
+            <red>154</red>
+            <green>153</green>
+            <blue>150</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="flags">
+          <set>NoItemFlags</set>
+         </property>
+        </item>
+       </widget>
+       <widget class="QTableWidget" name="TabelaVertebrasIndividuais">
+        <property name="geometry">
+         <rect>
+          <x>420</x>
+          <y>430</y>
+          <width>241</width>
+          <height>391</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>C1</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C2</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>C7</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>D1</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>D10</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>D11</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>D12</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>L1</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>L2</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>L3</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>L4</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>L5</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Corpo</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Arco Neural</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaVertebrasIndividuais">
+        <property name="geometry">
+         <rect>
+          <x>420</x>
+          <y>410</y>
+          <width>241</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;VÉRTEBRAS (Individuais)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="TabelaVertebrasAgrupadas">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1340</y>
+          <width>461</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>C3-C6</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>D2-D9</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Nº Partes</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Nº Completos</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Nº Partes</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Nº Completos</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="LabelCorpos">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>1320</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Corpos</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelArcosNeurais">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>1320</y>
+          <width>211</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Arcos Neurais</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaVertebrasAgrupadas">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1290</y>
+          <width>461</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;VÉRTEBRAS (Agrupadas)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>890</y>
+          <width>361</width>
+          <height>361</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>Clavícula</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Escápula - Corpo</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Cavidade Glenoidal</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Patela</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Sacro</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Coxis</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Coxais</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>ílio</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Púbis</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Superfície Auricular</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Tireóide</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <item row="4" column="1">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="background">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>222</red>
+            <green>221</green>
+            <blue>218</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="flags">
+          <set>NoItemFlags</set>
+         </property>
+        </item>
+        <item row="5" column="1">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="background">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>222</red>
+            <green>221</green>
+            <blue>218</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="flags">
+          <set>NoItemFlags</set>
+         </property>
+        </item>
+        <item row="10" column="1">
+         <property name="background">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>222</red>
+            <green>221</green>
+            <blue>218</blue>
+           </color>
+          </brush>
+         </property>
+         <property name="flags">
+          <set>NoItemFlags</set>
+         </property>
+        </item>
+       </widget>
+       <widget class="QTableWidget" name="tableWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>1710</y>
+          <width>631</width>
+          <height>331</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>Úmero direito</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Úmero esquerdo</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Ulna direito</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Ulna esquerdo</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Rádio direito</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Rádio esquerdo</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Fêmur direito</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Tibia direita</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Tibia esquerda</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Fibula esquerdo</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Epifise Proximal</string>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Terço Proximal</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Terço Médio</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Terço Distal</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Epífise Distal</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTableWidget" name="TabelaCostelasIndividuais">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>2760</y>
+          <width>231</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>1ª</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>2ª</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>11ª</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>12ª</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTableWidget" name="TabelaOssosDaMao">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>2150</y>
+          <width>701</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>Carpos</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Metacarpos</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Falanges</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="LabelSexo">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>100</y>
+          <width>41</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sexo</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSexo">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>100</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelSexo_2">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>100</y>
+          <width>41</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Idade</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSexo_2">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>100</y>
+          <width>141</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="TabelaCodigos">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>170</y>
+          <width>131</width>
+          <height>141</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>P</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>F</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>I</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>/</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>Código</string>
+         </property>
+        </column>
+        <item row="0" column="0">
+         <property name="text">
+          <string notr="true">Presente</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+         <property name="whatsThis">
+          <string notr="true"/>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsEnabled</set>
+         </property>
+        </item>
+        <item row="1" column="0">
+         <property name="text">
+          <string notr="true">Fragmentado</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+         <property name="whatsThis">
+          <string notr="true"/>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsEnabled</set>
+         </property>
+        </item>
+        <item row="2" column="0">
+         <property name="text">
+          <string notr="true">Incompleto</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+         <property name="whatsThis">
+          <string notr="true"/>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsEnabled</set>
+         </property>
+        </item>
+        <item row="3" column="0">
+         <property name="text">
+          <string notr="true">Ausente</string>
+         </property>
+         <property name="toolTip">
+          <string notr="true"/>
+         </property>
+         <property name="whatsThis">
+          <string notr="true"/>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="flags">
+          <set>ItemIsEnabled</set>
+         </property>
+        </item>
+       </widget>
+       <widget class="Line" name="line_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>30</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="ValueCheckboxFotoGeral">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>330</y>
+          <width>101</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Foto Geral</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>370</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaCranioOssosArticulacoes_2">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>870</y>
+          <width>361</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;OSSOS PÓS-CRANIANOS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloOutros">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1470</y>
+          <width>461</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;OUTROS&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEsterno">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1510</y>
+          <width>61</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Esterno:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSexo_3">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>1510</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEsterno_2">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1510</y>
+          <width>71</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Manúbrio:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueSexo_4">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>1510</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCorpo">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>1510</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Corpo:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCorpo">
+        <property name="geometry">
+         <rect>
+          <x>520</x>
+          <y>1510</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelApofiseXifoide">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1540</y>
+          <width>111</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Apófise xifóide:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueApofiseXifoide">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1540</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEsterno_3">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>1580</y>
+          <width>61</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Hióide:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCorpoHioide">
+        <property name="geometry">
+         <rect>
+          <x>260</x>
+          <y>1580</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Corpo:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueHioide">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>1580</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCorpoHioide">
+        <property name="geometry">
+         <rect>
+          <x>330</x>
+          <y>1580</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCorpo_2">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>1580</y>
+          <width>51</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ramos:</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueCorpo_2">
+        <property name="geometry">
+         <rect>
+          <x>520</x>
+          <y>1580</y>
+          <width>61</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line">
+        <property name="geometry">
+         <rect>
+          <x>117</x>
+          <y>1600</y>
+          <width>471</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_5">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>1490</y>
+          <width>471</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_6">
+        <property name="geometry">
+         <rect>
+          <x>580</x>
+          <y>1500</y>
+          <width>16</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_7">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>1500</y>
+          <width>16</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_15">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>1500</y>
+          <width>16</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_24">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>1526</y>
+          <width>461</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_38">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>1560</y>
+          <width>461</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_39">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1650</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaOssosLongos">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>1680</y>
+          <width>631</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;OSSOS LONGOS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_40">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>2070</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_52">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>840</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_53">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1270</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_54">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>1450</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelNumPresentes">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>2130</y>
+          <width>301</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Presentes</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelNumCompletos">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>2130</y>
+          <width>311</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Completos</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaOssosLongos_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>2100</y>
+          <width>701</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;OSSOS DA MÃO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_55">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>2290</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTituloTabelaOssosLongos_4">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>2310</y>
+          <width>701</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;OSSOS DO PÉ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="TabelaOssosPe">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>2330</y>
+          <width>381</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>Talus</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Calcâneo</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QTableWidget" name="TabelaOssosPe_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>2460</y>
+          <width>701</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>Tarsos</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Metatarsos</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Falanges</string>
+         </property>
+        </row>
+        <row>
+         <property name="text">
+          <string>Sesamóides</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="LabelNumPresentes_2">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>2440</y>
+          <width>301</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Presentes</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelNumPresentes_3">
+        <property name="geometry">
+         <rect>
+          <x>400</x>
+          <y>2440</y>
+          <width>301</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Completos</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="Line" name="line_56">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>2640</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3000</y>
+          <width>641</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <row>
+         <property name="text">
+          <string>3-10</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>D</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>E</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>?</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="QLabel" name="LabelTituloCostelas">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>2670</y>
+          <width>701</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;COSTELAS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCostelasIndividuais">
+        <property name="geometry">
+         <rect>
+          <x>230</x>
+          <y>2730</y>
+          <width>231</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Individuais&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelNumPresentes_4">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>2980</y>
+          <width>301</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Presentes</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelNumPresentes_5">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>2980</y>
+          <width>301</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="text">
+         <string>Nº Completas</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCostelasAgrupadas">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>2950</y>
+          <width>641</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Agrupadas&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCostelasAgrupadas_2">
+        <property name="geometry">
+         <rect>
+          <x>130</x>
+          <y>3100</y>
+          <width>151</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Fragmentos N.I:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueFragmentosNI">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>3100</y>
+          <width>241</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="Line" name="line_57">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>3150</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEstadoConservacao">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3190</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Estado de conservação:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueEstadoConservacao">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3190</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEfeitosTafonomicos">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3300</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Efeitos tafonômicos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_58">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>3270</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueEfeitosTafonomicos">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3300</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_59">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>3370</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelCabeloCoTamanho">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3390</y>
+          <width>201</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Cabelo (cor, comprimento):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueCabelo">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3390</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_60">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>3460</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTecidoMole">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3490</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tecido mole:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueTecidoMole">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3480</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_61">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>3550</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="ValueInsetos">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3570</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Insetos:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueTecidoMole_2">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3570</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_62">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>3640</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelTecidoMole_3">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3660</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Reconstrução craniana:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueReconstrucaoCraniana">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3660</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_63">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>3730</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelOutrasReconstrucoes">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3760</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Outras reconstruções:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueOutrasReconstrucoes">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3760</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_64">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>3840</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelAmostrasEAnalises">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3870</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Amostras/Outras análises:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueAmostrasEAnalises">
+        <property name="geometry">
+         <rect>
+          <x>280</x>
+          <y>3870</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_65">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>3950</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelOutrosInd">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>3980</y>
+          <width>241</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Restos de outro(s) indivíduo(s):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueRestosOutrosInd">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>4020</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_66">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>4180</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelElementosAssociados">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>4200</y>
+          <width>241</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Elementos associados:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueElementosAssociados">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>4200</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_67">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>4270</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelObservacoes">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>4290</y>
+          <width>241</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Observações:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueObservacoes">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>4290</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="Line" name="line_68">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>4360</y>
+          <width>711</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="RadioOutrosSim">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>3980</y>
+          <width>51</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Sim</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="RadioOutrosNao">
+        <property name="geometry">
+         <rect>
+          <x>350</x>
+          <y>3980</y>
+          <width>51</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Não</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelRestosNMI">
+        <property name="geometry">
+         <rect>
+          <x>530</x>
+          <y>3980</y>
+          <width>41</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;NMI:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueRestosNMI">
+        <property name="geometry">
+         <rect>
+          <x>580</x>
+          <y>3980</y>
+          <width>113</width>
+          <height>25</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelQuaisRestos">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>4100</y>
+          <width>41</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Quais:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QTextEdit" name="ValueQuaisRestos">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>4100</y>
+          <width>411</width>
+          <height>61</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelEquipeEnvolvidaAnalise">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>4390</y>
+          <width>211</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Equipe envolvida na análise:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QDateEdit" name="ValueData">
+        <property name="geometry">
+         <rect>
+          <x>570</x>
+          <y>4390</y>
+          <width>110</width>
+          <height>26</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="LabelData">
+        <property name="geometry">
+         <rect>
+          <x>520</x>
+          <y>4390</y>
+          <width>41</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="ValueEquipeEnvolvidaAnalise">
+        <property name="geometry">
+         <rect>
+          <x>240</x>
+          <y>4390</y>
+          <width>271</width>
+          <height>25</height>
+         </rect>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="BotaoEnviar">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>570</y>
+     <width>131</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enviar</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
