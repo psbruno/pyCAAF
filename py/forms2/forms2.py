@@ -9,11 +9,82 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import database
+import json
 
 
 class Ui_Dialog(object):
 
     def insert_data_into_database(self):
+        db = database.connect()
+        if db is None:
+            return
+
+        cursor = db.cursor()
+
+        id_caixa = database.get_id_caixa(cursor, self.ValueCodCaso.text())
+        if id_caixa is None:
+            return
+
+        dados = {
+            'sexo': self.ValueSexo.text(),
+            'idade': self.ValueIdade.text(),
+            'foto': self.ValueCheckboxFotoGeral.isChecked(),
+        }
+
+        database.insert_conjunto_dados(cursor, 18, id_caixa, json.dumps(dados))
+
+        ossos_articulacoes = database.get_json(self.TabelaOssosArticulacoes)
+        database.insert_conjunto_dados(cursor, 1, id_caixa, ossos_articulacoes)
+
+        vertebras_individuais = database.get_json(self.TabelaVertebrasIndividuais)
+        database.insert_conjunto_dados(cursor, 2, id_caixa, vertebras_individuais)
+
+        vertebras_agrupadas = database.get_json(self.TabelaVertebrasAgrupadas)
+        database.insert_conjunto_dados(cursor, 3, id_caixa, vertebras_agrupadas)
+
+        outros = {
+            'manubrio': self.ValueManubrio.text(),
+            'esterno corpo': self.ValueCorpo.text(),
+            'apofise xifoide': self.ValueApofiseXifoide.text(),
+            'hioide corpo': self.ValueCorpoHioide.text(),
+            'ramos': self.ValueRamos.text()
+        }
+        database.insert_conjunto_dados(cursor, 5, id_caixa, json.dumps(outros))
+
+        costelas_individuais = str(database.get_json(self.TabelaCostelasIndividuais))
+        costelas_agrupadas = str(database.get_json(self.TabelaCostelasAgrupadas))
+        fragmentos_ni = self.ValueFragmentosNI.text() if self.ValueFragmentosNI.text() else ""
+
+        costelas_completo = '{"costelas individuais":' + costelas_individuais + ',"costelas agrupadas":' + costelas_agrupadas + ',"fragmentos": {' + fragmentos_ni + "}}"
+        database.insert_conjunto_dados(cursor, 8, id_caixa, costelas_completo)
+
+        ossos_mao = database.get_json(self.TabelaOssosDaMao)
+        database.insert_conjunto_dados(cursor, 9, id_caixa, ossos_mao)
+        database.insert_identificacao(cursor, self.ValueEquipeEnvolvidaAnalise.text(), self.ValueData.text(), id_caixa)
+
+        ossos_pe = str(database.get_json(self.TabelaOssosPe))
+        ossos_pe2 = str(database.get_json(self.TabelaOssosPe_2))
+        ossos_pe_completo = ossos_pe + ossos_pe2
+        database.insert_conjunto_dados(cursor, 10, id_caixa, ossos_pe_completo)
+
+        ossos_longos = database.get_json(self.TabelaOssosLongos)
+        database.insert_conjunto_dados(cursor, 7, id_caixa, ossos_longos)
+
+        pos_cranianos = database.get_json(self.TabelaOssosPosCranianos)
+        database.insert_conjunto_dados(cursor, 6, id_caixa, pos_cranianos)
+
+        possui_restos = 0
+        if self.RadioOutrosSim.isChecked():
+            possui_restos = 1
+
+        database.insert_outros(cursor, self.ValueEstadoConservacao.toPlainText(), self.ValueEfeitosTafonomicos.toPlainText(),
+                               self.ValueCabelo.toPlainText(), self.ValueTecidoMole.toPlainText(), self.ValueInsetos.toPlainText(),
+                               self.ValueReconstrucaoCraniana.toPlainText(), self.ValueOutrasReconstrucoes.toPlainText(),
+                               self.ValueAmostrasEAnalises.toPlainText(), self.ValueRestosOutrosInd.toPlainText(),
+                               self.ValueElementosAssociados.toPlainText(), id_caixa, self.ValueObservacoes.toPlainText(),
+                               possui_restos, self.ValueRestosNMI.text(), self.ValueQuaisRestos.toPlainText())
+        QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
         return
 
     def setupUi(self, Dialog):
