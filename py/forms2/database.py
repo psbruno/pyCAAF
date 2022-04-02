@@ -32,7 +32,7 @@ def get_id_caixa(cursor, cod_caixa):
         return None
 
 
-def insert_conjunto_dados(cursor, id_conjunto, id_caixa, json_data):
+def insert_conjunto_dados(cursor, id_conjunto, id_caixa, json_data, tabela):
     try:
         cursor.execute(
             "INSERT INTO conjunto_dados(id_conjunto, id_caixa, input) VALUES ({}, {}, '{}')".format(id_conjunto,
@@ -40,7 +40,7 @@ def insert_conjunto_dados(cursor, id_conjunto, id_caixa, json_data):
         )
         return True
     except connector.Error as err:
-        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados.\n" + str(err))
+        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados de " + tabela + ".\n" + str(err))
         raise
 
 
@@ -60,7 +60,7 @@ def insert_outros(cursor, estado_conservacao="None", efeitos_tafonomicos="None",
         )
         return True
     except connector.Error as err:
-        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados.\n" + str(err))
+        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados referentes a: Estado de conservação, efeitos tafonômicos, cabelo, ..., Observações.\n" + str(err))
         raise
 
 
@@ -73,7 +73,7 @@ def insert_identificacao(cursor, nome_perito, data, id_caixa):
         )
         return True
     except connector.Error as err:
-        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados.\n" + str(err))
+        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados sobre a Equipe envolvida e Data\n" + str(err))
         raise
 
 
