@@ -78,12 +78,16 @@ class Ui_Dialog(object):
         if self.RadioOutrosSim.isChecked():
             possui_restos = 1
 
+        restos_nmi = self.ValueRestosNMI.text()
+        if restos_nmi == "":
+            restos_nmi = 0
+
         database.insert_outros(cursor, self.ValueEstadoConservacao.toPlainText(), self.ValueEfeitosTafonomicos.toPlainText(),
                                self.ValueCabelo.toPlainText(), self.ValueTecidoMole.toPlainText(), self.ValueInsetos.toPlainText(),
                                self.ValueReconstrucaoCraniana.toPlainText(), self.ValueOutrasReconstrucoes.toPlainText(),
                                self.ValueAmostrasEAnalises.toPlainText(), self.ValueRestosOutrosInd.toPlainText(),
                                self.ValueElementosAssociados.toPlainText(), id_caixa, self.ValueObservacoes.toPlainText(),
-                               possui_restos, self.ValueRestosNMI.text(), self.ValueQuaisRestos.toPlainText())
+                               possui_restos, restos_nmi, self.ValueQuaisRestos.toPlainText())
         QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
         return
 

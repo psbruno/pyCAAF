@@ -2,7 +2,6 @@ import mysql.connector as connector
 from datetime import datetime
 from PyQt5 import QtWidgets
 import json
-import sys
 
 
 def connect():
@@ -45,9 +44,9 @@ def insert_conjunto_dados(cursor, id_conjunto, id_caixa, json_data):
         raise
 
 
-def insert_outros(cursor, estado_conservacao="", efeitos_tafonomicos="", cabelo="", tecido_mole="", insetos="",
-                  reconstrucao_craniana="", outras_construcoes="", amostras="", restos="", elementos="", idcaixa="",
-                  obs="", possui_restos="", restos_nmi="", quais_restos=""):
+def insert_outros(cursor, estado_conservacao="None", efeitos_tafonomicos="None", cabelo="None", tecido_mole="None", insetos="None",
+                  reconstrucao_craniana="None", outras_construcoes="None", amostras="None", restos="None", elementos="None", idcaixa=-100,
+                  obs="None", possui_restos=0, restos_nmi=0, quais_restos="None"):
     try:
         cursor.execute(
             "INSERT INTO outros(estado_conservacao, efeitos_tafonomicos, cabelo, tecido_mole, insetos, "
