@@ -9,8 +9,8 @@ def connect():
         db = connector.connect(
             host="localhost",
             user="root",
-            password="root",
-            db="caaf2"
+            password="password",
+            db="caaf"
         )
         return db
     except connector.Error as err:
