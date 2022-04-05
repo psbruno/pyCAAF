@@ -85,16 +85,19 @@ def generate_idcaixa(cursor):
 
 
 class Ui_Dialog(object):
-    def checkState(self):
-        self.showCranio = self.CheckBoxCranio.isChecked()
-        print(self.CheckBoxCranio.isChecked())
-        
+    def popup(self):
+        msg = QtWidgets.QMessageBox()
+        msg.setWindowTitle("Aviso")
+        msg.setText("Clique em OK para confirmar a inserção ou feche a janela para cancelar")
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.buttonClicked.connect(self.insert_data_into_database)
+        msg.exec()
 
     def insert_data_into_database(self):
         db = connector.connect(
             host="localhost",
             user="root",
-            password="",
+            password="password",
             db="caaf"
         )
         cursor = db.cursor()
@@ -125,7 +128,7 @@ class Ui_Dialog(object):
 
         if self.radioButton_7.isChecked():
             avaliacao_preservacao_ossos = "Regular"
-        elif self.radioButton_7.isChecked():
+        elif self.radioButton_8.isChecked():
             avaliacao_preservacao_ossos = "Bom"
         else:
             avaliacao_preservacao_ossos = "Ruim"
@@ -1231,9 +1234,9 @@ class Ui_Dialog(object):
         self.pushButton.setGeometry(QtCore.QRect(220, 510, 131, 23))
         self.pushButton.setObjectName("pushButton")
 
-        self.pushButton.clicked.connect(self.insert_data_into_database)
+        self.pushButton.clicked.connect(self.popup)
 
-        self.CheckBoxCranio.clicked.connect(self.checkState)
+        
         
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
