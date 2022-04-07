@@ -209,8 +209,18 @@ class Ui_Dialog(object):
         num_dentes_soltos = self.ValueDentesSoltos.text()
         num_vertebras_frag = self.ValueNumVertFrag.text()
         num_costelas_frag = self.ValueNumCostFrag.text()
-        osso_mao = self.ValueOssosMao.text()
-        osso_pe = self.ValueOssosPe.text()
+
+        
+        if self.ValueOssosPe.isChecked(): 
+            osso_pe = 1
+        else:
+            osso_pe = 0 
+
+        if self.ValueOssosMao.isChecked(): 
+            osso_mao = 1
+        else:
+            osso_mao = 0 
+
         caixa_cod_caixa = cod_caixa
         obs_gerais = self.textEdit.toPlainText()
 
@@ -1211,16 +1221,16 @@ class Ui_Dialog(object):
         self.OssosMaoLabel = QtWidgets.QLabel(self.widget)
         self.OssosMaoLabel.setGeometry(QtCore.QRect(360, 2330, 101, 51))
         self.OssosMaoLabel.setObjectName("OssosMaoLabel")
-        self.ValueOssosMao = QtWidgets.QLineEdit(self.widget)
-        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2330, 61, 20))
+        self.ValueOssosMao = QtWidgets.QCheckBox(self.widget)
+        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2350, 61, 20))
         self.ValueOssosMao.setText("")
         self.ValueOssosMao.setObjectName("ValueOssosMao")
-        self.ValueOssosPe = QtWidgets.QLineEdit(self.widget)
-        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2380, 61, 20))
+        self.ValueOssosPe = QtWidgets.QCheckBox(self.widget)
+        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2390, 61, 20))
         self.ValueOssosPe.setText("")
         self.ValueOssosPe.setObjectName("ValueOssosPe")
         self.OssosPeLabel = QtWidgets.QLabel(self.widget)
-        self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2370, 101, 51))
+        self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2370, 70, 51))
         self.OssosPeLabel.setObjectName("OssosPeLabel")
         self.ObsGeraisFinalLabel = QtWidgets.QLabel(self.widget)
         self.ObsGeraisFinalLabel.setGeometry(QtCore.QRect(-30, 2490, 601, 41))
