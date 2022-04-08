@@ -636,3 +636,12 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-03-29 10:02:11
+
+ALTER TABLE outros
+ADD possui_restos INT;
+
+ALTER TABLE outros
+ADD restos_nmi INT;
+
+ALTER TABLE outros
+ADD quais_restos VARCHAR(255);
