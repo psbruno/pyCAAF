@@ -12,3 +12,8 @@ https://doc.qt.io/qtforpython/
 
 ## Sobre a estruturação de pastas
 Idealmente, a divisão seria a seguinte: Os arquivos utilizados para a criação da interface no Qt Designer estariam na pasta ui, e os códigos gerados a partir do Qt Designer na pasta py, assim como os códigos da ligação ao banco de dados e outros necessários.
+
+Padronização do projeto:
+
+Nomenclatura de variáveis:
+https://docs.google.com/spreadsheets/d/1dF8Hz0EiDRdkJA4YVeeOhunNQl6z_c1wEsZTeQLowLc/edit?usp=sharing
