@@ -19,7 +19,7 @@ class Ui_Dialog(object):
         db = database.connect()
         if db is None:
             return
-
+        print("CONECTOU NO DB")
         cursor = db.cursor()
 
         id_caixa = database.get_id_caixa(cursor, self.ValueCodCaso.text())
@@ -28,20 +28,24 @@ class Ui_Dialog(object):
 
         dados = {
             'sexo': self.ValueSexo.text(),
-            'idade': self.ValueIdade.text(),
+            'idade': self.ValueIdade.currenttext(),
             'foto': self.ValueCheckboxFotoGeral.isChecked(),
         }
 
         database.insert_conjunto_dados(cursor, 18, id_caixa, json.dumps(dados), "SEXO, IDADE E FOTO GERAL")
+        print("INSERIU CONJUNTO DADOS")
 
         ossos_articulacoes = database.get_json(self.TabelaOssosArticulacoes)
         database.insert_conjunto_dados(cursor, 1, id_caixa, ossos_articulacoes, "CRÂNIO: Ossos E Articulações")
+        print("INSERIU OSSOS ARTICULACOES")
 
         vertebras_individuais = database.get_json(self.TabelaVertebrasIndividuais)
         database.insert_conjunto_dados(cursor, 2, id_caixa, vertebras_individuais, "VÉRTEBRAS (individuais)")
+        print("INSERIU VERTEBRAS INDIVIDUAIS")
 
         vertebras_agrupadas = database.get_json(self.TabelaVertebrasAgrupadas)
         database.insert_conjunto_dados(cursor, 3, id_caixa, vertebras_agrupadas, "VÉRTEBRAS (agrupadas)")
+        print("VERTEBRAS AGRUPADAS")
 
         outros = {
             'manubrio': self.ValueManubrio.text(),
@@ -51,6 +55,7 @@ class Ui_Dialog(object):
             'ramos': self.ValueRamos.text()
         }
         database.insert_conjunto_dados(cursor, 5, id_caixa, json.dumps(outros), "OUTROS")
+        print("INSERIU OUTROS")
 
         costelas_individuais = str(database.get_json(self.TabelaCostelasIndividuais))
         costelas_agrupadas = str(database.get_json(self.TabelaCostelasAgrupadas))
@@ -58,21 +63,27 @@ class Ui_Dialog(object):
 
         costelas_completo = '{"costelas individuais":' + costelas_individuais + ',"costelas agrupadas":' + costelas_agrupadas + ',"fragmentos": {' + fragmentos_ni + "}}"
         database.insert_conjunto_dados(cursor, 8, id_caixa, costelas_completo, "COSTELAS")
+        print("INSERIU COSTELAS COMPLETO")
 
         ossos_mao = database.get_json(self.TabelaOssosDaMao)
         database.insert_conjunto_dados(cursor, 9, id_caixa, ossos_mao, "OSSOS DA MÃO")
+        print("INSERIU OSSOS MAO")
         database.insert_identificacao(cursor, self.ValueEquipeEnvolvidaAnalise.text(), self.ValueData.text(), id_caixa)
+        print("INSERIU EQUIPE ENVOLVIDA ANALISE")
 
         ossos_pe = str(database.get_json(self.TabelaOssosPe))
         ossos_pe2 = str(database.get_json(self.TabelaOssosPe_2))
         ossos_pe_completo = ossos_pe + ossos_pe2
         database.insert_conjunto_dados(cursor, 10, id_caixa, ossos_pe_completo, "OSSOS DO PÉ")
+        print("INSERIU OSSOS DO PE")
 
         ossos_longos = database.get_json(self.TabelaOssosLongos)
         database.insert_conjunto_dados(cursor, 7, id_caixa, ossos_longos, "OSSOS LONGOS")
+        print("INSERIU OSSOS LONGOS")
 
         pos_cranianos = database.get_json(self.TabelaOssosPosCranianos)
         database.insert_conjunto_dados(cursor, 6, id_caixa, pos_cranianos, "OSSOS PÓS-CRANIANOS")
+        print("INSERIU OSSOS POS CRANIANOS")
 
         possui_restos = 0
         if self.RadioOutrosSim.isChecked():
@@ -703,173 +714,218 @@ class Ui_Dialog(object):
         self.LabelFragmentosNI = QtWidgets.QLabel(self.widget)
         self.LabelFragmentosNI.setGeometry(QtCore.QRect(130, 3100, 151, 20))
         self.LabelFragmentosNI.setObjectName("LabelFragmentosNI")
+        #################################################################################
         self.ValueFragmentosNI = QtWidgets.QLineEdit(self.widget)
         self.ValueFragmentosNI.setGeometry(QtCore.QRect(290, 3100, 241, 21))
         self.ValueFragmentosNI.setText("")
         self.ValueFragmentosNI.setObjectName("ValueFragmentosNI")
+        #################################################################################
         self.line_57 = QtWidgets.QFrame(self.widget)
         self.line_57.setGeometry(QtCore.QRect(10, 3150, 711, 16))
         self.line_57.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_57.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_57.setObjectName("line_57")
+        #################################################################################
         self.LabelEstadoConservacao = QtWidgets.QLabel(self.widget)
         self.LabelEstadoConservacao.setGeometry(QtCore.QRect(30, 3190, 191, 20))
         self.LabelEstadoConservacao.setObjectName("LabelEstadoConservacao")
+        #################################################################################
         self.ValueEstadoConservacao = QtWidgets.QTextEdit(self.widget)
         self.ValueEstadoConservacao.setGeometry(QtCore.QRect(280, 3190, 411, 61))
         self.ValueEstadoConservacao.setObjectName("ValueEstadoConservacao")
+        #################################################################################
         self.LabelEfeitosTafonomicos = QtWidgets.QLabel(self.widget)
         self.LabelEfeitosTafonomicos.setGeometry(QtCore.QRect(30, 3300, 191, 20))
         self.LabelEfeitosTafonomicos.setObjectName("LabelEfeitosTafonomicos")
+        #################################################################################
         self.line_58 = QtWidgets.QFrame(self.widget)
         self.line_58.setGeometry(QtCore.QRect(0, 3270, 711, 16))
         self.line_58.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_58.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_58.setObjectName("line_58")
+        #################################################################################
         self.ValueEfeitosTafonomicos = QtWidgets.QTextEdit(self.widget)
         self.ValueEfeitosTafonomicos.setGeometry(QtCore.QRect(280, 3300, 411, 61))
         self.ValueEfeitosTafonomicos.setObjectName("ValueEfeitosTafonomicos")
+        #################################################################################
         self.line_59 = QtWidgets.QFrame(self.widget)
         self.line_59.setGeometry(QtCore.QRect(10, 3370, 711, 16))
         self.line_59.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_59.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_59.setObjectName("line_59")
+        #################################################################################
         self.LabelCabelo = QtWidgets.QLabel(self.widget)
         self.LabelCabelo.setGeometry(QtCore.QRect(30, 3390, 201, 20))
         self.LabelCabelo.setObjectName("LabelCabelo")
+        #################################################################################
         self.ValueCabelo = QtWidgets.QTextEdit(self.widget)
         self.ValueCabelo.setGeometry(QtCore.QRect(280, 3390, 411, 61))
         self.ValueCabelo.setObjectName("ValueCabelo")
+        #################################################################################
         self.line_60 = QtWidgets.QFrame(self.widget)
         self.line_60.setGeometry(QtCore.QRect(0, 3460, 711, 16))
         self.line_60.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_60.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_60.setObjectName("line_60")
+        #################################################################################
         self.LabelTecidoMole = QtWidgets.QLabel(self.widget)
         self.LabelTecidoMole.setGeometry(QtCore.QRect(30, 3490, 191, 20))
         self.LabelTecidoMole.setObjectName("LabelTecidoMole")
+        #################################################################################
         self.ValueTecidoMole = QtWidgets.QTextEdit(self.widget)
         self.ValueTecidoMole.setGeometry(QtCore.QRect(280, 3480, 411, 61))
         self.ValueTecidoMole.setObjectName("ValueTecidoMole")
+        #################################################################################
         self.line_61 = QtWidgets.QFrame(self.widget)
         self.line_61.setGeometry(QtCore.QRect(0, 3550, 711, 16))
         self.line_61.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_61.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_61.setObjectName("line_61")
+        #################################################################################
         self.LabelInsetos = QtWidgets.QLabel(self.widget)
         self.LabelInsetos.setGeometry(QtCore.QRect(30, 3570, 191, 20))
         self.LabelInsetos.setObjectName("LabelInsetos")
+        #################################################################################
         self.ValueInsetos = QtWidgets.QTextEdit(self.widget)
         self.ValueInsetos.setGeometry(QtCore.QRect(280, 3570, 411, 61))
         self.ValueInsetos.setObjectName("ValueInsetos")
+        #################################################################################
         self.line_62 = QtWidgets.QFrame(self.widget)
         self.line_62.setGeometry(QtCore.QRect(0, 3640, 711, 16))
         self.line_62.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_62.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_62.setObjectName("line_62")
+        #################################################################################
         self.LabelReconstrucaoCraniana = QtWidgets.QLabel(self.widget)
         self.LabelReconstrucaoCraniana.setGeometry(QtCore.QRect(30, 3660, 191, 20))
         self.LabelReconstrucaoCraniana.setObjectName("LabelReconstrucaoCraniana")
+        #################################################################################
         self.ValueReconstrucaoCraniana = QtWidgets.QTextEdit(self.widget)
         self.ValueReconstrucaoCraniana.setGeometry(QtCore.QRect(280, 3660, 411, 61))
         self.ValueReconstrucaoCraniana.setObjectName("ValueReconstrucaoCraniana")
+        #################################################################################
         self.line_63 = QtWidgets.QFrame(self.widget)
         self.line_63.setGeometry(QtCore.QRect(10, 3730, 711, 16))
         self.line_63.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_63.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_63.setObjectName("line_63")
+        #################################################################################
         self.LabelOutrasReconstrucoes = QtWidgets.QLabel(self.widget)
         self.LabelOutrasReconstrucoes.setGeometry(QtCore.QRect(30, 3760, 191, 20))
         self.LabelOutrasReconstrucoes.setObjectName("LabelOutrasReconstrucoes")
+        #################################################################################
         self.ValueOutrasReconstrucoes = QtWidgets.QTextEdit(self.widget)
         self.ValueOutrasReconstrucoes.setGeometry(QtCore.QRect(280, 3760, 411, 61))
         self.ValueOutrasReconstrucoes.setObjectName("ValueOutrasReconstrucoes")
+        #################################################################################
         self.line_64 = QtWidgets.QFrame(self.widget)
         self.line_64.setGeometry(QtCore.QRect(10, 3840, 711, 16))
         self.line_64.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_64.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_64.setObjectName("line_64")
+        #################################################################################
         self.LabelAmostrasEAnalises = QtWidgets.QLabel(self.widget)
         self.LabelAmostrasEAnalises.setGeometry(QtCore.QRect(30, 3870, 191, 20))
         self.LabelAmostrasEAnalises.setObjectName("LabelAmostrasEAnalises")
+        #################################################################################
         self.ValueAmostrasEAnalises = QtWidgets.QTextEdit(self.widget)
         self.ValueAmostrasEAnalises.setGeometry(QtCore.QRect(280, 3870, 411, 61))
         self.ValueAmostrasEAnalises.setObjectName("ValueAmostrasEAnalises")
+        #################################################################################
         self.line_65 = QtWidgets.QFrame(self.widget)
         self.line_65.setGeometry(QtCore.QRect(10, 3950, 711, 16))
         self.line_65.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_65.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_65.setObjectName("line_65")
+        #################################################################################
         self.LabelOutrosInd = QtWidgets.QLabel(self.widget)
         self.LabelOutrosInd.setGeometry(QtCore.QRect(30, 3980, 241, 20))
         self.LabelOutrosInd.setObjectName("LabelOutrosInd")
+        #################################################################################
         self.ValueRestosOutrosInd = QtWidgets.QTextEdit(self.widget)
         self.ValueRestosOutrosInd.setGeometry(QtCore.QRect(290, 4020, 411, 61))
         self.ValueRestosOutrosInd.setObjectName("ValueRestosOutrosInd")
+        #################################################################################
         self.line_66 = QtWidgets.QFrame(self.widget)
         self.line_66.setGeometry(QtCore.QRect(0, 4180, 711, 16))
         self.line_66.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_66.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_66.setObjectName("line_66")
+        #################################################################################
         self.LabelElementosAssociados = QtWidgets.QLabel(self.widget)
         self.LabelElementosAssociados.setGeometry(QtCore.QRect(20, 4200, 241, 20))
         self.LabelElementosAssociados.setObjectName("LabelElementosAssociados")
         self.ValueElementosAssociados = QtWidgets.QTextEdit(self.widget)
         self.ValueElementosAssociados.setGeometry(QtCore.QRect(290, 4200, 411, 61))
         self.ValueElementosAssociados.setObjectName("ValueElementosAssociados")
+        #################################################################################
         self.line_67 = QtWidgets.QFrame(self.widget)
         self.line_67.setGeometry(QtCore.QRect(0, 4270, 711, 16))
         self.line_67.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_67.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_67.setObjectName("line_67")
+        #################################################################################
         self.LabelObservacoes = QtWidgets.QLabel(self.widget)
         self.LabelObservacoes.setGeometry(QtCore.QRect(20, 4290, 241, 20))
         self.LabelObservacoes.setObjectName("LabelObservacoes")
         self.ValueObservacoes = QtWidgets.QTextEdit(self.widget)
         self.ValueObservacoes.setGeometry(QtCore.QRect(290, 4290, 411, 61))
         self.ValueObservacoes.setObjectName("ValueObservacoes")
+        #################################################################################
         self.line_68 = QtWidgets.QFrame(self.widget)
         self.line_68.setGeometry(QtCore.QRect(0, 4360, 711, 16))
         self.line_68.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_68.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_68.setObjectName("line_68")
+        #################################################################################
         self.RadioOutrosSim = QtWidgets.QRadioButton(self.widget)
         self.RadioOutrosSim.setGeometry(QtCore.QRect(290, 3980, 51, 23))
         self.RadioOutrosSim.setObjectName("RadioOutrosSim")
+        #################################################################################
         self.RadioOutrosNao = QtWidgets.QRadioButton(self.widget)
         self.RadioOutrosNao.setGeometry(QtCore.QRect(350, 3980, 51, 23))
         self.RadioOutrosNao.setObjectName("RadioOutrosNao")
+        #################################################################################
         self.LabelRestosNMI = QtWidgets.QLabel(self.widget)
         self.LabelRestosNMI.setGeometry(QtCore.QRect(530, 3980, 41, 20))
         self.LabelRestosNMI.setObjectName("LabelRestosNMI")
+        #################################################################################
         self.ValueRestosNMI = QtWidgets.QLineEdit(self.widget)
         self.ValueRestosNMI.setGeometry(QtCore.QRect(580, 3980, 113, 25))
         self.ValueRestosNMI.setObjectName("ValueRestosNMI")
+        #################################################################################
         self.LabelQuaisRestos = QtWidgets.QLabel(self.widget)
         self.LabelQuaisRestos.setGeometry(QtCore.QRect(220, 4100, 41, 20))
         self.LabelQuaisRestos.setObjectName("LabelQuaisRestos")
+        #################################################################################
         self.ValueQuaisRestos = QtWidgets.QTextEdit(self.widget)
         self.ValueQuaisRestos.setGeometry(QtCore.QRect(290, 4100, 411, 61))
         self.ValueQuaisRestos.setObjectName("ValueQuaisRestos")
+        #################################################################################
         self.LabelEquipeEnvolvidaAnalise = QtWidgets.QLabel(self.widget)
         self.LabelEquipeEnvolvidaAnalise.setGeometry(QtCore.QRect(20, 4390, 211, 20))
         self.LabelEquipeEnvolvidaAnalise.setObjectName("LabelEquipeEnvolvidaAnalise")
+        #################################################################################
         self.ValueData = QtWidgets.QDateEdit(self.widget)
         self.ValueData.setGeometry(QtCore.QRect(570, 4390, 110, 26))
         self.ValueData.setObjectName("ValueData")
+        #################################################################################
         self.LabelData = QtWidgets.QLabel(self.widget)
         self.LabelData.setGeometry(QtCore.QRect(520, 4390, 41, 20))
         self.LabelData.setObjectName("LabelData")
+        #################################################################################
         self.ValueEquipeEnvolvidaAnalise = QtWidgets.QLineEdit(self.widget)
         self.ValueEquipeEnvolvidaAnalise.setGeometry(QtCore.QRect(240, 4390, 271, 25))
         self.ValueEquipeEnvolvidaAnalise.setObjectName("ValueEquipeEnvolvidaAnalise")
+        #################################################################################
         self.horizontalLayout.addWidget(self.widget)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        #################################################################################
         self.BotaoEnviar = QtWidgets.QPushButton(Dialog)
         self.BotaoEnviar.setGeometry(QtCore.QRect(320, 570, 131, 23))
         self.BotaoEnviar.setObjectName("BotaoEnviar")
         self.BotaoEnviar.clicked.connect(self.insert_data_into_database)
-
+        #################################################################################
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -1131,7 +1187,14 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "F"))
         item = self.TabelaCostelasAgrupadas.horizontalHeaderItem(5)
         item.setText(_translate("Dialog", "C"))
-        self.LabelTituloCostelas.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">COSTELAS</span></p></body></html>"))
+
+        self.LabelTituloCostelas.setText(_translate("Dialog", "<html>\
+                                                    <head/>\
+                                                        <body>\
+                                                            <p align=\"center\">\
+                                                                <span style=\" font-weight:600;\">\
+                                                                    COSTELAS</span></p></body></html>"))
+        
         self.LabelCostelasIndividuais.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Individuais</p></body></html>"))
         self.LabelCostelasAgrupadasDireito.setText(_translate("Dialog", "Direito"))
         self.LabelCostelasAgrupadasEsquerdo.setText(_translate("Dialog", "Esquerdo"))

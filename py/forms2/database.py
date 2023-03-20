@@ -9,7 +9,7 @@ def connect():
         db = connector.connect(
             host="localhost",
             user="root",
-            password="password",
+            password="82312831",
             db="caaf"
         )
         return db
@@ -66,7 +66,7 @@ def insert_outros(cursor, estado_conservacao="None", efeitos_tafonomicos="None",
 
 def insert_identificacao(cursor, nome_perito, data, id_caixa):
     try:
-        data_formatada = datetime.strptime(data, "%m/%d/%Y").date()
+        data_formatada = datetime.strptime(data, "%d/%m/%Y").date()
         cursor.execute(
             "INSERT INTO identificacao(nome_perito, data, caixa_idcaixa) VALUES ('{}', '{}', {})"
                 .format(nome_perito, data_formatada, id_caixa)
