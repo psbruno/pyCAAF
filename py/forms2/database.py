@@ -9,7 +9,7 @@ def connect():
         db = connector.connect(
             host="localhost",
             user="root",
-            password="82312831",
+            password="password",
             db="caaf"
         )
         return db
