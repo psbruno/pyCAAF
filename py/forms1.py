@@ -205,41 +205,43 @@ class Ui_Dialog(object):
 
         num_dentes_maxila = self.ValueNumDentesMaxila.text()
         num_dentes_mandibula = self.ValueNumDentesMand.text()
-        ossic_ouvido = self.ValueNumOssicOuv.text()
+        ossic_ouvido = self.ValueNumOssicOuv.currentText()
         num_dentes_soltos = self.ValueDentesSoltos.text()
         num_vertebras_frag = self.ValueNumVertFrag.text()
         num_costelas_frag = self.ValueNumCostFrag.text()
+        osso_pe = self.ValueOssosPe.currentText()
+        osso_mao = self.ValueOssosMao.currentText()
 
         
-        if self.ValueOssosPe.isChecked(): 
-            osso_pe = 1
-        else:
-            osso_pe = 0 
+        # if self.ValueOssosPe.isChecked(): 
+        #     osso_pe = 1
+        # else:
+        #     osso_pe = 0 
 
-        if self.ValueOssosMao.isChecked(): 
-            osso_mao = 1
-        else:
-            osso_mao = 0 
+        # if self.ValueOssosMao.isChecked(): 
+        #     osso_mao = 1
+        # else:
+        #     osso_mao = 0 
 
         caixa_cod_caixa = cod_caixa
         obs_gerais = self.textEdit.toPlainText()
 
-        cursor.execute(
-            "INSERT INTO conteudo_osso_info(idcaixa, caixa_pessoa_cod_pessoa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, " +
-            "num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais) " +
-            "VALUES ({}, {}, {}, {}, {}, {}, {}, {}, {}, {}, '{}', '{}');".format(idcaixa,
-                                                                                  idcaixa,
-                                                                                  num_dentes_maxila,
-                                                                                  num_dentes_mandibula,
-                                                                                  ossic_ouvido,
-                                                                                  num_dentes_soltos,
-                                                                                  num_vertebras_frag,
-                                                                                  num_costelas_frag,
-                                                                                  osso_mao,
-                                                                                  osso_pe,
-                                                                                  caixa_cod_caixa,
-                                                                                  obs_gerais
-                                                                                  )
+        query = "INSERT INTO conteudo_osso_info (idcaixa, caixa_pessoa_cod_pessoa, num_dentes_maxila, num_dentes_mandibula, ossic_ouvido, \
+            num_dentes_soltos, num_vertebras_frag, num_costelas_frag, osso_mao, osso_pe, caixa_cod_caixa, obsGerais)  \
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(query, (idcaixa,
+                                idcaixa,
+                                num_dentes_maxila,
+                                num_dentes_mandibula,
+                                ossic_ouvido,
+                                num_dentes_soltos,
+                                num_vertebras_frag,
+                                num_costelas_frag,
+                                osso_mao,
+                                osso_pe,
+                                caixa_cod_caixa,
+                                obs_gerais 
+                        )
         )
         
 
@@ -266,6 +268,8 @@ class Ui_Dialog(object):
 
         db.commit()
         QtWidgets.QMessageBox.information(None, "INSERÇÃO", "Dados inseridos com sucesso!")
+        db.close()
+        return
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -1182,59 +1186,73 @@ class Ui_Dialog(object):
         self.line_29.setFrameShape(QtWidgets.QFrame.VLine)
         self.line_29.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_29.setObjectName("line_29")
+        #-------------------------------------------------------------------#
         self.NumDentesMaxilaLabel = QtWidgets.QLabel(self.widget)
         self.NumDentesMaxilaLabel.setGeometry(QtCore.QRect(340, 1990, 101, 51))
         self.NumDentesMaxilaLabel.setObjectName("NumDentesMaxilaLabel")
         self.ValueNumDentesMaxila = QtWidgets.QLineEdit(self.widget)
         self.ValueNumDentesMaxila.setGeometry(QtCore.QRect(450, 2010, 61, 20))
         self.ValueNumDentesMaxila.setObjectName("ValueNumDentesMaxila")
+        #-------------------------------------------------------------------#
         self.NumDentesMandLabel = QtWidgets.QLabel(self.widget)
         self.NumDentesMandLabel.setGeometry(QtCore.QRect(340, 2040, 101, 51))
         self.NumDentesMandLabel.setObjectName("NumDentesMandLabel")
         self.ValueNumDentesMand = QtWidgets.QLineEdit(self.widget)
         self.ValueNumDentesMand.setGeometry(QtCore.QRect(450, 2060, 61, 20))
         self.ValueNumDentesMand.setObjectName("ValueNumDentesMand")
+        #-------------------------------------------------------------------#
         self.DentesSoltosLabel = QtWidgets.QLabel(self.widget)
         self.DentesSoltosLabel.setGeometry(QtCore.QRect(350, 2100, 101, 51))
         self.DentesSoltosLabel.setObjectName("DentesSoltosLabel")
         self.ValueDentesSoltos = QtWidgets.QLineEdit(self.widget)
         self.ValueDentesSoltos.setGeometry(QtCore.QRect(450, 2110, 61, 20))
         self.ValueDentesSoltos.setObjectName("ValueDentesSoltos")
-        self.ValueNumOssicOuv = QtWidgets.QLineEdit(self.widget)
-        self.ValueNumOssicOuv.setGeometry(QtCore.QRect(450, 2160, 61, 20))
+        #-------------------------------------------------------------------#
+        self.ValueNumOssicOuv = QtWidgets.QComboBox(self.widget)
+        self.ValueNumOssicOuv.setGeometry(QtCore.QRect(450, 2160, 67, 20))
+        self.ValueNumOssicOuv.addItem("presente")
+        self.ValueNumOssicOuv.addItem('ausente')
         self.ValueNumOssicOuv.setObjectName("ValueNumOssicOuv")
         self.OssicOuvidLabel = QtWidgets.QLabel(self.widget)
-        self.OssicOuvidLabel.setGeometry(QtCore.QRect(350, 2150, 101, 51))
+        self.OssicOuvidLabel.setGeometry(QtCore.QRect(340, 2150, 101, 51))
         self.OssicOuvidLabel.setObjectName("OssicOuvidLabel")
+        #-------------------------------------------------------------------#
         self.ValueNumVertFrag = QtWidgets.QLineEdit(self.widget)
-        self.ValueNumVertFrag.setGeometry(QtCore.QRect(450, 2220, 61, 20))
+        self.ValueNumVertFrag.setGeometry(QtCore.QRect(450, 2220, 63, 20))
         self.ValueNumVertFrag.setObjectName("ValueNumVertFrag")
         self.NumVertFragLabel = QtWidgets.QLabel(self.widget)
         self.NumVertFragLabel.setGeometry(QtCore.QRect(340, 2210, 101, 51))
         self.NumVertFragLabel.setObjectName("NumVertFragLabel")
+        #-------------------------------------------------------------------#
         self.ValueNumCostFrag = QtWidgets.QLineEdit(self.widget)
-        self.ValueNumCostFrag.setGeometry(QtCore.QRect(450, 2290, 61, 20))
+        self.ValueNumCostFrag.setGeometry(QtCore.QRect(450, 2290, 63, 20))
         self.ValueNumCostFrag.setObjectName("ValueNumCostFrag")
         self.NumCostFragLabel = QtWidgets.QLabel(self.widget)
         self.NumCostFragLabel.setGeometry(QtCore.QRect(340, 2280, 101, 51))
         self.NumCostFragLabel.setObjectName("NumCostFragLabel")
-        self.OssosMaoLabel = QtWidgets.QLabel(self.widget)
-        self.OssosMaoLabel.setGeometry(QtCore.QRect(360, 2330, 101, 51))
-        self.OssosMaoLabel.setObjectName("OssosMaoLabel")
-        self.ValueOssosMao = QtWidgets.QCheckBox(self.widget)
-        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2350, 61, 20))
-        self.ValueOssosMao.setText("")
+        #-------------------------------------------------------------------#
+        self.ValueOssosMao = QtWidgets.QComboBox(self.widget)
+        self.ValueOssosMao.setGeometry(QtCore.QRect(450, 2350, 67, 20))
+        self.ValueOssosMao.addItem('presente')
+        self.ValueOssosMao.addItem('ausente')
         self.ValueOssosMao.setObjectName("ValueOssosMao")
-        self.ValueOssosPe = QtWidgets.QCheckBox(self.widget)
-        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2390, 61, 20))
-        self.ValueOssosPe.setText("")
+        self.OssosMaoLabel = QtWidgets.QLabel(self.widget)
+        self.OssosMaoLabel.setGeometry(QtCore.QRect(340, 2330, 101, 51))
+        self.OssosMaoLabel.setObjectName("OssosMaoLabel")
+        #-------------------------------------------------------------------#
+        self.ValueOssosPe = QtWidgets.QComboBox(self.widget)
+        self.ValueOssosPe.setGeometry(QtCore.QRect(450, 2390, 67, 20))
+        self.ValueOssosPe.addItem('presente')
+        self.ValueOssosPe.addItem('ausente')
         self.ValueOssosPe.setObjectName("ValueOssosPe")
         self.OssosPeLabel = QtWidgets.QLabel(self.widget)
-        self.OssosPeLabel.setGeometry(QtCore.QRect(360, 2370, 70, 51))
+        self.OssosPeLabel.setGeometry(QtCore.QRect(340, 2370, 70, 51))
         self.OssosPeLabel.setObjectName("OssosPeLabel")
+        #-------------------------------------------------------------------#
         self.ObsGeraisFinalLabel = QtWidgets.QLabel(self.widget)
         self.ObsGeraisFinalLabel.setGeometry(QtCore.QRect(-30, 2490, 601, 41))
         self.ObsGeraisFinalLabel.setObjectName("ObsGeraisFinalLabel")
+        #-------------------------------------------------------------------#
         self.textEdit = QtWidgets.QTextEdit(self.widget)
         self.textEdit.setGeometry(QtCore.QRect(20, 2530, 481, 71))
         self.textEdit.setObjectName("textEdit")
@@ -1255,11 +1273,11 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Preencher Form1"))
-        self.LabelCodCaixa.setText(_translate("Dialog", "Código da caso"))
+        self.LabelCodCaixa.setText(_translate("Dialog", "Código do caso"))
         self.LabelLimpeza.setText(_translate("Dialog", "Sequencia de Limpeza"))
         self.LabelData.setText(_translate("Dialog", "Data"))
-        self.RespLabel.setText(_translate("Dialog", "Resonsável pelo caso "))
-        self.EquipeAbertLabel.setText(_translate("Dialog", "Equipe Envolvida na aberura"))
+        self.RespLabel.setText(_translate("Dialog", "Responsável pelo caso "))
+        self.EquipeAbertLabel.setText(_translate("Dialog", "Equipe envolvida na abertura"))
         self.EquipeLimpLabel.setText(_translate("Dialog", "Equipe envolvida na limpeza"))
         self.MatLimpLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Material e Limpeza</span></p><p align=\"center\"><br/></p></body></html>"))
         self.CorCabeloLabel.setText(_translate("Dialog", "Cor do cabelo"))
@@ -1418,16 +1436,13 @@ class Ui_Dialog(object):
         self.NumDentesMaxilaLabel.setText(_translate("Dialog", "Número de dentes \n presos na maxila"))
         self.NumDentesMandLabel.setText(_translate("Dialog", "Número de dentes \npresos na mandíbula"))
         self.DentesSoltosLabel.setText(_translate("Dialog", "Nº de dentes soltos\n"))
-        self.OssicOuvidLabel.setText(_translate("Dialog", "Nº de ossículos de \n ouvido"))
-        self.NumVertFragLabel.setText(_translate("Dialog", "Nº de \n""vértebras/fragmentos"))
-        self.NumCostFragLabel.setText(_translate("Dialog", "Nº de \n""costelas/fragmentos"))
+        self.OssicOuvidLabel.setText(_translate("Dialog", "Ossículos de ouvido\n"))
+        self.NumVertFragLabel.setText(_translate("Dialog", "Nº de vértebras/frag-\n-mentos"))
+        self.NumCostFragLabel.setText(_translate("Dialog", "Nº de costelas/frag-\nmentos"))
         self.OssosMaoLabel.setText(_translate("Dialog", "Ossos da mão"))
         self.OssosPeLabel.setText(_translate("Dialog", "Ossos do pé"))
         self.ObsGeraisFinalLabel.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:12pt;\">Observações gerais</span></p></body></html>"))
         self.pushButton.setText(_translate("Dialog", "Enviar"))
-
-
-
 
 if __name__ == "__main__":
     import sys
