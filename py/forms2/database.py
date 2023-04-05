@@ -9,7 +9,7 @@ def connect():
         db = connector.connect(
             host="localhost",
             user="root",
-            password="password",
+            password="82312831",
             db="caaf"
         )
         return db
@@ -44,23 +44,27 @@ def insert_conjunto_dados(cursor, id_conjunto, id_caixa, json_data, tabela):
         raise
 
 
-def insert_outros(cursor, estado_conservacao="None", efeitos_tafonomicos="None", cabelo="None", tecido_mole="None", insetos="None",
+def insert_outros(cursor, estado_conservacao="None", efeitos_tafonomicos="None", cabelo_cor="None", cabelo_comprimento=0, cabelo_quantidade="None",\
+                    tecido_mole="None", insetos="None",
                   reconstrucao_craniana="None", outras_construcoes="None", amostras="None", restos="None", elementos="None", idcaixa=-100,
                   obs="None", possui_restos=0, restos_nmi=0, quais_restos="None"):
+    
+    if cabelo_comprimento == '':
+        cabelo_comprimento = 0
     try:
         cursor.execute(
-            "INSERT INTO outros(estado_conservacao, efeitos_tafonomicos, cabelo, tecido_mole, insetos, "
+            "INSERT INTO outros(estado_conservacao, efeitos_tafonomicos, cabelo_cor, cabelo_comprimento, cabelo_quantidade, tecido_mole, insetos, "
             "reconstrucao_craniana, outras_construcoes, amostras, restos, elementos, idcaixa, obs, possui_restos, "
             "restos_nmi, quais_restos) "
-            "VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', {}, '{}', {}, {}, '{}')"
-                .format(estado_conservacao, efeitos_tafonomicos, cabelo, tecido_mole, insetos,
+            "VALUES ('{}', '{}', '{}', '{}','{}', '{}','{}', '{}', '{}', '{}', '{}', '{}', {}, '{}', {}, {}, '{}')"
+                .format(estado_conservacao, efeitos_tafonomicos, cabelo_cor, cabelo_comprimento, cabelo_quantidade, tecido_mole, insetos,
                         reconstrucao_craniana,
                         outras_construcoes, amostras, restos, elementos, idcaixa, obs, possui_restos, restos_nmi,
                         quais_restos)
         )
         return True
     except connector.Error as err:
-        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados referentes a: Estado de conservação, efeitos tafonômicos, cabelo, ..., Observações.\n" + str(err))
+        QtWidgets.QMessageBox.information(None, "ERRO", "Não foi possível inserir dados referentes a: Estado de conservação, efeitos tafonômicos, cabelo_cor, ..., Observações.\n" + str(err))
         raise
 
 
