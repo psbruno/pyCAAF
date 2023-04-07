@@ -94,7 +94,8 @@ class Ui_Dialog(object):
             restos_nmi = 0
 
         database.insert_outros(cursor, self.ValueEstadoConservacao.toPlainText(), self.ValueEfeitosTafonomicos.toPlainText(),
-                               self.ValueCabelo.toPlainText(), self.ValueTecidoMole.toPlainText(), self.ValueInsetos.toPlainText(),
+                               self.ValueCabeloCor.text(), self.ValueCabeloComprimento.text(), self.ValueCabeloQuantidade.text(), self.ValueTecidoMole.toPlainText(),
+                               self.ValueInsetos.toPlainText(),
                                self.ValueReconstrucaoCraniana.toPlainText(), self.ValueOutrasReconstrucoes.toPlainText(),
                                self.ValueAmostrasEAnalises.toPlainText(), self.ValueRestosOutrosInd.toPlainText(),
                                self.ValueElementosAssociados.toPlainText(), id_caixa, self.ValueObservacoes.toPlainText(),
@@ -393,17 +394,19 @@ class Ui_Dialog(object):
         self.ValueSexo.setGeometry(QtCore.QRect(190, 100, 141, 20))
         self.ValueSexo.setObjectName("ValueSexo")
         self.LabelIdade = QtWidgets.QLabel(self.widget)
-        self.LabelIdade.setGeometry(QtCore.QRect(360, 100, 41, 16))
+        self.LabelIdade.setGeometry(QtCore.QRect(380, 100, 41, 16))
         self.LabelIdade.setObjectName("LabelIdade")
         
-        self.ValueIdade = QtWidgets.QComboBox(self.widget)
-        self.ValueIdade.setGeometry(QtCore.QRect(420, 100, 141, 20))
+        self.ValueIdade = QtWidgets.QLineEdit(self.widget)
+        self.ValueIdade.setValidator(QtGui.QIntValidator())
+        # self.ValueIdade = QtWidgets.QComboBox(self.widget)
+        self.ValueIdade.setGeometry(QtCore.QRect(420, 100, 80, 20))
         self.ValueIdade.setObjectName("ValueIdade")
 
-        self.ValueIdade.addItems(["0-12", "12-18", "18-30","30-45","45-60","60+"])
+        #self.ValueIdade.addItems(["0-12", "12-18", "18-30","30-45","45-60","60+"])
 
         self.ValueIdade2 = QtWidgets.QComboBox(self.widget)
-        self.ValueIdade2.setGeometry(QtCore.QRect(560, 100, 141, 20))
+        self.ValueIdade2.setGeometry(QtCore.QRect(500, 100, 130, 20))
         self.ValueIdade2.setObjectName("ValueIdade")
 
         self.ValueIdade2.addItems(["Adulto", "Adulto Jovem", "Adulto Jovem-Médio","Adulto Médio","Adulto Médio-maduro","Adulto Maduro","Submaduro"])
@@ -495,7 +498,7 @@ class Ui_Dialog(object):
         self.LabelApofiseXifoide.setGeometry(QtCore.QRect(130, 1540, 111, 16))
         self.LabelApofiseXifoide.setObjectName("LabelApofiseXifoide")
         self.ValueApofiseXifoide = QtWidgets.QLineEdit(self.widget)
-        self.ValueApofiseXifoide.setGeometry(QtCore.QRect(260, 1540, 61, 20))
+        self.ValueApofiseXifoide.setGeometry(QtCore.QRect(330, 1540, 61, 20))
         self.ValueApofiseXifoide.setObjectName("ValueApofiseXifoide")
         self.LabelHioide = QtWidgets.QLabel(self.widget)
         self.LabelHioide.setGeometry(QtCore.QRect(130, 1580, 61, 16))
@@ -744,26 +747,48 @@ class Ui_Dialog(object):
         self.line_58.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_58.setObjectName("line_58")
         #################################################################################
+        self.LabelEfeitosTafonomicos = QtWidgets.QLabel(self.widget)
+        self.LabelEfeitosTafonomicos.setGeometry(QtCore.QRect(30, 3300, 191, 20))
+        self.LabelEfeitosTafonomicos.setObjectName("LabelEfeitosTafonomicos")
+        #################################################################################
         self.ValueEfeitosTafonomicos = QtWidgets.QTextEdit(self.widget)
-        self.ValueEfeitosTafonomicos.setGeometry(QtCore.QRect(280, 3300, 411, 61))
+        self.ValueEfeitosTafonomicos.setGeometry(QtCore.QRect(280, 3290, 411, 61))
         self.ValueEfeitosTafonomicos.setObjectName("ValueEfeitosTafonomicos")
         #################################################################################
         self.line_59 = QtWidgets.QFrame(self.widget)
-        self.line_59.setGeometry(QtCore.QRect(10, 3370, 711, 16))
+        self.line_59.setGeometry(QtCore.QRect(10, 3360, 711, 16))
         self.line_59.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_59.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_59.setObjectName("line_59")
         #################################################################################
         self.LabelCabelo = QtWidgets.QLabel(self.widget)
-        self.LabelCabelo.setGeometry(QtCore.QRect(30, 3390, 201, 20))
+        self.LabelCabelo.setGeometry(QtCore.QRect(30, 3380, 201, 20))
         self.LabelCabelo.setObjectName("LabelCabelo")
         #################################################################################
-        self.ValueCabelo = QtWidgets.QTextEdit(self.widget)
-        self.ValueCabelo.setGeometry(QtCore.QRect(280, 3390, 411, 61))
-        self.ValueCabelo.setObjectName("ValueCabelo")
+        self.LabelCabeloCor = QtWidgets.QLabel(self.widget)
+        self.LabelCabeloCor.setGeometry(QtCore.QRect(200, 3380, 411, 20))
+        self.LabelCabeloCor.setObjectName("LabelCabeloCor")
+        self.ValueCabeloCor = QtWidgets.QLineEdit(self.widget)
+        self.ValueCabeloCor.setGeometry(QtCore.QRect(280, 3380, 120, 20))
+        self.ValueCabeloCor.setObjectName("ValueCabeloCor")
+
+        self.LabelCabeloComprimento = QtWidgets.QLabel(self.widget)
+        self.LabelCabeloComprimento.setGeometry(QtCore.QRect(200, 3410, 411, 20))
+        self.LabelCabeloComprimento.setObjectName("LabelCabeloComprimento")
+        self.ValueCabeloComprimento = QtWidgets.QLineEdit(self.widget)
+        self.ValueCabeloComprimento.setValidator(QtGui.QDoubleValidator(decimals=2))
+        self.ValueCabeloComprimento.setGeometry(QtCore.QRect(280, 3410, 120, 20))
+        self.ValueCabeloComprimento.setObjectName("ValueCabeloComprimento")
+
+        self.LabelCabeloQuantidade = QtWidgets.QLabel(self.widget)
+        self.LabelCabeloQuantidade.setGeometry(QtCore.QRect(200, 3445, 411, 20))
+        self.LabelCabeloQuantidade.setObjectName("LabelCabeloQuantidade")
+        self.ValueCabeloQuantidade = QtWidgets.QLineEdit(self.widget)
+        self.ValueCabeloQuantidade.setGeometry(QtCore.QRect(280, 3445, 120, 20))
+        self.ValueCabeloQuantidade.setObjectName("ValueCabeloQuantidade")
         #################################################################################
         self.line_60 = QtWidgets.QFrame(self.widget)
-        self.line_60.setGeometry(QtCore.QRect(0, 3460, 711, 16))
+        self.line_60.setGeometry(QtCore.QRect(0, 3465, 711, 16))
         self.line_60.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_60.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_60.setObjectName("line_60")
@@ -773,7 +798,7 @@ class Ui_Dialog(object):
         self.LabelTecidoMole.setObjectName("LabelTecidoMole")
         #################################################################################
         self.ValueTecidoMole = QtWidgets.QTextEdit(self.widget)
-        self.ValueTecidoMole.setGeometry(QtCore.QRect(280, 3480, 411, 61))
+        self.ValueTecidoMole.setGeometry(QtCore.QRect(280, 3485, 411, 61))
         self.ValueTecidoMole.setObjectName("ValueTecidoMole")
         #################################################################################
         self.line_61 = QtWidgets.QFrame(self.widget)
@@ -1140,6 +1165,7 @@ class Ui_Dialog(object):
         self.LabelInterrog.setText(_translate("Dialog", "Indeterminado"))
         self.LabelTituloTabelaOssosLongos_3.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">OSSOS DA MÃO</span></p></body></html>"))
         self.LabelTituloTabelaOssosLongos_4.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">OSSOS DO PÉ</span></p></body></html>"))
+        
         item = self.TabelaOssosPe.verticalHeaderItem(0)
         item.setText(_translate("Dialog", "Talus"))
         item = self.TabelaOssosPe.verticalHeaderItem(1)
@@ -1203,8 +1229,10 @@ class Ui_Dialog(object):
         self.LabelFragmentosNI.setText(_translate("Dialog", "<html><head/><body><p align=\"center\"><span style=\" font-weight:600;\">Fragmentos N.I:</span></p></body></html>"))
         self.LabelEstadoConservacao.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Estado de conservação:</span></p><p><br/></p></body></html>"))
         self.LabelEfeitosTafonomicos.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Efeitos tafonômicos:</span></p><p><br/></p><p><span style=\" font-weight:600;\"><br/></span></p></body></html>"))
-        self.LabelCabelo.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Cabelo (cor, comprimento):</span></p></body></html>"))
-        self.LabelTecidoMole.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Tecido mole:</span></p></body></html>"))
+        self.LabelCabelo.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Cabelo</span></p></body></html>"))
+        self.LabelCabeloCor.setText(_translate("Dialog", "Cor"))
+        self.LabelCabeloComprimento.setText(_translate("Dialog", "Comprimento"))
+        self.LabelCabeloQuantidade.setText(_translate("Dialog", "Quantidade"))        self.LabelTecidoMole.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Tecido mole:</span></p></body></html>"))
         self.LabelInsetos.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Insetos:</span></p></body></html>"))
         self.LabelReconstrucaoCraniana.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Reconstrução craniana:</span></p></body></html>"))
         self.LabelOutrasReconstrucoes.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-weight:600;\">Outras reconstruções:</span></p></body></html>"))
